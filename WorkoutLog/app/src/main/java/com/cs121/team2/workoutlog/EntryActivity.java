@@ -2,16 +2,28 @@ package com.cs121.team2.workoutlog;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 
 public class EntryActivity extends Activity {
+    private final String TAG = "ENTRY ACTIVITY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entry);
+        getActionBar().setDisplayShowHomeEnabled(false);
+        getActionBar().setDisplayShowTitleEnabled(false);
+
+        addListenerOnWorkoutSpinner();
     }
 
 
@@ -31,6 +43,28 @@ public class EntryActivity extends Activity {
         if (id == R.id.action_settings) {
             return true;
         }
+        if (id == R.id.submit_log_button) {
+            Spinner workoutType = (Spinner) findViewById(R.id.workout_type);
+            EditText dist = (EditText) findViewById(R.id.distance);
+
+            String type = String.valueOf(workoutType.getSelectedItem());
+            String distance = String.valueOf(dist.getText());
+
+            Toast.makeText(this,
+                    "type: " + type + " dist: " + distance,
+                    Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "type: " + type + " dist: " + distance);
+        }
+
+
         return super.onOptionsItemSelected(item);
     }
+
+    public void addListenerOnWorkoutSpinner() {
+        Spinner type = (Spinner) findViewById(R.id.workout_type);
+        type.setOnItemSelectedListener(new CustomOnItemSelectedListener());
+    }
+
+
+
 }

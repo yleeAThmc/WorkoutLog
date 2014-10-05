@@ -4,5 +4,10 @@
     <string name="app_name">WorkoutLog</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-
+    <string name="workout_prompt">Choose a workout type</string>
+    <string-array name="workout_array">
+        <item>Running</item>
+        <item>Weight Training</item>
+        <item>Hardcore Karaoke</item>
+    </string-array>
 </resources>

@@ -5,4 +5,15 @@
         android:title="@string/action_settings"
         android:orderInCategory="100"
         android:showAsAction="never" />
+    <item
+        android:id="@+id/view_list_button"
+        android:icon="@drawable/ic_action_overflow"
+        android:title="Logs"
+        android:showAsAction="always" />
+    <item
+        android:id="@+id/submit_log_button"
+        android:icon="@drawable/ic_action_done"
+        android:title="Submit"
+        android:showAsAction="always" />
+
 </menu>
