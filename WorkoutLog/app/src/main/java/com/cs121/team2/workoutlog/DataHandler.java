@@ -12,7 +12,6 @@ import java.util.ArrayList;
  * finish constructor
  * fill in the methods
  * think of a better name for "Log" because that is a Java object already
- * change return type of readData() and convertFromLogs to something proper
  */
 public class DataHandler {
     public static DataHandler _dh; //the DataHandler instance that will be constructed and kept
@@ -26,10 +25,14 @@ public class DataHandler {
         return _dh; //if so, just return the DH that is already instantiated
     }
     public synchronized ArrayList<WOLog> getLogs() { //sends the ArrayList of Logs to LLAdapter
-
+        //find and read data from data storage
+        //convert to non-JSON
+        //send to LLAdapter
     }
     public synchronized void addLog(WOLog toAdd) { //appends a new log to the Log AList
-
+        //convert data to JSON
+        //save to a .txt file
+        //write to internal storage
     }
     private void readData() { //reads the data file from internal storage
 
