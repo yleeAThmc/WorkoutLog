@@ -1,8 +1,6 @@
 package com.cs121.team2.workoutlog;
 
-
-// created by Claire Rosburg 10-5-14
-public class Log {
+public class WOLog {
 	
 	// Data stored in log
 	private String type;
@@ -11,7 +9,7 @@ public class Log {
 	private String distance;
 	private String mood;
 	
-	public Log()
+	public WOLog()
 	{
 		
 	}
@@ -19,7 +17,7 @@ public class Log {
 	// Constructor for Running case
 	//in future, possible use of flag to show how constructor should deal
 	// or calling of the setter functions in the entry activity 
-	public Log(String type, String date, String time, String dist, String mood)
+	public WOLog(String type, String date, String time, String dist, String mood)
 	{
 		setType(type);
 		setDate(date);
