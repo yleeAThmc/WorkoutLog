@@ -25,7 +25,10 @@ public class DataHandler {
         }
         return _dh; //if so, just return the DH that is already instantiated
     }
-    public synchronized ArrayList<Log> getLogs() { //sends the ArrayList of Logs to LLAdapter
+    public synchronized ArrayList<WOLog> getLogs() { //sends the ArrayList of Logs to LLAdapter
+
+    }
+    public synchronized void addLog(WOLog toAdd) { //appends a new log to the Log AList
 
     }
     private void readData() { //reads the data file from internal storage
@@ -34,13 +37,10 @@ public class DataHandler {
     private void writeData() { //writes the data into internal storage
 
     }
-    private ArrayList<Log> convertToLogs() { //converts the data file into Log AList
+    private ArrayList<WOLog> convertToLogs() { //converts the data file into Log AList
 
     }
     private void convertFromLogs() { //converts Log AList into usable file for storage
-
-    }
-    public synchronized void addLog(Log toAdd) { //appends a new log to the Log AList
 
     }
 }
