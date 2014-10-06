@@ -19,7 +19,7 @@ public class DataHandler {
     private DataHandler() { //this is a singleton class, so this is kept private
 
     }
-    public synchronized static DataHandler GetDataHandler() { //used to make/get the DH
+    public synchronized static DataHandler getDataHandler() { //used to make/get the DH
         if (_dh == null) { //does the DH already exist?
             _dh = new DataHandler(); //if not, create a new one
         }
@@ -28,16 +28,16 @@ public class DataHandler {
     public synchronized ArrayList<Log> getLogs() { //sends the ArrayList of Logs to LLAdapter
 
     }
-    private synchronized void readData() { //reads the data file from internal storage
+    private void readData() { //reads the data file from internal storage
 
     }
-    private synchronized void writeData() { //writes the data into internal storage
+    private void writeData() { //writes the data into internal storage
 
     }
-    private synchronized ArrayList<Log> convertToLogs() { //converts the data file into Log AList
+    private ArrayList<Log> convertToLogs() { //converts the data file into Log AList
 
     }
-    private synchronized void convertFromLogs() { //converts Log AList into usable file for storage
+    private void convertFromLogs() { //converts Log AList into usable file for storage
 
     }
     public synchronized void addLog(Log toAdd) { //appends a new log to the Log AList
