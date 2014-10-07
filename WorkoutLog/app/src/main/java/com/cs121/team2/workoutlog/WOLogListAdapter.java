@@ -31,8 +31,8 @@ public class WOLogListAdapter extends BaseAdapter {
     }
 
     public WOLogListAdapter(Context mContext, int layoutResourceId){
-        //need to fix this so actually getting info from datahandler
-        ArrayList<WOLog> pulledData = Datahandler.getLogs();
+
+        ArrayList<WOLog> pulledData = DataHandler.getDataHandler().getLogs();
 
         this.layoutResourceId = layoutResourceId;
         this.mContext = mContext;
@@ -53,7 +53,7 @@ public class WOLogListAdapter extends BaseAdapter {
     }
 
 
-//TODO: implement sorting function so listview shows latest --> earliest
+//TODO: implement sorting function so listview shows newest --> oldest
 //    public WOLogListAdapter sortData(){
 //        return this;
 //    }

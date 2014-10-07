@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import com.cs121.team2.workoutlog.DataHandler;
 
 /**
  * Created by Sam E on 10/7/2014.
@@ -18,7 +19,10 @@ public class WOLogListActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
+        //setting content and look
         setContentView(R.layout.activity_wologlist);
         getActionBar().setDisplayShowHomeEnabled(false);
         getActionBar().setDisplayShowTitleEnabled(false);
@@ -27,12 +31,13 @@ public class WOLogListActivity extends Activity {
         wologlistListView = (ListView) findViewById(R.id.wologlist_listview);
 
         //Create a LogListAdapter for the ListView
-
-        //TODO: need to get the actual DH instance dealt with
-        mWOLogListAdapter = new WOLogListAdapter(this,R.layout.row_wolog, Datahandler.getLogs());
+        DataHandler dhInstance = DataHandler.getDataHandler();
+        mWOLogListAdapter = new WOLogListAdapter(this,R.layout.row_wolog, dhInstance.getLogs());
 
         // Set the ListView to use the ArrayAdapter
         wologlistListView.setAdapter( mWOLogListAdapter);
+
+        //TODO: get sorting working and then sort, reset adapter here
 
     }
 
@@ -55,9 +60,11 @@ public class WOLogListActivity extends Activity {
             return true;
         }
         if (id == R.id.add_WOlog) {
+
             Intent newEntryIntent = new Intent(this, EntryActivity.class);
-            // start the next Activity using your prepared Intent
+            // start the next Activity the prepared Intent
             startActivity(newEntryIntent);
+
         }
 
         return super.onOptionsItemSelected(item);

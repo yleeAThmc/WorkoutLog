@@ -9,6 +9,6 @@
         android:id="@+id/add_WOlog"
         android:icon="@drawable/ic_action_new"
         android:title="@string/add_WOlog"
-        android:showAsAction="always" />
+        android:showAsAction="ifRoom" />
 
 </menu>
