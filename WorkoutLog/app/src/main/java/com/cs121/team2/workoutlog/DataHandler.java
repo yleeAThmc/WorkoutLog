@@ -26,7 +26,7 @@ public class DataHandler {
         return _dh; //if so, just return the DH that is already instantiated
     }
     public synchronized ArrayList<WOLog> getLogs() { //sends the ArrayList of Logs to LLAdapter
-
+        return null;
     }
     public synchronized void addLog(WOLog toAdd) { //appends a new log to the Log AList
 
@@ -38,7 +38,7 @@ public class DataHandler {
 
     }
     private ArrayList<WOLog> convertToLogs() { //converts the data file into Log AList
-
+        return null;
     }
     private void convertFromLogs() { //converts Log AList into usable file for storage
 
