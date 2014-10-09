@@ -33,18 +33,22 @@ public class DataHandler extends Activity {
     public static DataHandler _dh; //the DataHandler instance that will be constructed and kept
     private static Gson gson;
     private static Type listType;
-    private File file;
     private static Context mContext;
 
-    private DataHandler() { //this is a singleton class, so this is kept private
+    private DataHandler() throws IOException { //this is a singleton class, so this is kept private
         gson = new Gson();
         listType = new TypeToken<ArrayList<WOLog>>(){}.getType();
-        file = new File(mContext.getFilesDir(), "jsonLogs.json");
+        File file = new File(mContext.getFilesDir(), "jsonLogs.json");
+        file.createNewFile();
     }
     public synchronized static DataHandler getDataHandler(Context context) { //used to make/get the DH
         mContext = context;
         if (_dh == null) { //does the DH already exist?
-            _dh = new DataHandler(); //if not, create a new one
+            try {
+                _dh = new DataHandler(); //if not, create a new one
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return _dh; //if so, just return the DH that is already instantiated
     }
@@ -68,7 +72,7 @@ public class DataHandler extends Activity {
     //appends a new log to the Log AList
     public synchronized void addLog(WOLog toAdd) throws IOException {
         //retrive data from file
-        FileInputStream fis = mContext.openFileInput(file.getName());
+        FileInputStream fis = mContext.openFileInput("jsonLogs.json");
         int c;
         String temp="";
         while( (c = fis.read()) != -1){
