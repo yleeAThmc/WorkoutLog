@@ -101,6 +101,8 @@ public class EntryActivity extends Activity {
             WOLog log = new WOLog(woType, woDate, woTime, woDist, woMood);
             _dhInstance.addLog(log);
 
+            startWOLogListAct();
+
             Toast.makeText(this,
                     log.toString(),
                     Toast.LENGTH_LONG).show();
@@ -108,6 +110,11 @@ public class EntryActivity extends Activity {
 
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void startWOLogListAct() {
+        Intent newEntryIntent = new Intent(this, WOLogListActivity.class);
+        startActivity(newEntryIntent);
     }
 
     public void addListenerOnWorkoutSpinner() {
