@@ -6,6 +6,7 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -20,19 +21,22 @@ import java.util.List;
  */
 
 /*
- * TODO:
- * add variables needed for this class??????
- * finish constructor
- * fill in the methods
+* TODO:
+* add variables needed for this class??????
+* finish constructor
+* fill in the methods
  * think of a better name for "Log" because that is a Java object already
- */
+*/
 public class DataHandler extends Activity {
     public static DataHandler _dh; //the DataHandler instance that will be constructed and kept
     private static Gson gson;
     private static Type listType;
+    private File file;
+
     private DataHandler() { //this is a singleton class, so this is kept private
         gson = new Gson();
         listType = new TypeToken<ArrayList<WOLog>>(){}.getType();
+        file = new File(getApplicationContext().getFilesDir(), "jsonLogs.json");
     }
     public synchronized static DataHandler getDataHandler() { //used to make/get the DH
         if (_dh == null) { //does the DH already exist?
@@ -40,10 +44,11 @@ public class DataHandler extends Activity {
         }
         return _dh; //if so, just return the DH that is already instantiated
     }
+
     //sends the ArrayList of Logs to LLAdapter
     public synchronized ArrayList<WOLog> getLogs() throws IOException {
         //find and read data from data storage to string temp
-        FileInputStream fis = openFileInput("jsonLog.json");
+        FileInputStream fis = openFileInput("jsonLogs.json");
         int c;
         String temp="";
         while( (c = fis.read()) != -1){
@@ -55,18 +60,27 @@ public class DataHandler extends Activity {
         //send to LLAdapter
         return toReturn;
     }
+
     //appends a new log to the Log AList
     public synchronized void addLog(WOLog toAdd) throws IOException {
+        //retrive data from file
+        FileInputStream fis = openFileInput("jsonLogs.json");
+        int c;
+        String temp="";
+        while( (c = fis.read()) != -1){
+            temp = temp + Character.toString((char)c);
+        }
+        fis.close();
+        //convert to non-JSON
+        ArrayList<WOLog> logList = (ArrayList<WOLog>) gson.fromJson(temp, listType);
+        logList.add(toAdd);
+
         //convert to JSON
-        WOLog newLog = toAdd;
-        String jsonLog = gson.toJson(newLog);
+        String jsonLog = gson.toJson(logList);
         //save to a .txt file
-        FileOutputStream fos = openFileOutput(jsonLog+".json", Context.MODE_APPEND);
+        FileOutputStream fos = openFileOutput("jsonLogs.json", Context.MODE_PRIVATE);
         //write to internal storage
         fos.write(jsonLog.getBytes());
         fos.close();
-    }
-    private ArrayList<WOLog> convertToLogs() { //converts the data file into Log AList
-
     }
 }
