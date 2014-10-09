@@ -12,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,15 +34,17 @@ public class DataHandler extends Activity {
     private static Gson gson;
     private static Type listType;
     private File file;
+    private static Context mContext;
 
-    private DataHandler(Context context) { //this is a singleton class, so this is kept private
+    private DataHandler() { //this is a singleton class, so this is kept private
         gson = new Gson();
         listType = new TypeToken<ArrayList<WOLog>>(){}.getType();
-        file = new File(context.getFilesDir(), "jsonLogs.json");
+        file = new File(mContext.getFilesDir(), "jsonLogs.json");
     }
     public synchronized static DataHandler getDataHandler(Context context) { //used to make/get the DH
+        mContext = context;
         if (_dh == null) { //does the DH already exist?
-            _dh = new DataHandler(context); //if not, create a new one
+            _dh = new DataHandler(); //if not, create a new one
         }
         return _dh; //if so, just return the DH that is already instantiated
     }
@@ -49,7 +52,7 @@ public class DataHandler extends Activity {
     //sends the ArrayList of Logs to LLAdapter
     public synchronized ArrayList<WOLog> getLogs() throws IOException {
         //find and read data from data storage to string temp
-        FileInputStream fis = openFileInput("jsonLogs.json");
+        FileInputStream fis = mContext.openFileInput("jsonLogs.json");
         int c;
         String temp="";
         while( (c = fis.read()) != -1){
@@ -65,7 +68,7 @@ public class DataHandler extends Activity {
     //appends a new log to the Log AList
     public synchronized void addLog(WOLog toAdd) throws IOException {
         //retrive data from file
-        FileInputStream fis = openFileInput("jsonLogs.json");
+        FileInputStream fis = mContext.openFileInput(file.getName());
         int c;
         String temp="";
         while( (c = fis.read()) != -1){
