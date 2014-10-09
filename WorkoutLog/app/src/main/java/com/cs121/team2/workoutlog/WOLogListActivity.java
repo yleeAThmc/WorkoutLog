@@ -8,6 +8,8 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import com.cs121.team2.workoutlog.DataHandler;
 
+import java.io.IOException;
+
 /**
  * Created by Sam E on 10/7/2014.
  */
@@ -32,7 +34,11 @@ public class WOLogListActivity extends Activity {
 
         //Create a LogListAdapter for the ListView
         DataHandler dhInstance = DataHandler.getDataHandler();
-        mWOLogListAdapter = new WOLogListAdapter(this,R.layout.row_wolog, dhInstance.getLogs());
+        try {
+            mWOLogListAdapter = new WOLogListAdapter(this,R.layout.row_wolog, dhInstance.getLogs());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         // Set the ListView to use the ArrayAdapter
         wologlistListView.setAdapter( mWOLogListAdapter);
