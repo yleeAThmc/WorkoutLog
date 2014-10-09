@@ -33,9 +33,9 @@ public class WOLogListActivity extends Activity {
         wologlistListView = (ListView) findViewById(R.id.wologlist_listview);
 
         //Create a LogListAdapter for the ListView
-        DataHandler dhInstance = DataHandler.getDataHandler();
+        DataHandler dhInstance = DataHandler.getDataHandler(this);
         try {
-            mWOLogListAdapter = new WOLogListAdapter(this,R.layout.row_wolog, dhInstance.getLogs());
+            mWOLogListAdapter = new WOLogListAdapter( this,R.layout.row_wolog, dhInstance.getLogs());
         } catch (IOException e) {
             e.printStackTrace();
         }

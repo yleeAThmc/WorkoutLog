@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,7 +33,12 @@ public class WOLogListAdapter extends BaseAdapter {
 
     public WOLogListAdapter(Context mContext, int layoutResourceId){
 
-        ArrayList<WOLog> pulledData = DataHandler.getDataHandler().getLogs();
+        ArrayList<WOLog> pulledData = null;
+        try {
+            pulledData = DataHandler.getDataHandler(this.mContext).getLogs();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         this.layoutResourceId = layoutResourceId;
         this.mContext = mContext;

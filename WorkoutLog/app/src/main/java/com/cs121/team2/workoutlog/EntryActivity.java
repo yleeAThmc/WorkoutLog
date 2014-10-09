@@ -17,6 +17,8 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.io.IOException;
+
 
 public class EntryActivity extends Activity {
     private final String TAG = "ENTRY ACTIVITY";
@@ -34,7 +36,7 @@ public class EntryActivity extends Activity {
         getActionBar().setDisplayShowTitleEnabled(false);
 
         // Getting the data handler instance
-        _dhInstance = DataHandler.getDataHandler();
+        _dhInstance = DataHandler.getDataHandler(this);
 
         // setting up date/time picker
         _date = (DatePicker) findViewById(R.id.entry_date);
@@ -99,7 +101,11 @@ public class EntryActivity extends Activity {
             }
 
             WOLog log = new WOLog(woType, woDate, woTime, woDist, woMood);
-            _dhInstance.addLog(log);
+            try {
+                _dhInstance.addLog(log);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             startWOLogListAct();
 

@@ -2,6 +2,7 @@ package com.cs121.team2.workoutlog;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -33,14 +34,14 @@ public class DataHandler extends Activity {
     private static Type listType;
     private File file;
 
-    private DataHandler() { //this is a singleton class, so this is kept private
+    private DataHandler(Context context) { //this is a singleton class, so this is kept private
         gson = new Gson();
         listType = new TypeToken<ArrayList<WOLog>>(){}.getType();
-        file = new File(getApplicationContext().getFilesDir(), "jsonLogs.json");
+        file = new File(context.getFilesDir(), "jsonLogs.json");
     }
-    public synchronized static DataHandler getDataHandler() { //used to make/get the DH
+    public synchronized static DataHandler getDataHandler(Context context) { //used to make/get the DH
         if (_dh == null) { //does the DH already exist?
-            _dh = new DataHandler(); //if not, create a new one
+            _dh = new DataHandler(context); //if not, create a new one
         }
         return _dh; //if so, just return the DH that is already instantiated
     }
