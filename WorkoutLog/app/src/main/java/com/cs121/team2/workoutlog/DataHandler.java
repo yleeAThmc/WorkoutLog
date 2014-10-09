@@ -30,6 +30,7 @@ import java.util.List;
  * think of a better name for "Log" because that is a Java object already
 */
 public class DataHandler extends Activity {
+    private final String TAG = "Data Handler";
     public static DataHandler _dh; //the DataHandler instance that will be constructed and kept
     private static Gson gson;
     private static Type listType;
@@ -81,12 +82,16 @@ public class DataHandler extends Activity {
         fis.close();
         //convert to non-JSON
         ArrayList<WOLog> logList = (ArrayList<WOLog>) gson.fromJson(temp, listType);
+ 
+        if (logList == null) {
+            logList = new ArrayList<WOLog>();
+        }
         logList.add(toAdd);
 
         //convert to JSON
         String jsonLog = gson.toJson(logList);
         //save to a .txt file
-        FileOutputStream fos = openFileOutput("jsonLogs.json", Context.MODE_PRIVATE);
+        FileOutputStream fos = mContext.openFileOutput("jsonLogs.json", Context.MODE_PRIVATE);
         //write to internal storage
         fos.write(jsonLog.getBytes());
         fos.close();
