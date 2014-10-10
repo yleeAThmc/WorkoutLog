@@ -81,8 +81,8 @@ public class EntryActivity extends Activity {
             // find values
             String woType = String.valueOf(type.getSelectedItem());
 
-            int woMonth = _date.getMonth(); // Jan == 0
-            int woDay = _date.getDayOfMonth(); // day 1 == 0
+            int woMonth = _date.getMonth() + 1; // Jan == 0
+            int woDay = _date.getDayOfMonth(); // day 1 == 1
             int woYear = _date.getYear();
             int woHour = _time.getCurrentHour(); // midnight == 0
             int woMinute = _time.getCurrentMinute(); // minute 0 == 0
