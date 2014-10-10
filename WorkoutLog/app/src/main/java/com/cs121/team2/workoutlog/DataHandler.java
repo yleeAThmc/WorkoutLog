@@ -82,7 +82,7 @@ public class DataHandler extends Activity {
         fis.close();
         //convert to non-JSON
         ArrayList<WOLog> logList = (ArrayList<WOLog>) gson.fromJson(temp, listType);
- 
+
         if (logList == null) {
             logList = new ArrayList<WOLog>();
         }

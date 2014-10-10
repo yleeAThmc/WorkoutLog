@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import java.util.Calendar;
 
 import java.io.IOException;
 
@@ -80,10 +81,11 @@ public class EntryActivity extends Activity {
             // find values
             String woType = String.valueOf(type.getSelectedItem());
 
-            String woDate = String.valueOf(_date.getMonth()); // Jan == 0
-            woDate.concat(String.valueOf("/"+_date.getDayOfMonth())); // day 1 == 0
-            String woTime = String.valueOf(_time.getCurrentHour()); // midnight == 0
-            woTime.concat(String.valueOf(":"+_time.getCurrentMinute())); // minute 0 == 0
+            int woMonth = _date.getMonth(); // Jan == 0
+            int woDay = _date.getDayOfMonth(); // day 1 == 0
+            int woYear = _date.getYear();
+            int woHour = _time.getCurrentHour(); // midnight == 0
+            int woMinute = _time.getCurrentMinute(); // minute 0 == 0
 
             // no distance entered --> give prompt
             String woDist = String.valueOf(dist.getText());
@@ -100,7 +102,11 @@ public class EntryActivity extends Activity {
                 return super.onOptionsItemSelected(item);
             }
 
-            WOLog log = new WOLog(woType, woDate, woTime, woDist, woMood);
+            WOLog log = new WOLog();
+            log.setType(woType);
+            log.setDate(woMonth, woDay, woYear, woHour, woMinute);
+            log.setDistance(woDist + " " + dist_unit.getSelectedItem().toString());
+            log.setMood(woMood);
             try {
                 _dhInstance.addLog(log);
             } catch (IOException e) {

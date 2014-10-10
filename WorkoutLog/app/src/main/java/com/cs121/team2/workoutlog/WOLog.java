@@ -1,22 +1,24 @@
 package com.cs121.team2.workoutlog;
+import java.util.Calendar;
 
 public class WOLog {
-	
-	// Data stored in log
-	private String type;
-	private String date;
-	private String time;
-	private String distance;
-	private String mood;
-	
-	public WOLog()
+    // Data stored in log
+	private String type = null;
+	private String time = null;
+	private String distance = null;
+	private String mood = null;
+
+    //time stuff
+    private String date;
+
+    public WOLog()
 	{
-		
+
 	}
-	
-	// Constructor for Running case
+
+	/*// Constructor for Running case
 	//in future, possible use of flag to show how constructor should deal
-	// or calling of the setter functions in the entry activity 
+	// or calling of the setter functions in the entry activity
 	public WOLog(String type, String date, String time, String dist, String mood)
 	{
 		setType(type);
@@ -24,16 +26,19 @@ public class WOLog {
 		setTime(time);
 		setDistance(dist);
 		setMood(mood);
-	}
-	
+	}*/
+
 	// To String
 	public String toString(){
-		String s = "~" + type + "~ \n";
-		
+        String s = "";
+
 		if(date != null){
 			s += "Date: " + date + "\n";
 		}
-		if(time != null){
+
+        s += "~" + type + "~ \n";
+
+        if(time != null){
 			s += "Time: " + time + "\n";
 		}
 		if(distance != null){
@@ -42,21 +47,21 @@ public class WOLog {
 		if(mood != null){
 			s += "Mood: " + mood + "\n";
 		}
-		
+
 		return s;
 	}
-	
+
 	// Getter Methods
-	
+
 	public String getType(){
 		return type;
 	}
 
-	public String getDate(){
-		return date;
-	}
-	
-	public String getTime(){
+    public String getDate(){
+        return date;
+    }
+
+   	public String getTime(){
 		return time;
 	}
 	
@@ -73,8 +78,10 @@ public class WOLog {
 		type = t;
 	}
 	
-	public void setDate(String d){
-		date = d;
+	public void setDate(int m, int dy, int yr, int hr, int min){
+        date = m + "-" + dy + "-" + yr + " " + hr + ":";
+        if (min < 10) date += "0" + min;
+        else date += min;
 	}
 	
 	public void setTime(String t){
@@ -88,5 +95,5 @@ public class WOLog {
 	public void setMood(String m){
 		mood = m;
 	}
-	
+
 }

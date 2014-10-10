@@ -53,7 +53,7 @@ public class WOLogListAdapter extends BaseAdapter {
         }
         WOLog logItem = data.get(position);
         TextView textViewItem = (TextView) convertView.findViewById(R.id.log_date);
-        textViewItem.setText(logItem.getDate());
+        textViewItem.setText(logItem.toString());
 
         return convertView;
     }
