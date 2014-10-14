@@ -16,6 +16,8 @@ import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -87,6 +89,16 @@ public class DataHandler extends Activity {
             logList = new ArrayList<WOLog>();
         }
         logList.add(toAdd);
+
+        // For clearing the file while testing: logList = new ArrayList<WOLog>();
+
+        //sort loglist
+        Collections.sort(logList, new Comparator<WOLog>() {
+            @Override
+            public int compare(WOLog woLog, WOLog woLog2) {
+                return woLog2.getDateCompare() - woLog.getDateCompare();
+            }
+        });
 
         //convert to JSON
         String jsonLog = gson.toJson(logList);

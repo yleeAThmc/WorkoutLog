@@ -1,5 +1,4 @@
 package com.cs121.team2.workoutlog;
-import java.util.Calendar;
 
 public class WOLog {
     // Data stored in log
@@ -8,8 +7,10 @@ public class WOLog {
 	private String distance = null;
 	private String mood = null;
 
+
     //time stuff
     private String date;
+    private int dateCompare = 0;
 
     public WOLog()
 	{
@@ -82,6 +83,12 @@ public class WOLog {
         date = m + "-" + dy + "-" + yr + " " + hr + ":";
         if (min < 10) date += "0" + min;
         else date += min;
+
+        dateCompare += min;
+        dateCompare += hr * 10;
+        dateCompare += dy * 1000;
+        dateCompare += m * 100000;
+        dateCompare += yr * 10000000;
 	}
 	
 	public void setTime(String t){
@@ -95,5 +102,9 @@ public class WOLog {
 	public void setMood(String m){
 		mood = m;
 	}
+
+    public int getDateCompare(){
+        return dateCompare;
+    }
 
 }
