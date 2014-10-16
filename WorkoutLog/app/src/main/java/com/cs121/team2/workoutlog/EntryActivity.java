@@ -114,10 +114,6 @@ public class EntryActivity extends Activity {
             }
 
             startWOLogListAct();
-
-            Toast.makeText(this,
-                    log.toString(),
-                    Toast.LENGTH_LONG).show();
         }
 
 
@@ -131,7 +127,11 @@ public class EntryActivity extends Activity {
 
     public void addListenerOnWorkoutSpinner() {
         Spinner type = (Spinner) findViewById(R.id.entry_type);
-        type.setOnItemSelectedListener(new CustomOnItemSelectedListener());
+        type.setOnItemSelectedListener(new CustomOnItemSelectedListener(this));
+    }
+
+    private Boolean startListActivity() {
+        return true;
     }
 
 }
