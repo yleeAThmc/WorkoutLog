@@ -161,9 +161,12 @@ public class EntryActivity extends Activity {
         EditText reps = (EditText) findViewById(R.id.strength_reps);
         EditText weight = (EditText) findViewById(R.id.strength_weight);
         Spinner unit = (Spinner) findViewById(R.id.strength_weight_unit);
+        _mood = (SeekBar) findViewById(R.id.strength_mood);
         WOLog wl = new WOLog();
-        wl.setData(WOLog.SETS, sets.getText());
-
+        wl.setSets(String.valueOf(sets.getText()));
+        wl.setReps(String.valueOf(reps.getText()));
+        wl.setWeight(String.valueOf(weight.getText()));
+        wl.setMood(WOLog.MOOD_ARRAY[_mood.getProgress()]);
         onSubmit(wl);
     }
 
@@ -177,7 +180,9 @@ public class EntryActivity extends Activity {
         int woYear = _date.getYear();
         int woHour = _time.getCurrentHour(); // midnight == 0
         int woMinute = _time.getCurrentMinute(); // minute 0 == 0
+        woLog.setType(String.valueOf(_actv.getText()));
         woLog.setDate(woMonth, woDay, woYear, woHour, woMinute);
+
             /*
 
             EditText dist = (EditText) findViewById(R.id.entry_dist);

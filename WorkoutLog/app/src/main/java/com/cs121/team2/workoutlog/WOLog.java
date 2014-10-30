@@ -6,8 +6,11 @@ public class WOLog {
     private String time = null;
     private String distance = null;
     private String mood = null;
-
-
+    // Kelly's
+    private String weight = null;
+    private String sets = null;
+    private String reps = null;
+    static String[] MOOD_ARRAY = {"awful", "bad", "k", "good", "perfect"};
     //time stuff
     private String date;
     private int dateCompare = 0;
@@ -97,6 +100,18 @@ public class WOLog {
 
     public void setDistance(String d){
         distance = d;
+    }
+
+    public void setReps(String r){
+        reps = r;
+    }
+
+    public void setSets(String s){
+        sets = s;
+    }
+
+    public void setWeight(String w){
+        weight = w;
     }
 
     public void setMood(String m){
