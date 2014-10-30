@@ -27,16 +27,16 @@ public class CustomOnItemSelectedListener implements OnItemSelectedListener {
         View fields;
         if (pos == RUNNING) {
             Log.e(TAG, "Running selected");
-            fields = inflater.inflate(R.layout.entry_running, parent, false);
+            //fields = inflater.inflate(R.layout.entry_running, parent, false);
         } else if (pos == WEIGHT_TRAINING) {
             Log.e(TAG, "wt selected");
-            fields = inflater.inflate(R.layout.entry_weight_training, parent, false);
+            //fields = inflater.inflate(R.layout.entry_weight_training, parent, false);
         } else {
             Log.e(TAG, "hk selected");
-            fields = inflater.inflate(R.layout.entry_hardcore_karaoke, parent, false);
+            //fields = inflater.inflate(R.layout.entry_hardcore_karaoke, parent, false);
         }
         // TODO: refactor following line
-        ((ViewGroup) insertPoint).addView(fields, 3); // 3 here is the position of the last element
+        //((ViewGroup) insertPoint).addView(fields, 3); // 3 here is the position of the last element
         return;
     }
 

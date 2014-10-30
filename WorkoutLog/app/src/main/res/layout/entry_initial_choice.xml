@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/entry_cardio"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_entry_cardio"
+            android:text="Cardio"
+            android:onClick="getCardioView"/>
+        <Button
+            android:id="@+id/entry_strength"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_entry_strength"
+            android:text="Strength"
+            android:onClick="getStrengthView"/>
+        <Button
+            android:id="@+id/entry_custom"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_entry_custom"
+            android:text="Custom Workout"
+            android:onClick="getCustomWorkoutView"/>
+    </LinearLayout>
+</FrameLayout>
