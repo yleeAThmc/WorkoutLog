@@ -28,7 +28,6 @@ public class EntryActivity extends Activity {
     private final String TAG = "ENTRY ACTIVITY";
     DataHandler _dhInstance;
 
-    private AutoCompleteTextView _exercise;
     private DatePicker _date;
     private TimePicker _time;
     private SeekBar _mood;
@@ -162,6 +161,10 @@ public class EntryActivity extends Activity {
         EditText reps = (EditText) findViewById(R.id.strength_reps);
         EditText weight = (EditText) findViewById(R.id.strength_weight);
         Spinner unit = (Spinner) findViewById(R.id.strength_weight_unit);
+        WOLog wl = new WOLog();
+        wl.setData(WOLog.SETS, sets.getText());
+
+        onSubmit(wl);
     }
 
     public void onCustomSubmit(View view) {
@@ -174,6 +177,7 @@ public class EntryActivity extends Activity {
         int woYear = _date.getYear();
         int woHour = _time.getCurrentHour(); // midnight == 0
         int woMinute = _time.getCurrentMinute(); // minute 0 == 0
+        woLog.setDate(woMonth, woDay, woYear, woHour, woMinute);
             /*
 
             EditText dist = (EditText) findViewById(R.id.entry_dist);
@@ -210,9 +214,14 @@ public class EntryActivity extends Activity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-            startWOLogListAct();
-            */
+        */
+        try {
+            Log.e(TAG, "HERE!");
+            _dhInstance.addLog(woLog);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        startWOLogListAct();
 
     }
 }

@@ -9,8 +9,22 @@ public class WOLog {
     private String date;
     private int dateCompare = 0;
 
-    public WOLog() {
+    // static string stuff
 
+    static final String TIME = "time";
+    static final String MOOD = "mood";
+    static final String DIST = "dist";
+    static final String WGT = "wgt";
+    static final String DURATION = "duration";
+    static final String EXERCISE_NAME = "exercise_name";
+    static final String DIST_UNIT = "dist_unit";
+    static final String WGT_UNIT = "wgt_unit";
+    static final String SETS = "sets";
+    static final String REPS = "reps";
+
+
+    public WOLog() {
+        dataHM = new HashMap();
     }
 
     public String detailPrint() {
