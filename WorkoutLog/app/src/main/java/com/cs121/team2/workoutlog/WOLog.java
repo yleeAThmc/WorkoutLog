@@ -42,12 +42,6 @@ public class WOLog {
 
         s += "~" + type + "~ \n";
 
-        if(time != null){
-            s += "Time: " + time + "\n";
-        }
-        if(distance != null){
-            s += "Distance: " + distance + "\n";
-        }
         if(mood != null){
             s += "Mood: " + mood + "\n";
         }

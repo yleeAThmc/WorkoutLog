@@ -36,7 +36,7 @@
         android:id="@+id/strength_mood"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bar"
+        android:background="@drawable/bar2"
         android:max="4"
         android:progress="2"/>
 
@@ -76,12 +76,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="Back"
             android:onClick="getStrengthView"/>
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="Save"
             android:onClick="onStrengthSubmit"/>

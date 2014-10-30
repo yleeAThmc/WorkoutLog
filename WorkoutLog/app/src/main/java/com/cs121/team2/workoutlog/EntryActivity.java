@@ -153,7 +153,14 @@ public class EntryActivity extends Activity {
     }
 
     public void onCardioSubmit(View view) {
-
+        EditText dist = (EditText) findViewById(R.id.cardio_dist);
+        EditText dur = (EditText) findViewById(R.id.cardio_dur);
+        // take care of the units
+        _mood = (SeekBar) findViewById(R.id.cardio_mood);
+        WOLog wl = new WOLog();
+        wl.setDistance(String.valueOf(dist.getText()));
+        wl.setTime(String.valueOf(dur.getText()));
+        onSubmit(wl);
     }
 
     public void onStrengthSubmit(View view) {
@@ -166,7 +173,6 @@ public class EntryActivity extends Activity {
         wl.setSets(String.valueOf(sets.getText()));
         wl.setReps(String.valueOf(reps.getText()));
         wl.setWeight(String.valueOf(weight.getText()));
-        wl.setMood(WOLog.MOOD_ARRAY[_mood.getProgress()]);
         onSubmit(wl);
     }
 
@@ -182,6 +188,7 @@ public class EntryActivity extends Activity {
         int woMinute = _time.getCurrentMinute(); // minute 0 == 0
         woLog.setType(String.valueOf(_actv.getText()));
         woLog.setDate(woMonth, woDay, woYear, woHour, woMinute);
+        woLog.setMood(WOLog.MOOD_ARRAY[_mood.getProgress()]);
 
             /*
 

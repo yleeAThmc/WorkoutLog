@@ -27,11 +27,13 @@
             android:layout_height="wrap_content" />
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/entry_mood"
-        android:layout_width="fill_parent"
+    <SeekBar
+        android:id="@+id/cardio_mood"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/mood_prompt"/>
+        android:background="@drawable/bar2"
+        android:max="4"
+        android:progress="2"/>
 
     <EditText
         android:id="@+id/entry_dist"
@@ -44,12 +46,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="Back"
             android:onClick="getInitialChoiceView"/>
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="Save"
             android:onClick="onCustomSubmit"/>
