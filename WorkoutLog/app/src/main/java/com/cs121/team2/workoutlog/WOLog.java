@@ -151,7 +151,6 @@ public class WOLog implements Parcelable {
         dest.writeString(distance);
         dest.writeString(mood);
         dest.writeString(date);
-
     }
 
     private WOLog(Parcel in) {
