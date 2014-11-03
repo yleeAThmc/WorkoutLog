@@ -52,4 +52,5 @@
         <item>Squats</item>
         <item>Plank</item>
     </string-array>
+    <string name="activity_details">Log Details</string>
 </resources>

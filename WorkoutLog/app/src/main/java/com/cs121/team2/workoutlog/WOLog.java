@@ -1,16 +1,20 @@
 package com.cs121.team2.workoutlog;
 
-public class WOLog {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class WOLog implements Parcelable {
     // Data stored in log
     private String type = null;
     private String time = null;
     private String distance = null;
     private String mood = null;
-    // Kelly's
+    
     private String weight = null;
     private String sets = null;
     private String reps = null;
     static String[] MOOD_ARRAY = {"awful", "bad", "k", "good", "perfect"};
+
     //time stuff
     private String date;
     private int dateCompare = 0;
@@ -42,6 +46,12 @@ public class WOLog {
 
         s += "~" + type + "~ \n";
 
+        if(time != null){
+            s += "Time: " + time + "\n";
+        }
+        if(distance != null){
+            s += "Distance: " + distance + "\n";
+        }
         if(mood != null){
             s += "Mood: " + mood + "\n";
         }
@@ -116,4 +126,40 @@ public class WOLog {
         return dateCompare;
     }
 
+
+
+
+    public static final Parcelable.Creator<WOLog> CREATOR = new Parcelable.Creator<WOLog>() {
+        public WOLog createFromParcel(Parcel in) {
+            return new WOLog(in);
+        }
+
+        public WOLog[] newArray(int size) {
+            return new WOLog[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(type);
+        dest.writeString(time);
+        dest.writeString(distance);
+        dest.writeString(mood);
+        dest.writeString(date);
+
+    }
+
+    private WOLog(Parcel in) {
+        type = in.readString();
+        time = in.readString();
+        distance = in.readString();
+        mood = in.readString();
+        date = in.readString();
+
+    }
 }

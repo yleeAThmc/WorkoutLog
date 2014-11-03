@@ -90,7 +90,8 @@ public class DataHandler extends Activity {
         }
         logList.add(toAdd);
 
-        // For clearing the file while testing: logList = new ArrayList<WOLog>();
+        // For clearing the file while testing:
+        logList = new ArrayList<WOLog>();
 
         //sort loglist
         Collections.sort(logList, new Comparator<WOLog>() {
