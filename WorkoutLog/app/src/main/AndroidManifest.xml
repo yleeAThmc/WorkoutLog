@@ -30,6 +30,12 @@
                 android:value=".EntryActivity"/>
         </activity>
 
+        <activity
+            android:name=".DetailActivity"
+            android:label="@string/activity_details"
+            android:parentActivityName=".WOLogListActivity">
+        </activity>
+
 
     </application>
 

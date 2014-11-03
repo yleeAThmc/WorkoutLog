@@ -15,10 +15,10 @@ public class WOLog implements Parcelable {
     private String date;
     private int dateCompare = 0;
 
-    public WOLog()
-    {
-
+    public WOLog() {
     }
+
+
 
 	/*// Constructor for Running case
 	//in future, possible use of flag to show how constructor should deal
