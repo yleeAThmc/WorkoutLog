@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import com.cs121.team2.workoutlog.DataHandler;
 
@@ -18,6 +20,7 @@ public class WOLogListActivity extends Activity {
     private final String TAG = "WOLOGLIST ACTIVITY";
     ListView wologlistListView;
     WOLogListAdapter mWOLogListAdapter;
+    private WOLog toSendAlong;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +44,26 @@ public class WOLogListActivity extends Activity {
         }
 
         // Set the ListView to use the ArrayAdapter
-        wologlistListView.setAdapter( mWOLogListAdapter);
+        wologlistListView.setAdapter(mWOLogListAdapter);
+        // Set the ListView to use a single choice mode for list item selection
+        wologlistListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        // Set the ListView to have an OnItemClickListener so it can take in selections
+        wologlistListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                toSendAlong = (WOLog) parent.getItemAtPosition(position);
+                // create an Intent to take you over to a new DetailActivity
+                Intent detailIntent;
+                detailIntent = new Intent(view.getContext(), DetailActivity.class);
+
+                // pack away the data about the WOLog into your Intent before you head out
+                detailIntent.putExtra("log", (android.os.Parcelable) toSendAlong);
+
+                // start the next Activity using your prepared Intent
+                startActivity(detailIntent);
+            }
+        });
 
         //TODO: get sorting working and then sort, reset adapter here
 
