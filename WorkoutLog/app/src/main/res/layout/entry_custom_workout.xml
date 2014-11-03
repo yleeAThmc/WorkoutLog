@@ -10,37 +10,147 @@
     tools:context=".EntryActivity"
     android:id="@+id/entry_view">
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/custom_name"
+        android:hint="Enter exercise name"/>
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
         <DatePicker
-            android:id="@+id/entry_date"
+            android:id="@+id/custom_date"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:calendarViewShown="false"/>
 
         <TimePicker
-            android:id="@+id/entry_time"
+            android:id="@+id/custom_time"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content" />
     </LinearLayout>
 
     <SeekBar
-        android:id="@+id/cardio_mood"
+        android:id="@+id/custom_mood"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bar2"
         android:max="4"
         android:progress="2"/>
 
-    <EditText
-        android:id="@+id/entry_dist"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:hint="Also more things here"/>
+        android:layout_height="wrap_content">
+        <CheckBox
+            android:id="@+id/custom_dist_cbox"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/custom_dist"
+            android:layout_width="0dp"
+            android:layout_weight="6"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:hint="@string/dist_prompt"/>
+        <Spinner
+            android:id="@+id/custom_dist_unit"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:entries="@array/length_array"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <CheckBox
+            android:id="@+id/custom_dur_cbox"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/custom_dur"
+            android:layout_width="0dp"
+            android:layout_weight="6"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:hint="@string/dur_prompt"/>
+        <Spinner
+            android:id="@+id/custom_dur_unit"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:entries="@array/dur_array"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <CheckBox
+            android:id="@+id/custom_sets_reps_cbox"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/custom_sets"
+            android:layout_width="0dp"
+            android:layout_weight="4"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:hint="Enter sets"/>
+        <EditText
+            android:id="@+id/custom_reps"
+            android:layout_width="0dp"
+            android:layout_weight="4"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:hint="Enter reps"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <CheckBox
+            android:id="@+id/custom_weight_cbox"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/custom_weight"
+            android:layout_width="0dp"
+            android:layout_weight="6"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:hint="@string/wgt_prompt"/>
+        <Spinner
+            android:id="@+id/custom_weight_unit"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:entries="@array/weight_array"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <CheckBox
+            android:id="@+id/custom_memo_cbox"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/custom_memo"
+            android:layout_width="0dp"
+            android:layout_weight="8"
+            android:layout_height="wrap_content"
+            android:hint="Additional memo"
+            android:lines="1"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -104,6 +104,9 @@ public class EntryActivity extends Activity {
 
     public void getCustomWorkoutView(View view) {
         setContentView(R.layout.entry_custom_workout);
+        _date = (DatePicker) findViewById(R.id.cardio_date);
+        _time = (TimePicker) findViewById(R.id.cardio_time);
+        _time.setIs24HourView(true);
     }
 
     private void setCardioSubview(View view) {
@@ -190,6 +193,14 @@ public class EntryActivity extends Activity {
         woLog.setDate(woMonth, woDay, woYear, woHour, woMinute);
         woLog.setMood(WOLog.MOOD_ARRAY[_mood.getProgress()]);
 
+        try {
+            Log.e(TAG, "HERE!");
+            _dhInstance.addLog(woLog);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        startWOLogListAct();
+
             /*
 
             EditText dist = (EditText) findViewById(R.id.entry_dist);
@@ -216,24 +227,8 @@ public class EntryActivity extends Activity {
                 return super.onOptionsItemSelected(item);
             }
 
-            WOLog log = new WOLog();
-            log.setType(woType);
-            log.setDate(woMonth, woDay, woYear, woHour, woMinute);
-            log.setDistance(woDist + " " + dist_unit.getSelectedItem().toString());
-            log.setMood(woMood);
-            try {
-                _dhInstance.addLog(log);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         */
-        try {
-            Log.e(TAG, "HERE!");
-            _dhInstance.addLog(woLog);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        startWOLogListAct();
+
 
     }
 }

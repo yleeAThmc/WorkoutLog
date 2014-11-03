@@ -13,7 +13,8 @@
     <AutoCompleteTextView
         android:id="@+id/strength_actv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:hint="Search exercise name"/>
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -40,18 +41,24 @@
         android:max="4"
         android:progress="2"/>
 
-    <EditText
-        android:id="@+id/strength_sets"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:hint="Sets"/>
-    <EditText
-        android:id="@+id/strength_reps"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:hint="Reps"/>
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/strength_sets"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:hint="Enter sets"/>
+        <EditText
+            android:id="@+id/strength_reps"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:hint="Enter reps"/>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -70,7 +77,12 @@
             android:layout_height="wrap_content"
             android:entries="@array/weight_array"/>
     </LinearLayout>
-
+    <EditText
+        android:id="@+id/strength_memo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Additional memo "
+        android:lines="1"/>
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -12,7 +12,8 @@ tools:context=".EntryActivity">
     <AutoCompleteTextView
         android:id="@+id/cardio_actv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:hint="Search exercise name"/>
 
 
     <LinearLayout
@@ -75,6 +76,13 @@ tools:context=".EntryActivity">
             android:layout_height="wrap_content"
             android:entries="@array/dur_array"/>
     </LinearLayout>
+
+    <EditText
+        android:id="@+id/cardio_memo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Additional memo "
+        android:lines="1"/>
 
     <LinearLayout
         android:layout_width="match_parent"
