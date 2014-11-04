@@ -159,12 +159,14 @@ public class EntryActivity extends Activity {
     public void onCardioSubmit(View view) {
         EditText dist = (EditText) findViewById(R.id.cardio_dist);
         EditText dur = (EditText) findViewById(R.id.cardio_dur);
-        // take care of the units
+        EditText memo = (EditText) findViewById(R.id.cardio_memo);
+        // TODO: take care of the units
         _mood = (SeekBar) findViewById(R.id.cardio_mood);
         WOLog wl = new WOLog();
         wl.setDistance(String.valueOf(dist.getText()));
         wl.setTime(String.valueOf(dur.getText()));
         wl.setType(String.valueOf(_actv.getText()));
+        wl.setMemo(String.valueOf(memo.getText()));
         onSubmit(wl);
     }
 
@@ -173,12 +175,14 @@ public class EntryActivity extends Activity {
         EditText reps = (EditText) findViewById(R.id.strength_reps);
         EditText weight = (EditText) findViewById(R.id.strength_weight);
         Spinner unit = (Spinner) findViewById(R.id.strength_weight_unit);
+        EditText memo = (EditText) findViewById(R.id.strength_memo);
         _mood = (SeekBar) findViewById(R.id.strength_mood);
         WOLog wl = new WOLog();
         wl.setSets(String.valueOf(sets.getText()));
         wl.setReps(String.valueOf(reps.getText()));
         wl.setWeight(String.valueOf(weight.getText()));
         wl.setType(String.valueOf(_actv.getText()));
+        wl.setMemo(String.valueOf(memo.getText()));
         onSubmit(wl);
     }
 
