@@ -9,10 +9,10 @@ public class WOLog implements Parcelable {
     private String time = null;
     private String distance = null;
     private String mood = null;
-    
     private String weight = null;
     private String sets = null;
     private String reps = null;
+    private String memo = null;
     static String[] MOOD_ARRAY = {"awful", "bad", "k", "good", "perfect"};
 
     //time stuff
@@ -81,6 +81,8 @@ public class WOLog implements Parcelable {
         return mood;
     }
 
+    public String getMemo() { return memo; }
+
     // Setter Methods
     public void setType(String t){
         type = t;
@@ -121,6 +123,8 @@ public class WOLog implements Parcelable {
     public void setMood(String m){
         mood = m;
     }
+
+    public void setMemo(String m) { memo = m; }
 
     public int getDateCompare(){
         return dateCompare;

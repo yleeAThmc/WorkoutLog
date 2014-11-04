@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.SeekBar;
@@ -104,26 +105,26 @@ public class EntryActivity extends Activity {
 
     public void getCustomWorkoutView(View view) {
         setContentView(R.layout.entry_custom_workout);
-        _date = (DatePicker) findViewById(R.id.cardio_date);
-        _time = (TimePicker) findViewById(R.id.cardio_time);
-        _time.setIs24HourView(true);
+        setDateAndTime(R.id.custom_date, R.id.custom_time);
     }
 
     private void setCardioSubview(View view) {
         setContentView(R.layout.entry_cardio);
-        _date = (DatePicker) findViewById(R.id.cardio_date);
-        _time = (TimePicker) findViewById(R.id.cardio_time);
-        _time.setIs24HourView(true);
+        setDateAndTime(R.id.cardio_date, R.id.cardio_time);
         _actv = (AutoCompleteTextView) findViewById(R.id.cardio_actv);
 
     }
 
     private void setStrengthSubview(View view) {
         setContentView(R.layout.entry_strength);
-        _date = (DatePicker) findViewById(R.id.strength_date);
-        _time = (TimePicker) findViewById(R.id.strength_time);
-        _time.setIs24HourView(true);
+        setDateAndTime(R.id.strength_date, R.id.strength_time);
         _actv = (AutoCompleteTextView) findViewById(R.id.strength_actv);
+    }
+
+    private void setDateAndTime(int dateId, int timeId) {
+        _date = (DatePicker) findViewById(dateId);
+        _time = (TimePicker) findViewById(timeId);
+        _time.setIs24HourView(true);
     }
 
     private void setActvArray(int arrayId) {
@@ -163,6 +164,7 @@ public class EntryActivity extends Activity {
         WOLog wl = new WOLog();
         wl.setDistance(String.valueOf(dist.getText()));
         wl.setTime(String.valueOf(dur.getText()));
+        wl.setType(String.valueOf(_actv.getText()));
         onSubmit(wl);
     }
 
@@ -176,11 +178,45 @@ public class EntryActivity extends Activity {
         wl.setSets(String.valueOf(sets.getText()));
         wl.setReps(String.valueOf(reps.getText()));
         wl.setWeight(String.valueOf(weight.getText()));
+        wl.setType(String.valueOf(_actv.getText()));
         onSubmit(wl);
     }
 
     public void onCustomSubmit(View view) {
+        EditText type = (EditText) findViewById(R.id.custom_type);
+        CheckBox dist = (CheckBox) findViewById(R.id.custom_dist_cbox);
+        CheckBox dur = (CheckBox) findViewById(R.id.custom_dur_cbox);
+        CheckBox setsReps = (CheckBox) findViewById(R.id.custom_sets_reps_cbox);
+        CheckBox wgt = (CheckBox) findViewById(R.id.custom_weight_cbox);
+        CheckBox memo = (CheckBox) findViewById(R.id.custom_memo_cbox);
+        _mood = (SeekBar) findViewById(R.id.custom_mood);
+        WOLog wl = new WOLog();
+        wl.setType(String.valueOf(type.getText()));
 
+        if (dist.isChecked()) {
+            EditText distText = (EditText) findViewById(R.id.custom_dist);
+            wl.setDistance(String.valueOf(distText.getText()));
+        }
+        if (dur.isChecked()) {
+            EditText durText = (EditText) findViewById(R.id.custom_dur);
+            wl.setTime(String.valueOf(durText.getText()));
+        }
+        if (setsReps.isChecked()) {
+            EditText setText = (EditText) findViewById(R.id.custom_sets);
+            EditText repText = (EditText) findViewById(R.id.custom_reps);
+            wl.setSets(String.valueOf(setText.getText()));
+            wl.setReps(String.valueOf(repText.getText()));
+        }
+        if (wgt.isChecked()) {
+            EditText wgtText = (EditText) findViewById(R.id.custom_weight);
+            wl.setWeight(String.valueOf(wgtText.getText()));
+        }
+        if (memo.isChecked()) {
+            EditText memoText = (EditText) findViewById(R.id.custom_memo);
+            wl.setMemo(String.valueOf(memoText.getText()));
+        }
+
+        onSubmit(wl);
     }
 
     private void onSubmit(WOLog woLog) {
@@ -189,7 +225,6 @@ public class EntryActivity extends Activity {
         int woYear = _date.getYear();
         int woHour = _time.getCurrentHour(); // midnight == 0
         int woMinute = _time.getCurrentMinute(); // minute 0 == 0
-        woLog.setType(String.valueOf(_actv.getText()));
         woLog.setDate(woMonth, woDay, woYear, woHour, woMinute);
         woLog.setMood(WOLog.MOOD_ARRAY[_mood.getProgress()]);
 
@@ -202,15 +237,6 @@ public class EntryActivity extends Activity {
         startWOLogListAct();
 
             /*
-
-            EditText dist = (EditText) findViewById(R.id.entry_dist);
-            Spinner dist_unit = (Spinner) findViewById(R.id.entry_dist_unit);
-            EditText mood = (EditText) findViewById(R.id.entry_mood);
-
-            // find values
-            String woType = String.valueOf(type.getSelectedItem());
-
-
 
             // no distance entered --> give prompt
             String woDist = String.valueOf(dist.getText());
