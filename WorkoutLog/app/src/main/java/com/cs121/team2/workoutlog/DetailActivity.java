@@ -3,6 +3,7 @@ package com.cs121.team2.workoutlog;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -31,8 +32,10 @@ public class DetailActivity extends Activity {
         Intent i = getIntent();
         myLog = (WOLog) i.getParcelableExtra("log");
 
+        //source string with HTML formatting tags for setText()
+        String sourceString = myLog.toStringHTML();
         //set the text for the TextView
-        textView.setText(myLog.toString());
+        textView.setText(Html.fromHtml(sourceString));
     }
 
     @Override

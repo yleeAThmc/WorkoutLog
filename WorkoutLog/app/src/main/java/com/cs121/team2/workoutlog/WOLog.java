@@ -55,6 +55,37 @@ public class WOLog implements Parcelable {
         if(mood != null){
             s += "Mood: " + mood + "\n";
         }
+        if(memo != null) {
+            s += "Memo: " + memo + "\n";
+        }
+
+        return s;
+    }
+
+    // To String with HTML formatting for Detail view
+    public String toStringHTML(){
+        String s = "";
+
+        s += "<center><b>" + type + "</b><br>";
+
+        if(date != null){
+            s += "<b>Date: </b>" + date + "<br>";
+        }
+
+        if(time != null){
+            s += "<b>Time: </b>" + time + "<br>";
+        }
+        if(distance != null){
+            s += "<b>Distance: </b>" + distance + "<br>";
+        }
+        if(mood != null){
+            s += "<b>Mood: </b>" + mood + "<br>";
+        }
+        if(memo != null) {
+            s += "<b>Memo: </b>" + memo + "<br>";
+        }
+
+        s += "</center>";
 
         return s;
     }
@@ -155,6 +186,7 @@ public class WOLog implements Parcelable {
         dest.writeString(distance);
         dest.writeString(mood);
         dest.writeString(date);
+        dest.writeString(memo);
     }
 
     private WOLog(Parcel in) {
@@ -163,6 +195,7 @@ public class WOLog implements Parcelable {
         distance = in.readString();
         mood = in.readString();
         date = in.readString();
+        memo = in.readString();
 
     }
 }
