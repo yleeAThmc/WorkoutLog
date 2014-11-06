@@ -187,6 +187,9 @@ public class WOLog implements Parcelable {
         dest.writeString(mood);
         dest.writeString(date);
         dest.writeString(memo);
+        dest.writeString(weight);
+        dest.writeString(sets);
+        dest.writeString(reps);
     }
 
     private WOLog(Parcel in) {
@@ -196,6 +199,8 @@ public class WOLog implements Parcelable {
         mood = in.readString();
         date = in.readString();
         memo = in.readString();
-
+        weight = in.readString();
+        sets = in.readString();
+        reps = in.readString();
     }
 }
