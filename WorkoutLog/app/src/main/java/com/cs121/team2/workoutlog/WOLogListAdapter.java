@@ -2,6 +2,7 @@ package com.cs121.team2.workoutlog;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +54,8 @@ public class WOLogListAdapter extends BaseAdapter {
         }
         WOLog logItem = data.get(position);
         TextView textViewItem = (TextView) convertView.findViewById(R.id.log_date);
-        textViewItem.setText(logItem.toString());
+        String sourceString = logItem.toStringList(); //source string for HTML formatting of setText
+        textViewItem.setText(Html.fromHtml(sourceString));
 
         return convertView;
     }

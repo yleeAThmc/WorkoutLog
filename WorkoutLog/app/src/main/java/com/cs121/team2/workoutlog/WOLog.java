@@ -62,6 +62,24 @@ public class WOLog implements Parcelable {
         return s;
     }
 
+    //toString for log list activity, including HTML formatting
+    public String toStringList(){
+        String s = "";
+
+        s += "<center><b>" + type + "</b><br>";
+
+        if(date != null){
+            s += "<b>Date: </b>" + date + "<br>";
+        }
+        if(mood != null){
+            s += "<b>Mood: </b>" + mood + "<br>";
+        }
+
+        s += "</center>";
+
+        return s;
+    }
+
     // To String with HTML formatting for Detail view
     public String toStringHTML(){
         String s = "";
@@ -83,6 +101,15 @@ public class WOLog implements Parcelable {
         }
         if(memo != null) {
             s += "<b>Memo: </b>" + memo + "<br>";
+        }
+        if(weight != null) {
+            s += "<b>Weight: </b>" + weight + "<br>";
+        }
+        if(sets != null) {
+            s += "<b>Sets: </b>" + sets + "<br>";
+        }
+        if(reps != null) {
+            s += "<b>Reps: </b>" + reps + "<br>";
         }
 
         s += "</center>";
