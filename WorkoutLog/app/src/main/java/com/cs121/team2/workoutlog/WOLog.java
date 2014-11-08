@@ -2,6 +2,7 @@ package com.cs121.team2.workoutlog;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 public class WOLog implements Parcelable {
     // Data stored in log
@@ -18,6 +19,9 @@ public class WOLog implements Parcelable {
     //time stuff
     private String date;
     private int dateCompare = 0;
+
+    //tag for debug logging.
+    private static final String TAG = "WOLog";
 
     public WOLog()
     {
@@ -84,31 +88,33 @@ public class WOLog implements Parcelable {
     public String toStringHTML(){
         String s = "";
 
-        s += "<center><b>" + type + "</b><br>";
+        s += "<center><b>" + type.toUpperCase() + "</b><br>";
+        s += "<b>(Workout Info):</b><br>";
 
-        if(date != null){
+        if(date != null && !date.isEmpty()){
             s += "<b>Date: </b>" + date + "<br>";
         }
 
-        if(time != null){
+        if(time != null && !time.isEmpty()){
             s += "<b>Time: </b>" + time + "<br>";
         }
-        if(distance != null){
+        if(distance != null && !distance.isEmpty()){
             s += "<b>Distance: </b>" + distance + "<br>";
         }
-        if(mood != null){
+        if(mood != null && !mood.isEmpty()){
             s += "<b>Mood: </b>" + mood + "<br>";
         }
-        if(memo != null) {
+        if(memo != null && !memo.isEmpty()) {
             s += "<b>Memo: </b>" + memo + "<br>";
         }
-        if(weight != null) {
+        Log.d(TAG, "weight: ." + weight + ".");
+        if(weight != null && !weight.isEmpty()) {
             s += "<b>Weight: </b>" + weight + "<br>";
         }
-        if(sets != null) {
+        if(sets != null && !sets.isEmpty()) {
             s += "<b>Sets: </b>" + sets + "<br>";
         }
-        if(reps != null) {
+        if(reps != null && !reps.isEmpty()) {
             s += "<b>Reps: </b>" + reps + "<br>";
         }
 

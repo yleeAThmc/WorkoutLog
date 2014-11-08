@@ -41,7 +41,7 @@ public class DetailActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.wologlist, menu);
+        getMenuInflater().inflate(R.menu.detail, menu);
         return true;
     }
 
@@ -61,6 +61,10 @@ public class DetailActivity extends Activity {
             // start the next Activity the prepared Intent
             startActivity(newEntryIntent);
 
+        }
+        if (id == R.id.view_list_button) {
+            Intent newEntryIntent = new Intent(this, WOLogListActivity.class);
+            startActivity(newEntryIntent);
         }
 
         return super.onOptionsItemSelected(item);
