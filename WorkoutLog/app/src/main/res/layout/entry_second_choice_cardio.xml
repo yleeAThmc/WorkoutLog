@@ -14,12 +14,15 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="Back"
+            android:background="@drawable/ic_back"
             android:onClick="getInitialChoiceView"/>
         <Button
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:background="@drawable/ic_timer"
             android:text="Time Based"
+
             android:onClick="getTimeCardioView"/>
         <Button
             android:layout_width="0dp"

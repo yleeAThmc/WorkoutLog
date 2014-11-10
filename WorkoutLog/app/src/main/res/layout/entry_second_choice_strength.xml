@@ -14,12 +14,14 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="Back"
+            android:background="@drawable/ic_back"
             android:onClick="getInitialChoiceView"/>
         <Button
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="Weights"
+            android:background="@drawable/weights"
             android:onClick="getWeightStrengthView"/>
         <Button
             android:layout_width="0dp"
