@@ -6,31 +6,38 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
-        android:orientation="horizontal">
+        android:layout_margin="@dimen/category_btn_margin_size"
+        android:orientation="vertical">
         <Button
             android:id="@+id/entry_cardio"
-            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ic_entry_cardio"
+            android:layout_width="fill_parent"
+            android:layout_margin="@dimen/category_btn_margin_size"
+            android:textSize="@dimen/category_btn_font_size"
+            android:background="@drawable/btn_green_border"
             android:text="Cardio"
             android:onClick="getCardioView"/>
         <Button
             android:id="@+id/entry_strength"
-            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ic_entry_strength"
+            android:layout_width="fill_parent"
+            android:layout_margin="@dimen/category_btn_margin_size"
+            android:textSize="@dimen/category_btn_font_size"
+            android:background="@drawable/btn_green_border"
             android:text="Strength"
             android:onClick="getStrengthView"/>
         <Button
             android:id="@+id/entry_custom"
-            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ic_entry_custom"
+            android:layout_width="fill_parent"
+            android:layout_margin="@dimen/category_btn_margin_size"
+            android:textSize="@dimen/category_btn_font_size"
+            android:background="@drawable/btn_green_border"
             android:text="Custom Workout"
             android:onClick="getCustomWorkoutView"/>
     </LinearLayout>

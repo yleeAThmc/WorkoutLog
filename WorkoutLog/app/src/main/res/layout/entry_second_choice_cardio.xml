@@ -6,29 +6,36 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
-        android:orientation="horizontal">
+        android:layout_margin="@dimen/category_btn_margin_size"
+        android:orientation="vertical">
         <Button
-            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="Back"
-            android:background="@drawable/ic_back"
-            android:onClick="getInitialChoiceView"/>
-        <Button
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ic_timer"
+            android:layout_width="fill_parent"
+            android:layout_margin="@dimen/category_btn_margin_size"
+            android:background="@drawable/btn_green_border"
+            android:textSize="@dimen/category_btn_font_size"
             android:text="Time Based"
-
             android:onClick="getTimeCardioView"/>
         <Button
-            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_margin="@dimen/category_btn_margin_size"
+            android:background="@drawable/btn_green_border"
+            android:textSize="@dimen/category_btn_font_size"
             android:text="Distance Based"
             android:onClick="getDistCardioView"/>
+        <Button
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_width="fill_parent"
+            android:layout_margin="@dimen/category_btn_margin_size"
+            android:background="@drawable/btn_green_border"
+            android:textSize="@dimen/category_btn_font_size"
+            android:text="Back"
+            android:onClick="getInitialChoiceView"/>
     </LinearLayout>
 </FrameLayout>
