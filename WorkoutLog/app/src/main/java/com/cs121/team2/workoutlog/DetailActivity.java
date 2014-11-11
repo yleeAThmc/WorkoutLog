@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
@@ -25,7 +29,10 @@ public class DetailActivity extends Activity {
         getActionBar().setDisplayShowHomeEnabled(false);
         getActionBar().setDisplayShowTitleEnabled(false);
 
-        // Access the textview from XML
+        // Access the linearlayout from XML
+        LinearLayout detailView = (LinearLayout) findViewById(R.id.detail_page);
+
+        //access the textview from XML
         TextView textView = (TextView) findViewById(R.id.detail_page);
 
         //access the intent from WOLogListActivity
@@ -36,6 +43,11 @@ public class DetailActivity extends Activity {
         String sourceString = myLog.toStringHTML();
         //set the text for the TextView
         textView.setText(Html.fromHtml(sourceString));
+
+        //get the edit log button
+        Button editButton = (Button) findViewById(R.id.editButton);
+        //get the listener for the edit log button
+        detailView.setOnItemClickListener(editClickedHandler);
     }
 
     @Override
@@ -69,4 +81,12 @@ public class DetailActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    // Create a message handling object as an anonymous class.
+    private AdapterView.OnItemClickListener editClickedHandler = new AdapterView.OnItemClickListener() {
+        public void onItemClick(AdapterView parent, View v, int position, long id) {
+            // Do something in response to the click
+        }
+    };
+
 }
