@@ -33,7 +33,7 @@
             android:layout_weight="1"
             android:layout_width="fill_parent"
             android:layout_margin="@dimen/category_btn_margin_size"
-            android:background="@drawable/btn_green_border"
+            android:background="@drawable/btn_cream_border"
             android:textSize="@dimen/category_btn_font_size"
             android:text="Back"
             android:onClick="getInitialChoiceView"/>

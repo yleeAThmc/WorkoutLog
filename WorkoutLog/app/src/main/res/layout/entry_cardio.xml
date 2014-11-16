@@ -9,94 +9,82 @@ android:paddingTop="@dimen/activity_vertical_margin"
 android:paddingBottom="@dimen/activity_vertical_margin"
 tools:context=".EntryActivity">
 
-    <AutoCompleteTextView
-        android:id="@+id/cardio_actv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Search exercise name"/>
-
-
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-        <DatePicker
-            android:id="@+id/cardio_date"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:calendarViewShown="false"/>
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:orientation="horizontal">
+        <AutoCompleteTextView
+            android:id="@+id/cardio_actv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/layout_margin"
+            android:textSize="@dimen/entry_font_size"
+            android:background="@drawable/edittext_green_bg"
+            android:hint="Search exercise name"/>
 
-        <TimePicker
-            android:id="@+id/cardio_time"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
     </LinearLayout>
 
-    <SeekBar
-        android:id="@+id/cardio_mood"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bar2"
-        android:max="4"
-        android:progress="2"/>
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_weight="4"
+
+        android:orientation="horizontal">
         <EditText
             android:id="@+id/cardio_dist"
             android:layout_width="0dp"
-            android:layout_weight="3"
-            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/layout_margin"
+            android:background="@drawable/edittext_green_bg"
             android:inputType="number"
             android:hint="@string/dist_prompt"/>
-        <Spinner
-            android:id="@+id/cardio_dist_unit"
+
+        <FrameLayout
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:entries="@array/length_array"/>
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/layout_margin"
+            android:background="@drawable/edittext_green_bg">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+                <EditText
+                    android:id="@+id/cardio_dur"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:inputType="number"
+                    android:hint="hh"/>
+                <EditText
+                    android:id="@+id/cardio_dur_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:hint="mm"/>
+            </LinearLayout>
+        </FrameLayout>
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/cardio_dur"
-            android:layout_width="0dp"
-            android:layout_weight="3"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:hint="@string/dur_prompt"/>
-        <Spinner
-            android:id="@+id/cardio_dur_unit"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:entries="@array/dur_array"/>
-    </LinearLayout>
-
-    <EditText
-        android:id="@+id/cardio_memo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Additional memo "
-        android:lines="1"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_weight="1">
         <Button
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:background="@drawable/btn_cream_bg"
+            android:layout_margin="@dimen/btn_margin"
             android:text="Back"
             android:onClick="getCardioView"/>
         <Button
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:background="@drawable/btn_green_bg"
+            android:layout_margin="@dimen/btn_margin"
             android:text="Save"
             android:onClick="onCardioSubmit"/>
     </LinearLayout>

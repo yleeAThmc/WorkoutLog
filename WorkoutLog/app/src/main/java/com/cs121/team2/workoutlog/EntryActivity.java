@@ -110,7 +110,8 @@ public class EntryActivity extends Activity {
 
     private void setCardioSubview(View view) {
         setContentView(R.layout.entry_cardio);
-        setDateAndTime(R.id.cardio_date, R.id.cardio_time);
+        // TODO
+        //setDateAndTime(R.id.cardio_date, R.id.cardio_time);
         _actv = (AutoCompleteTextView) findViewById(R.id.cardio_actv);
 
     }
@@ -157,6 +158,7 @@ public class EntryActivity extends Activity {
     }
 
     public void onCardioSubmit(View view) {
+        /* TODO: revert. Temporarily used to show common data layout
         EditText dist = (EditText) findViewById(R.id.cardio_dist);
         EditText dur = (EditText) findViewById(R.id.cardio_dur);
         EditText memo = (EditText) findViewById(R.id.cardio_memo);
@@ -168,6 +170,8 @@ public class EntryActivity extends Activity {
         wl.setType(String.valueOf(_actv.getText()));
         wl.setMemo(String.valueOf(memo.getText()));
         onSubmit(wl);
+        */
+        setContentView(R.layout.entry_common_data);
     }
 
     public void onStrengthSubmit(View view) {
