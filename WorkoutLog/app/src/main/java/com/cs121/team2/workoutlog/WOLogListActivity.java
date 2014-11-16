@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import com.cs121.team2.workoutlog.DataHandler;
 
 import java.io.IOException;
 
@@ -29,8 +28,10 @@ public class WOLogListActivity extends Activity {
 
         //setting content and look
         setContentView(R.layout.activity_wologlist);
-        getActionBar().setDisplayShowHomeEnabled(false);
-        getActionBar().setDisplayShowTitleEnabled(false);
+        if(getActionBar() != null) {
+            getActionBar().setDisplayShowHomeEnabled(false);
+            getActionBar().setDisplayShowTitleEnabled(false);
+        }
 
         //Access the ListView
         wologlistListView = (ListView) findViewById(R.id.wologlist_listview);
@@ -58,15 +59,12 @@ public class WOLogListActivity extends Activity {
                 detailIntent = new Intent(view.getContext(), DetailActivity.class);
 
                 // pack away the data about the WOLog into your Intent before you head out
-                detailIntent.putExtra("log", (android.os.Parcelable) toSendAlong);
+                detailIntent.putExtra("log", toSendAlong);
 
                 // start the next Activity using your prepared Intent
                 startActivity(detailIntent);
             }
         });
-
-        //TODO: get sorting working and then sort, reset adapter here
-
     }
 
 

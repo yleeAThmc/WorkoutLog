@@ -92,7 +92,7 @@ public class DataHandler extends Activity {
 
         // For clearing the file while testing: logList = new ArrayList<WOLog>();
 
-        //sort loglist
+        // Sorts the list of logs from oldest to newest
         Collections.sort(logList, new Comparator<WOLog>() {
             @Override
             public int compare(WOLog woLog, WOLog woLog2) {
