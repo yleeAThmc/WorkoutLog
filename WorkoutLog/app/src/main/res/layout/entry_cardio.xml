@@ -53,13 +53,13 @@ tools:context=".EntryActivity">
                 android:layout_height="wrap_content"
                 android:layout_gravity="center">
                 <EditText
-                    android:id="@+id/cardio_dur"
+                    android:id="@+id/cardio_hour"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:inputType="number"
                     android:hint="hh"/>
                 <EditText
-                    android:id="@+id/cardio_dur_unit"
+                    android:id="@+id/cardio_minute"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:hint="mm"/>
@@ -78,7 +78,7 @@ tools:context=".EntryActivity">
             android:background="@drawable/btn_cream_bg"
             android:layout_margin="@dimen/btn_margin"
             android:text="Back"
-            android:onClick="getCardioView"/>
+            android:onClick="getCommonDataView"/>
         <Button
             android:layout_width="0dp"
             android:layout_weight="1"

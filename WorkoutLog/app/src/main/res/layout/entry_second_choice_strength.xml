@@ -18,7 +18,7 @@
             android:background="@drawable/btn_green_border"
             android:textSize="@dimen/category_btn_font_size"
             android:text="Weights"
-            android:onClick="getWeightStrengthView"/>
+            android:onClick="getCommonDataView"/>
         <Button
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -27,7 +27,7 @@
             android:textSize="@dimen/category_btn_font_size"
             android:background="@drawable/btn_green_border"
             android:text="Body weight"
-            android:onClick="getBodyStrengthView"/>
+            android:onClick="getCommonDataView"/>
         <Button
             android:layout_height="0dp"
             android:layout_weight="1"

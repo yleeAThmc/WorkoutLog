@@ -28,11 +28,24 @@ import java.io.IOException;
 public class EntryActivity extends Activity {
     private final String TAG = "ENTRY ACTIVITY";
     DataHandler _dhInstance;
-
+    WOLog _wl;
     private DatePicker _date;
     private TimePicker _time;
     private SeekBar _mood;
+    private EditText _memo;
     private AutoCompleteTextView _actv;
+
+    private int _type;
+    private int _subType;
+
+    // Gonna get moved to WOLOG
+    final static int TYPE_CARDIO = 0;
+    final static int TYPE_STRENGTH = 1;
+    final static int TYPE_CUSTOM = 2;
+    final static int SUBTYPE_NONE = 0;
+    final static int SUBTYPE_TIME_BODY = 1;
+    final static int SUBTYPE_DIST_WEIGHTS = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,53 +92,115 @@ public class EntryActivity extends Activity {
     }
 
 
-    public void getCardioView(View view) {setContentView(R.layout.entry_second_choice_cardio);}
+    public void getCardioView(View view) {
+        _type = EntryActivity.TYPE_CARDIO;
+        setContentView(R.layout.entry_second_choice_cardio);}
 
-    public void getStrengthView(View view) {setContentView(R.layout.entry_second_choice_strength);}
+    public void getStrengthView(View view) {
+        _type = EntryActivity.TYPE_STRENGTH;
+        setContentView(R.layout.entry_second_choice_strength);}
 
     public void getTimeCardioView(View view) {
-        setCardioSubview(view);
+        _subType = EntryActivity.SUBTYPE_TIME_BODY;
+        getCardioSubview(view);
         setActvArray(R.array.time_cardio_array);
     }
 
     public void getDistCardioView(View view) {
-        setCardioSubview(view);
+        _subType = EntryActivity.SUBTYPE_DIST_WEIGHTS;
+        getCardioSubview(view);
         setActvArray(R.array.dist_cardio_array);
     }
 
     public void getWeightStrengthView(View view) {
-        setStrengthSubview(view);
+        _subType = EntryActivity.SUBTYPE_DIST_WEIGHTS;
+        getStrengthSubview(view);
         setActvArray(R.array.weights_strength_array);
     }
 
     public void getBodyStrengthView(View view) {
-        setStrengthSubview(view);
+        _subType = EntryActivity.SUBTYPE_TIME_BODY;
+        getStrengthSubview(view);
         setActvArray(R.array.body_strength_array);
     }
 
     public void getCustomWorkoutView(View view) {
+        _type = EntryActivity.TYPE_CUSTOM;
+        _subType = EntryActivity.SUBTYPE_NONE;
         setContentView(R.layout.entry_custom_workout);
-        setDateAndTime(R.id.custom_date, R.id.custom_time);
     }
 
-    private void setCardioSubview(View view) {
+    public void getCommonDataView(View view) {
+        setContentView(R.layout.entry_common_data);
+        initializeDateAndTime();
+    }
+
+    public void goBackFromCommon(View view) {
+        if (_type == EntryActivity.TYPE_CARDIO) {
+            getCardioView(view);
+        } else if (_type == EntryActivity.TYPE_STRENGTH) {
+            getStrengthView(view);
+        } else if (_type == EntryActivity.TYPE_CUSTOM) {
+            getInitialChoiceView(view);
+        } else {
+            // debug: how did you get here!?
+        }
+    }
+
+    public void continueFromCommon(View view) {
+        _wl = new WOLog();
+        setMood();
+        setMemo();
+        setCommonData();
+
+
+        if (_type == EntryActivity.TYPE_CARDIO) {
+            getCardioSubview(view);
+        } else if (_type == EntryActivity.TYPE_STRENGTH) {
+            getStrengthSubview(view);
+        } else if (_type == EntryActivity.TYPE_CUSTOM) {
+            getCustomWorkoutView(view);
+        } else {
+            // debug: how did you get here!?
+        }
+    }
+
+    private void getCardioSubview(View view) {
         setContentView(R.layout.entry_cardio);
-        // TODO
-        //setDateAndTime(R.id.cardio_date, R.id.cardio_time);
         _actv = (AutoCompleteTextView) findViewById(R.id.cardio_actv);
 
     }
 
-    private void setStrengthSubview(View view) {
+    private void getStrengthSubview(View view) {
         setContentView(R.layout.entry_strength);
-        setDateAndTime(R.id.strength_date, R.id.strength_time);
+        initializeDateAndTime();
         _actv = (AutoCompleteTextView) findViewById(R.id.strength_actv);
     }
 
-    private void setDateAndTime(int dateId, int timeId) {
-        _date = (DatePicker) findViewById(dateId);
-        _time = (TimePicker) findViewById(timeId);
+    private void initializeDateAndTime() {
+        _date = (DatePicker) findViewById(R.id.date);
+        _time = (TimePicker) findViewById(R.id.time);
         _time.setIs24HourView(true);
+    }
+
+    //TODO: should go to WOLOG???
+    private void setCommonData() {
+        int woMonth = _date.getMonth() + 1; // Jan == 0
+        int woDay = _date.getDayOfMonth(); // day 1 == 1
+        int woYear = _date.getYear();
+        int woHour = _time.getCurrentHour(); // midnight == 0
+        int woMinute = _time.getCurrentMinute(); // minute 0 == 0
+        _wl.setDate(woMonth, woDay, woYear, woHour, woMinute);
+        _wl.setMood(WOLog.MOOD_ARRAY[_mood.getProgress()]);
+        _wl.setMemo(String.valueOf(_memo.getText()));
+    }
+
+    private void setMood() {
+        _mood = (SeekBar) findViewById(R.id.mood);
+    }
+
+    private void setMemo() {
+        _memo = (EditText) findViewById(R.id.memo);
     }
 
     private void setActvArray(int arrayId) {
@@ -158,20 +233,14 @@ public class EntryActivity extends Activity {
     }
 
     public void onCardioSubmit(View view) {
-        /* TODO: revert. Temporarily used to show common data layout
         EditText dist = (EditText) findViewById(R.id.cardio_dist);
-        EditText dur = (EditText) findViewById(R.id.cardio_dur);
-        EditText memo = (EditText) findViewById(R.id.cardio_memo);
+        EditText hour = (EditText) findViewById(R.id.cardio_hour);
+        EditText minute = (EditText) findViewById(R.id.cardio_minute);
         // TODO: take care of the units
-        _mood = (SeekBar) findViewById(R.id.cardio_mood);
-        WOLog wl = new WOLog();
-        wl.setDistance(String.valueOf(dist.getText()));
-        wl.setTime(String.valueOf(dur.getText()));
-        wl.setType(String.valueOf(_actv.getText()));
-        wl.setMemo(String.valueOf(memo.getText()));
-        onSubmit(wl);
-        */
-        setContentView(R.layout.entry_common_data);
+        _wl.setDistance(String.valueOf(dist.getText()));
+        _wl.setTime(String.valueOf(hour.getText()));
+        _wl.setType(String.valueOf(_actv.getText()));
+        onSubmit(_wl);
     }
 
     public void onStrengthSubmit(View view) {
@@ -228,16 +297,7 @@ public class EntryActivity extends Activity {
     }
 
     private void onSubmit(WOLog woLog) {
-        int woMonth = _date.getMonth() + 1; // Jan == 0
-        int woDay = _date.getDayOfMonth(); // day 1 == 1
-        int woYear = _date.getYear();
-        int woHour = _time.getCurrentHour(); // midnight == 0
-        int woMinute = _time.getCurrentMinute(); // minute 0 == 0
-        woLog.setDate(woMonth, woDay, woYear, woHour, woMinute);
-        woLog.setMood(WOLog.MOOD_ARRAY[_mood.getProgress()]);
-
         try {
-            Log.e(TAG, "HERE!");
             _dhInstance.addLog(woLog);
         } catch (IOException e) {
             e.printStackTrace();

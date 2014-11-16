@@ -15,14 +15,14 @@
         android:layout_margin="@dimen/layout_margin"
         android:background="@drawable/edittext_cream_bg">
         <DatePicker
-            android:id="@+id/cardio_date"
+            android:id="@+id/date"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:calendarViewShown="false"/>
 
         <TimePicker
-            android:id="@+id/cardio_time"
+            android:id="@+id/time"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content" />
@@ -32,9 +32,10 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
-        android:background="@drawable/bar2">
+        android:layout_margin="@dimen/layout_margin"
+        android:background="@drawable/bar">
         <SeekBar
-            android:id="@+id/cardio_mood"
+            android:id="@+id/mood"
             android:layout_width="match_parent"
             android:layout_height="15dp"
             android:layout_gravity="center"
@@ -48,7 +49,7 @@
 
 
     <EditText
-        android:id="@+id/cardio_memo"
+        android:id="@+id/memo"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="6"
@@ -68,7 +69,7 @@
             android:background="@drawable/btn_cream_bg"
             android:layout_margin="@dimen/btn_margin"
             android:text="Back"
-            android:onClick="getDistCardioView"/>
+            android:onClick="goBackFromCommon"/>
 
         <Button
             android:layout_width="0dp"
@@ -76,6 +77,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/btn_green_bg"
             android:layout_margin="@dimen/btn_margin"
-            android:text="Save"/>
+            android:text="Continue"
+            android:onClick="continueFromCommon"/>
     </LinearLayout>
 </LinearLayout>

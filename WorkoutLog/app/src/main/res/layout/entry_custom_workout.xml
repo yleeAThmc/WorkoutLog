@@ -37,7 +37,7 @@
         android:id="@+id/custom_mood"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bar2"
+        android:background="@drawable/bar"
         android:max="4"
         android:progress="2"/>
 
