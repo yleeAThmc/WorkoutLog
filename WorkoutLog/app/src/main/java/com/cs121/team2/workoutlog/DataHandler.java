@@ -108,4 +108,44 @@ public class DataHandler extends Activity {
         fos.write(jsonLog.getBytes());
         fos.close();
     }
+
+    //edits or removes an existing log
+    public synchronized void editLog(WOLog newLog, WOLog oldLog, boolean delete) throws IOException {
+        //retrieve data from file
+        FileInputStream fis = mContext.openFileInput("jsonLogs.json");
+        int c;
+        String temp="";
+        while( (c = fis.read()) != -1){
+            temp = temp + Character.toString((char)c);
+        }
+        fis.close();
+        //convert to non-JSON
+        ArrayList<WOLog> logList = (ArrayList<WOLog>) gson.fromJson(temp, listType);
+
+        if(delete) { //are we deleting the log?
+            logList.remove(oldLog); //...if so, delete the log
+        }
+        else { //...if not, we're editing the log
+            int myIndex = logList.indexOf(oldLog); //find the index of the old log
+            logList.set(myIndex, newLog); //set the old log to the new log
+        }
+
+        // For clearing the file while testing: logList = new ArrayList<WOLog>();
+
+        //sort loglist
+        Collections.sort(logList, new Comparator<WOLog>() {
+            @Override
+            public int compare(WOLog woLog, WOLog woLog2) {
+                return woLog2.getDateCompare() - woLog.getDateCompare();
+            }
+        });
+
+        //convert to JSON
+        String jsonLog = gson.toJson(logList);
+        //save to a .txt file
+        FileOutputStream fos = mContext.openFileOutput("jsonLogs.json", Context.MODE_PRIVATE);
+        //write to internal storage
+        fos.write(jsonLog.getBytes());
+        fos.close();
+    }
 }

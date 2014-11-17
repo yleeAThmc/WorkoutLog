@@ -47,7 +47,14 @@ public class DetailActivity extends Activity {
         //get the edit log button
         Button editButton = (Button) findViewById(R.id.editButton);
         //get the listener for the edit log button
-        detailView.setOnItemClickListener(editClickedHandler);
+        detailView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(DetailActivity.this, EntryActivity.class);
+                myIntent.putExtra("log", (android.os.Parcelable) myLog);
+                startActivity(myIntent);
+            }
+        });
     }
 
     @Override
@@ -83,10 +90,10 @@ public class DetailActivity extends Activity {
     }
 
     // Create a message handling object as an anonymous class.
-    private AdapterView.OnItemClickListener editClickedHandler = new AdapterView.OnItemClickListener() {
-        public void onItemClick(AdapterView parent, View v, int position, long id) {
+    //private AdapterView.OnItemClickListener editClickedHandler = new AdapterView.OnItemClickListener() {
+    //    public void onItemClick(AdapterView parent, View v, int position, long id) {
             // Do something in response to the click
-        }
-    };
+    //    }
+    //};
 
 }
