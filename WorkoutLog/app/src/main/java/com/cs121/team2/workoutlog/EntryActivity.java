@@ -45,15 +45,6 @@ public class EntryActivity extends Activity {
     private Boolean _wgtEnabled = true;
     private Boolean _setrepEnabled = true;
 
-
-    // Gonna get moved to WOLOG
-    final static int TYPE_CARDIO = 0;
-    final static int TYPE_STRENGTH = 1;
-    final static int TYPE_CUSTOM = 2;
-    final static int SUBTYPE_NONE = 0;
-    final static int SUBTYPE_TIME_BODY = 1;
-    final static int SUBTYPE_DIST_WEIGHTS = 2;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,38 +88,38 @@ public class EntryActivity extends Activity {
     }
 
     public void getCardioView(View view) {
-        _type = EntryActivity.TYPE_CARDIO;
+        _type = WOLog.TYPE_CARDIO;
         setContentView(R.layout.entry_second_choice_cardio);
     }
 
     public void getStrengthView(View view) {
-        _type = EntryActivity.TYPE_STRENGTH;
+        _type = WOLog.TYPE_STRENGTH;
         setContentView(R.layout.entry_second_choice_strength);
     }
 
     public void getTimeCardioView(View view) {
-        _subType = EntryActivity.SUBTYPE_TIME_BODY;
+        _subType = WOLog.SUBTYPE_TIME_BODY;
         getCommonDataView(view);
     }
 
     public void getDistCardioView(View view) {
-        _subType = EntryActivity.SUBTYPE_DIST_WEIGHTS;
+        _subType = WOLog.SUBTYPE_DIST_WEIGHTS;
         getCommonDataView(view);
     }
 
     public void getWeightStrengthView(View view) {
-        _subType = EntryActivity.SUBTYPE_DIST_WEIGHTS;
+        _subType = WOLog.SUBTYPE_DIST_WEIGHTS;
         getCommonDataView(view);
     }
 
     public void getBodyStrengthView(View view) {
-        _subType = EntryActivity.SUBTYPE_TIME_BODY;
+        _subType = WOLog.SUBTYPE_TIME_BODY;
         getCommonDataView(view);
     }
 
     public void getCustomWorkoutView(View view) {
-        _type = EntryActivity.TYPE_CUSTOM;
-        _subType = EntryActivity.SUBTYPE_NONE;
+        _type = WOLog.TYPE_CUSTOM;
+        _subType = WOLog.SUBTYPE_NONE;
         getCommonDataView(view);
     }
 
@@ -138,11 +129,11 @@ public class EntryActivity extends Activity {
     }
 
     public void goBackFromCommon(View view) {
-        if (_type == EntryActivity.TYPE_CARDIO) {
+        if (_type == WOLog.TYPE_CARDIO) {
             getCardioView(view);
-        } else if (_type == EntryActivity.TYPE_STRENGTH) {
+        } else if (_type == WOLog.TYPE_STRENGTH) {
             getStrengthView(view);
-        } else if (_type == EntryActivity.TYPE_CUSTOM) {
+        } else if (_type == WOLog.TYPE_CUSTOM) {
             getInitialChoiceView(view);
         }
     }
@@ -153,23 +144,23 @@ public class EntryActivity extends Activity {
         setMemo();
         setCommonData();
 
-        if (_type == EntryActivity.TYPE_CARDIO) {
+        if (_type == WOLog.TYPE_CARDIO) {
             setContentView(R.layout.entry_cardio);
             _actv = (AutoCompleteTextView) findViewById(R.id.cardio_actv);
-            if (_subType == EntryActivity.SUBTYPE_TIME_BODY) {
+            if (_subType == WOLog.SUBTYPE_TIME_BODY) {
                 setActvArray(R.array.time_cardio_array);
             } else {
                 setActvArray(R.array.dist_cardio_array);
             }
-        } else if (_type == EntryActivity.TYPE_STRENGTH) {
+        } else if (_type == WOLog.TYPE_STRENGTH) {
             setContentView(R.layout.entry_strength);
             _actv = (AutoCompleteTextView) findViewById(R.id.strength_actv);
-            if (_subType == EntryActivity.SUBTYPE_TIME_BODY) {
+            if (_subType == WOLog.SUBTYPE_TIME_BODY) {
                 setActvArray(R.array.body_strength_array);
             } else {
                 setActvArray(R.array.weights_strength_array);
             }
-        } else if (_type == EntryActivity.TYPE_CUSTOM) {
+        } else if (_type == WOLog.TYPE_CUSTOM) {
             setContentView(R.layout.entry_custom_workout);
         }
     }
@@ -208,8 +199,8 @@ public class EntryActivity extends Activity {
         EditText minute = (EditText) findViewById(R.id.cardio_minute);
         _wl.setDistance(String.valueOf(dist.getText()));
         _wl.setTime(String.valueOf(hour.getText()));
-        _wl.setType(String.valueOf(_actv.getText()));
-        onSubmit(_wl);
+        _wl.setName(String.valueOf(_actv.getText()));
+        onSubmit();
     }
 
     public void onStrengthSubmit(View view) {
@@ -219,13 +210,13 @@ public class EntryActivity extends Activity {
         _wl.setSets(String.valueOf(sets.getText()));
         _wl.setReps(String.valueOf(reps.getText()));
         _wl.setWeight(String.valueOf(weight.getText()));
-        _wl.setType(String.valueOf(_actv.getText()));
-        onSubmit(_wl);
+        _wl.setName(String.valueOf(_actv.getText()));
+        onSubmit();
     }
 
     public void onCustomSubmit(View view) {
         EditText type = (EditText) findViewById(R.id.custom_type);
-        _wl.setType(String.valueOf(type.getText()));
+        _wl.setName(String.valueOf(type.getText()));
 
         if (_distEnabled) {
             EditText distText = (EditText) findViewById(R.id.custom_dist);
@@ -246,12 +237,14 @@ public class EntryActivity extends Activity {
             EditText wgtText = (EditText) findViewById(R.id.custom_wgt);
             _wl.setWeight(String.valueOf(wgtText.getText()));
         }
-        onSubmit(_wl);
+        onSubmit();
     }
 
-    private void onSubmit(WOLog woLog) {
+    private void onSubmit() {
+        _wl.setType(WOLog.TYPE_ARRAY[_type]);
+        _wl.setSubtype(WOLog.SUBTYPE_ARRAY[_subType]);
         try {
-            _dhInstance.addLog(woLog);
+            _dhInstance.addLog(_wl);
         } catch (IOException e) {
             e.printStackTrace();
         }

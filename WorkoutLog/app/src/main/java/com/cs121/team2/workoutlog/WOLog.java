@@ -5,10 +5,21 @@ import android.os.Parcelable;
 import android.util.Log;
 
 public class WOLog implements Parcelable {
+    // Just a lot of static data
+    final static int TYPE_CARDIO = 0;
+    final static int TYPE_STRENGTH = 1;
+    final static int TYPE_CUSTOM = 2;
+    final static int SUBTYPE_NONE = 0;
+    final static int SUBTYPE_TIME_BODY = 1;
+    final static int SUBTYPE_DIST_WEIGHTS = 2;
+
+    final static String[] MOOD_ARRAY = {"awful", "bad", "k", "good", "perfect"};
+    final static String[] TYPE_ARRAY = {"Cardio", "Strength", "Custom"};
+    final static String[] SUBTYPE_ARRAY = {"None", "Time/Body", "Distance/Weights"};
+
     // Data stored in log
-    static String[] MOOD_ARRAY = {"awful", "bad", "k", "good", "perfect"};
     private int dateCompare;
-    private String date, type, time, distance, mood, weight, sets, reps, memo;
+    private String date, name, time, distance, mood, weight, sets, reps, memo, type, subtype;
 
     //tag for debug logging.
     private static final String TAG = "WOLog";
@@ -16,7 +27,7 @@ public class WOLog implements Parcelable {
     public WOLog()
     {
         dateCompare = 0;
-        date = type = time = distance = mood = weight = sets = reps = memo = null;
+        date = name = time = distance = mood = weight = sets = reps = memo = type = subtype = null;
     }
 
 
@@ -33,7 +44,7 @@ public class WOLog implements Parcelable {
         dateCompare += yr * 10000000;
     }
 
-    public void setType(String t){ type = t; }
+    public void setName(String t){ name = t; }
 
     public void setTime(String t){ time = t; }
 
@@ -49,12 +60,16 @@ public class WOLog implements Parcelable {
 
     public void setMemo(String m) { memo = m; }
 
+    public void setType(String t) { type = t; }
+
+    public void setSubtype(String t) { subtype = t; }
+
 
     // Getter Methods
     // TODO: Remove these if we don't wind up using them for stats
     public int getDateCompare(){ return dateCompare; }
 
-    public String getType(){ return type; }
+    public String getName(){ return name; }
 
     public String getDate(){ return date; }
 
@@ -66,12 +81,16 @@ public class WOLog implements Parcelable {
 
     public String getMemo() { return memo; }
 
+    public String getType() { return type; }
+
+    public String getSubtype() { return subtype; }
+
 
     // toString formatted with HTML for ListView
     public String toStringList(){
         String s = "";
 
-        s += "<center><b>" + type + "</b><br>";
+        s += "<center><b>" + name + "</b><br>";
 
         if(date != null){
             s += "<b>Date: </b>" + date + "<br>";
@@ -89,7 +108,7 @@ public class WOLog implements Parcelable {
     public String toStringDetail(){
         String s = "";
 
-        s += "<center><b>" + type.toUpperCase() + "</b><br>";
+        s += "<center><b>" + name.toUpperCase() + "</b><br>";
         s += "<b>(Workout Info):</b><br>";
 
         if(date != null && !date.isEmpty()){
@@ -143,7 +162,7 @@ public class WOLog implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(type);
+        dest.writeString(name);
         dest.writeString(time);
         dest.writeString(distance);
         dest.writeString(mood);
@@ -155,8 +174,8 @@ public class WOLog implements Parcelable {
     }
 
     private WOLog(Parcel in) {
-        type = null;
-        type = in.readString();
+        name = null;
+        name = in.readString();
         time = null;
         time = in.readString();
         distance = null;
