@@ -10,9 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.io.IOException;
-import java.util.AbstractList;
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * Created by Sam E on 10/7/2014.
@@ -25,8 +23,6 @@ public class WOLogListAdapter extends BaseAdapter {
     ArrayList<WOLog> data = null;
 
     public WOLogListAdapter(Context mContext, int layoutResourceId, ArrayList<WOLog> data ){
-
-
         this.layoutResourceId = layoutResourceId;
         this.mContext = mContext;
         this.data = data;
@@ -59,13 +55,6 @@ public class WOLogListAdapter extends BaseAdapter {
 
         return convertView;
     }
-
-
-//TODO: implement sorting function so listview shows newest --> oldest
-//    public WOLogListAdapter sortData(){
-//        return this;
-//    }
-
 
     @Override
     public int getCount() {

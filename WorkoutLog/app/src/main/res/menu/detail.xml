@@ -1,0 +1,19 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".EntryActivity" >
+    <item android:id="@+id/action_settings"
+        android:title="@string/action_settings"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
+    <item
+        android:id="@+id/view_list_button"
+        android:icon="@drawable/ic_action_overflow"
+        android:title="Logs"
+        android:showAsAction="always" />
+    <item
+        android:id="@+id/add_WOlog"
+        android:icon="@drawable/ic_action_new"
+        android:title="@string/add_WOlog"
+        android:showAsAction="always" />
+
+</menu>

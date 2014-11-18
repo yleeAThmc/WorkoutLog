@@ -1,14 +1,11 @@
 package com.cs121.team2.workoutlog;
 
 import android.app.Activity;
-import android.app.DialogFragment;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.DropBoxManager;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,8 +20,6 @@ import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TimePicker;
-import android.widget.Toast;
-import java.util.Calendar;
 
 import java.io.IOException;
 
@@ -66,8 +61,10 @@ public class EntryActivity extends Activity {
         setContentView(R.layout.entry_initial_choice);
 
         // hide icon and title on action bar
-        getActionBar().setDisplayShowHomeEnabled(false);
-        getActionBar().setDisplayShowTitleEnabled(false);
+        if(getActionBar() != null) {
+            getActionBar().setDisplayShowHomeEnabled(false);
+            getActionBar().setDisplayShowTitleEnabled(false);
+        }
 
         // Getting the data handler instance
         _dhInstance = DataHandler.getDataHandler(this);

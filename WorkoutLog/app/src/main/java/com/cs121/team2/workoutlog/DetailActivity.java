@@ -12,7 +12,6 @@ import android.widget.TextView;
  * Created by Sam Jackson on 10/29/14.
  */
 public class DetailActivity extends Activity {
-    private WOLog myLog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,18 +21,21 @@ public class DetailActivity extends Activity {
         setContentView(R.layout.activity_detail);
 
         // Enable the "Up" button for more navigation options
-        getActionBar().setDisplayShowHomeEnabled(false);
-        getActionBar().setDisplayShowTitleEnabled(false);
+        if(getActionBar() != null) {
+            getActionBar().setDisplayShowHomeEnabled(false);
+            getActionBar().setDisplayShowTitleEnabled(false);
+        }
 
         // Access the textview from XML
         TextView textView = (TextView) findViewById(R.id.detail_page);
 
         //access the intent from WOLogListActivity
         Intent i = getIntent();
-        myLog = (WOLog) i.getParcelableExtra("log");
+        WOLog myLog;
+        myLog = i.getParcelableExtra("log");
 
         //source string with HTML formatting tags for setText()
-        String sourceString = myLog.toStringHTML();
+        String sourceString = myLog.toStringDetail();
         //set the text for the TextView
         textView.setText(Html.fromHtml(sourceString));
     }
@@ -41,7 +43,7 @@ public class DetailActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.wologlist, menu);
+        getMenuInflater().inflate(R.menu.detail, menu);
         return true;
     }
 
@@ -61,6 +63,10 @@ public class DetailActivity extends Activity {
             // start the next Activity the prepared Intent
             startActivity(newEntryIntent);
 
+        }
+        if (id == R.id.view_list_button) {
+            Intent newEntryIntent = new Intent(this, WOLogListActivity.class);
+            startActivity(newEntryIntent);
         }
 
         return super.onOptionsItemSelected(item);
