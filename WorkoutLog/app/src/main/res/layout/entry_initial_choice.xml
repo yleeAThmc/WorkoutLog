@@ -39,6 +39,6 @@
             android:textSize="@dimen/category_btn_font_size"
             android:background="@drawable/btn_green_border"
             android:text="Custom Workout"
-            android:onClick="getCommonDataView"/>
+            android:onClick="getCustomWorkoutView"/>
     </LinearLayout>
 </FrameLayout>

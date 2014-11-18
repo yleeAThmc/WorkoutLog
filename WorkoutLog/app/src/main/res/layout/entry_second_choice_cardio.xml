@@ -18,7 +18,7 @@
             android:background="@drawable/btn_green_border"
             android:textSize="@dimen/category_btn_font_size"
             android:text="Time Based"
-            android:onClick="getCommonDataView"/>
+            android:onClick="getTimeCardioView"/>
         <Button
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -27,7 +27,7 @@
             android:background="@drawable/btn_green_border"
             android:textSize="@dimen/category_btn_font_size"
             android:text="Distance Based"
-            android:onClick="getCommonDataView"/>
+            android:onClick="getDistCardioView"/>
         <Button
             android:layout_height="0dp"
             android:layout_weight="1"

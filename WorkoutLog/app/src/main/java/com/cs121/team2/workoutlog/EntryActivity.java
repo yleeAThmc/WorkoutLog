@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.DropBoxManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,6 +18,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TimePicker;
@@ -29,14 +33,23 @@ public class EntryActivity extends Activity {
     private final String TAG = "ENTRY ACTIVITY";
     DataHandler _dhInstance;
     WOLog _wl;
+    private int _type;
+    private int _subType;
+
+    // common data
     private DatePicker _date;
     private TimePicker _time;
     private SeekBar _mood;
     private EditText _memo;
+
     private AutoCompleteTextView _actv;
 
-    private int _type;
-    private int _subType;
+    // specific to custom wo
+    private Boolean _distEnabled = true;
+    private Boolean _durEnabled = true;
+    private Boolean _wgtEnabled = true;
+    private Boolean _setRepEnabled = true;
+
 
     // Gonna get moved to WOLOG
     final static int TYPE_CARDIO = 0;
@@ -44,8 +57,7 @@ public class EntryActivity extends Activity {
     final static int TYPE_CUSTOM = 2;
     final static int SUBTYPE_NONE = 0;
     final static int SUBTYPE_TIME_BODY = 1;
-    final static int SUBTYPE_DIST_WEIGHTS = 1;
-
+    final static int SUBTYPE_DIST_WEIGHTS = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +73,6 @@ public class EntryActivity extends Activity {
         _dhInstance = DataHandler.getDataHandler(this);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -70,10 +81,7 @@ public class EntryActivity extends Activity {
     }
 
     @Override
-     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+    public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             return true;
@@ -91,43 +99,40 @@ public class EntryActivity extends Activity {
         startActivity(newEntryIntent);
     }
 
-
     public void getCardioView(View view) {
         _type = EntryActivity.TYPE_CARDIO;
-        setContentView(R.layout.entry_second_choice_cardio);}
+        setContentView(R.layout.entry_second_choice_cardio);
+    }
 
     public void getStrengthView(View view) {
         _type = EntryActivity.TYPE_STRENGTH;
-        setContentView(R.layout.entry_second_choice_strength);}
+        setContentView(R.layout.entry_second_choice_strength);
+    }
 
     public void getTimeCardioView(View view) {
         _subType = EntryActivity.SUBTYPE_TIME_BODY;
-        getCardioSubview(view);
-        setActvArray(R.array.time_cardio_array);
+        getCommonDataView(view);
     }
 
     public void getDistCardioView(View view) {
         _subType = EntryActivity.SUBTYPE_DIST_WEIGHTS;
-        getCardioSubview(view);
-        setActvArray(R.array.dist_cardio_array);
+        getCommonDataView(view);
     }
 
     public void getWeightStrengthView(View view) {
         _subType = EntryActivity.SUBTYPE_DIST_WEIGHTS;
-        getStrengthSubview(view);
-        setActvArray(R.array.weights_strength_array);
+        getCommonDataView(view);
     }
 
     public void getBodyStrengthView(View view) {
         _subType = EntryActivity.SUBTYPE_TIME_BODY;
-        getStrengthSubview(view);
-        setActvArray(R.array.body_strength_array);
+        getCommonDataView(view);
     }
 
     public void getCustomWorkoutView(View view) {
         _type = EntryActivity.TYPE_CUSTOM;
         _subType = EntryActivity.SUBTYPE_NONE;
-        setContentView(R.layout.entry_custom_workout);
+        getCommonDataView(view);
     }
 
     public void getCommonDataView(View view) {
@@ -142,8 +147,6 @@ public class EntryActivity extends Activity {
             getStrengthView(view);
         } else if (_type == EntryActivity.TYPE_CUSTOM) {
             getInitialChoiceView(view);
-        } else {
-            // debug: how did you get here!?
         }
     }
 
@@ -153,28 +156,25 @@ public class EntryActivity extends Activity {
         setMemo();
         setCommonData();
 
-
         if (_type == EntryActivity.TYPE_CARDIO) {
-            getCardioSubview(view);
+            setContentView(R.layout.entry_cardio);
+            _actv = (AutoCompleteTextView) findViewById(R.id.cardio_actv);
+            if (_subType == EntryActivity.SUBTYPE_TIME_BODY) {
+                setActvArray(R.array.time_cardio_array);
+            } else {
+                setActvArray(R.array.dist_cardio_array);
+            }
         } else if (_type == EntryActivity.TYPE_STRENGTH) {
-            getStrengthSubview(view);
+            setContentView(R.layout.entry_strength);
+            _actv = (AutoCompleteTextView) findViewById(R.id.strength_actv);
+            if (_subType == EntryActivity.SUBTYPE_TIME_BODY) {
+                setActvArray(R.array.body_strength_array);
+            } else {
+                setActvArray(R.array.weights_strength_array);
+            }
         } else if (_type == EntryActivity.TYPE_CUSTOM) {
-            getCustomWorkoutView(view);
-        } else {
-            // debug: how did you get here!?
+            setContentView(R.layout.entry_custom_workout);
         }
-    }
-
-    private void getCardioSubview(View view) {
-        setContentView(R.layout.entry_cardio);
-        _actv = (AutoCompleteTextView) findViewById(R.id.cardio_actv);
-
-    }
-
-    private void getStrengthSubview(View view) {
-        setContentView(R.layout.entry_strength);
-        initializeDateAndTime();
-        _actv = (AutoCompleteTextView) findViewById(R.id.strength_actv);
     }
 
     private void initializeDateAndTime() {
@@ -195,37 +195,10 @@ public class EntryActivity extends Activity {
         _wl.setMemo(String.valueOf(_memo.getText()));
     }
 
-    private void setMood() {
-        _mood = (SeekBar) findViewById(R.id.mood);
-    }
+    private void setMood() { _mood = (SeekBar) findViewById(R.id.mood); }
 
     private void setMemo() {
         _memo = (EditText) findViewById(R.id.memo);
-    }
-
-    private void setActvArray(int arrayId) {
-        String[] exercises = getResources().getStringArray(arrayId);
-        ArrayAdapter adapter = new ArrayAdapter
-                (this,android.R.layout.simple_list_item_1,exercises);
-        _actv.setAdapter(adapter);
-        _actv.requestFocus();
-        _actv.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.e(TAG, "integer is "+i);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-        _actv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                _actv.showDropDown();
-            }
-        });
     }
 
     public void getInitialChoiceView(View view) {
@@ -236,7 +209,6 @@ public class EntryActivity extends Activity {
         EditText dist = (EditText) findViewById(R.id.cardio_dist);
         EditText hour = (EditText) findViewById(R.id.cardio_hour);
         EditText minute = (EditText) findViewById(R.id.cardio_minute);
-        // TODO: take care of the units
         _wl.setDistance(String.valueOf(dist.getText()));
         _wl.setTime(String.valueOf(hour.getText()));
         _wl.setType(String.valueOf(_actv.getText()));
@@ -247,29 +219,18 @@ public class EntryActivity extends Activity {
         EditText sets = (EditText) findViewById(R.id.strength_sets);
         EditText reps = (EditText) findViewById(R.id.strength_reps);
         EditText weight = (EditText) findViewById(R.id.strength_weight);
-        Spinner unit = (Spinner) findViewById(R.id.strength_weight_unit);
-        EditText memo = (EditText) findViewById(R.id.strength_memo);
-        _mood = (SeekBar) findViewById(R.id.strength_mood);
-        WOLog wl = new WOLog();
-        wl.setSets(String.valueOf(sets.getText()));
-        wl.setReps(String.valueOf(reps.getText()));
-        wl.setWeight(String.valueOf(weight.getText()));
-        wl.setType(String.valueOf(_actv.getText()));
-        wl.setMemo(String.valueOf(memo.getText()));
-        onSubmit(wl);
+        _wl.setSets(String.valueOf(sets.getText()));
+        _wl.setReps(String.valueOf(reps.getText()));
+        _wl.setWeight(String.valueOf(weight.getText()));
+        _wl.setType(String.valueOf(_actv.getText()));
+        onSubmit(_wl);
     }
 
     public void onCustomSubmit(View view) {
         EditText type = (EditText) findViewById(R.id.custom_type);
-        CheckBox dist = (CheckBox) findViewById(R.id.custom_dist_cbox);
-        CheckBox dur = (CheckBox) findViewById(R.id.custom_dur_cbox);
-        CheckBox setsReps = (CheckBox) findViewById(R.id.custom_sets_reps_cbox);
-        CheckBox wgt = (CheckBox) findViewById(R.id.custom_weight_cbox);
-        CheckBox memo = (CheckBox) findViewById(R.id.custom_memo_cbox);
-        _mood = (SeekBar) findViewById(R.id.custom_mood);
-        WOLog wl = new WOLog();
-        wl.setType(String.valueOf(type.getText()));
+        _wl.setType(String.valueOf(type.getText()));
 
+        /*
         if (dist.isChecked()) {
             EditText distText = (EditText) findViewById(R.id.custom_dist);
             wl.setDistance(String.valueOf(distText.getText()));
@@ -292,8 +253,8 @@ public class EntryActivity extends Activity {
             EditText memoText = (EditText) findViewById(R.id.custom_memo);
             wl.setMemo(String.valueOf(memoText.getText()));
         }
-
-        onSubmit(wl);
+        */
+        onSubmit(_wl);
     }
 
     private void onSubmit(WOLog woLog) {
@@ -303,26 +264,67 @@ public class EntryActivity extends Activity {
             e.printStackTrace();
         }
         startWOLogListAct();
+    }
+    public void onCSTDistBtnClicked(View view) {
+        FrameLayout distBg = (FrameLayout) findViewById(R.id.custom_dist_bg);
+        EditText dist = (EditText) findViewById(R.id.custom_dist);
+        ImageButton distBtn = (ImageButton) findViewById(R.id.custom_dist_btn);
+        if (_distEnabled) {
+            // disable it
+            distBg.setBackgroundResource(R.drawable.edittext_cream_bg);
+            dist.setFocusable(false);
+            distBtn.setBackgroundResource(R.drawable.ic_action_done);
+            _distEnabled = false;
+        } else {
+            // enable it
+            distBg.setBackgroundResource(R.drawable.edittext_green_bg);
+            dist.setFocusableInTouchMode(true);
+            distBtn.setBackgroundResource(R.drawable.ic_action_remove);
+            _distEnabled = true;
+        }
 
-            /*
+    }
 
-            // no distance entered --> give prompt
-            String woDist = String.valueOf(dist.getText());
-            if (woDist.isEmpty()) {
-                Toast.makeText(this, "Enter distance", Toast.LENGTH_SHORT).show();
-                return super.onOptionsItemSelected(item);
+    public void onCSTDurBtnClicked(View view) {
+        FrameLayout durBg = (FrameLayout) findViewById(R.id.custom_dur_bg);
+        EditText hour = (EditText) findViewById(R.id.custom_hour);
+        EditText min = (EditText) findViewById(R.id.custom_minute);
+        ImageButton durBtn = (ImageButton) findViewById(R.id.custom_dur_btn);
+        if (_durEnabled) {
+            // disable it
+            durBg.setBackgroundResource(R.drawable.edittext_cream_bg);
+            hour.setFocusable(false);
+            min.setFocusable(false);
+            durBtn.setBackgroundResource(R.drawable.ic_action_done);
+            _durEnabled = false;
+        } else {
+            // enable it
+            durBg.setBackgroundResource(R.drawable.edittext_green_bg);
+            hour.setFocusableInTouchMode(true);
+            min.setFocusableInTouchMode(true);
+            durBtn.setBackgroundResource(R.drawable.ic_action_remove);
+            _durEnabled = true;
+        }
+
+    }
+
+    private void setActvArray(int arrayId) {
+        String[] exercises = getResources().getStringArray(arrayId);
+        ArrayAdapter adapter = new ArrayAdapter
+                (this,android.R.layout.simple_list_item_1,exercises);
+        _actv.setAdapter(adapter);
+        _actv.requestFocus();
+        _actv.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {  }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {  }
+        });
+        _actv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                _actv.showDropDown();
             }
-            woDist.concat(String.valueOf(dist_unit.getSelectedItem()));
-
-            // no mood entered --> give prompt
-            String woMood = String.valueOf(mood.getText());
-            if (woMood.length() == 0) {
-                Toast.makeText(this, "Enter mood", Toast.LENGTH_SHORT).show();
-                return super.onOptionsItemSelected(item);
-            }
-
-        */
-
-
+        });
     }
 }

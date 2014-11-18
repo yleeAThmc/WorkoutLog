@@ -13,5 +13,7 @@
     <dimen name="layout_margin">10dp</dimen>
     <dimen name="entry_font_size">20sp</dimen>
     <dimen name="time_picker_margin">20dp</dimen>
+    <dimen name="mood_bar_height">30dp</dimen>
+    <dimen name="custom_field_btn">50dp</dimen>
 
 </resources>
