@@ -15,5 +15,8 @@
     <dimen name="time_picker_margin">20dp</dimen>
     <dimen name="mood_bar_height">30dp</dimen>
     <dimen name="custom_field_btn">50dp</dimen>
+    <dimen name="list_margin">5dp</dimen>
+    <dimen name="list_padding">5dp</dimen>
+    <dimen name="list_corner_radius">20dp</dimen>
 
 </resources>

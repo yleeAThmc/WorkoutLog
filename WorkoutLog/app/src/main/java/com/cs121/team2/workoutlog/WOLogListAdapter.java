@@ -3,6 +3,7 @@ package com.cs121.team2.workoutlog;
 import android.app.Activity;
 import android.content.Context;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
  * Created by Sam E on 10/7/2014.
  */
 public class WOLogListAdapter extends BaseAdapter {
-
+    private final String TAG = "WOLogListAdapter";
 
     Context mContext;
     int layoutResourceId;
@@ -49,6 +50,18 @@ public class WOLogListAdapter extends BaseAdapter {
             convertView = inflater.inflate(layoutResourceId, parent, false);
         }
         WOLog logItem = data.get(position);
+
+        if (logItem.getMood().equals(WOLog.MOOD_ARRAY[0])) {
+            convertView.setBackgroundResource(R.drawable.list_awful);
+        } else if (logItem.getMood().equals(WOLog.MOOD_ARRAY[1])) {
+            convertView.setBackgroundResource(R.drawable.list_bad);
+        } else if (logItem.getMood().equals(WOLog.MOOD_ARRAY[2])) {
+            convertView.setBackgroundResource(R.drawable.list_ok);
+        } else if (logItem.getMood().equals(WOLog.MOOD_ARRAY[3])) {
+            convertView.setBackgroundResource(R.drawable.list_good);
+        } else {
+            convertView.setBackgroundResource(R.drawable.list_perfect);
+        }
         TextView textViewItem = (TextView) convertView.findViewById(R.id.log_date);
         String sourceString = logItem.toStringList(); //source string for HTML formatting of setText
         textViewItem.setText(Html.fromHtml(sourceString));
