@@ -97,15 +97,17 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:layout_margin="@dimen/layout_margin"
-            android:background="@drawable/edittext_green_bg">
+            android:background="@drawable/edittext_green_bg"
+            android:id="@+id/custom_wgt_bg">
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ic_action_remove"
                 android:layout_gravity="right|top"
-                android:id="@+id/custom_wgt_btn"/>
+                android:id="@+id/custom_wgt_btn"
+                android:onClick="onCSTWgtBtnClicked"/>
             <EditText
-                android:id="@+id/custom_weight"
+                android:id="@+id/custom_wgt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -120,13 +122,15 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:layout_margin="@dimen/layout_margin"
-            android:background="@drawable/edittext_green_bg">
+            android:background="@drawable/edittext_green_bg"
+            android:id="@+id/custom_setrep_bg">
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ic_action_remove"
                 android:layout_gravity="right|top"
-                android:id="@+id/custom_setrep_btn"/>
+                android:id="@+id/custom_setrep_btn"
+                android:onClick="onCSTSetrepBtnClicked"/>
             <EditText
                 android:id="@+id/custom_sets"
                 android:layout_width="wrap_content"

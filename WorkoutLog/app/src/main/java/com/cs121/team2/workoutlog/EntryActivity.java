@@ -48,7 +48,7 @@ public class EntryActivity extends Activity {
     private Boolean _distEnabled = true;
     private Boolean _durEnabled = true;
     private Boolean _wgtEnabled = true;
-    private Boolean _setRepEnabled = true;
+    private Boolean _setrepEnabled = true;
 
 
     // Gonna get moved to WOLOG
@@ -230,30 +230,25 @@ public class EntryActivity extends Activity {
         EditText type = (EditText) findViewById(R.id.custom_type);
         _wl.setType(String.valueOf(type.getText()));
 
-        /*
-        if (dist.isChecked()) {
+        if (_distEnabled) {
             EditText distText = (EditText) findViewById(R.id.custom_dist);
-            wl.setDistance(String.valueOf(distText.getText()));
+            _wl.setDistance(String.valueOf(distText.getText()));
         }
-        if (dur.isChecked()) {
-            EditText durText = (EditText) findViewById(R.id.custom_dur);
-            wl.setTime(String.valueOf(durText.getText()));
+        if (_durEnabled) {
+            EditText hour = (EditText) findViewById(R.id.custom_hour);
+            EditText minute = (EditText) findViewById(R.id.custom_minute);
+            _wl.setTime(String.valueOf(hour.getText()));
         }
-        if (setsReps.isChecked()) {
+        if (_setrepEnabled) {
             EditText setText = (EditText) findViewById(R.id.custom_sets);
             EditText repText = (EditText) findViewById(R.id.custom_reps);
-            wl.setSets(String.valueOf(setText.getText()));
-            wl.setReps(String.valueOf(repText.getText()));
+            _wl.setSets(String.valueOf(setText.getText()));
+            _wl.setReps(String.valueOf(repText.getText()));
         }
-        if (wgt.isChecked()) {
-            EditText wgtText = (EditText) findViewById(R.id.custom_weight);
-            wl.setWeight(String.valueOf(wgtText.getText()));
+        if (_wgtEnabled) {
+            EditText wgtText = (EditText) findViewById(R.id.custom_wgt);
+            _wl.setWeight(String.valueOf(wgtText.getText()));
         }
-        if (memo.isChecked()) {
-            EditText memoText = (EditText) findViewById(R.id.custom_memo);
-            wl.setMemo(String.valueOf(memoText.getText()));
-        }
-        */
         onSubmit(_wl);
     }
 
@@ -263,6 +258,7 @@ public class EntryActivity extends Activity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        setContentView(R.layout.entry_initial_choice);
         startWOLogListAct();
     }
     public void onCSTDistBtnClicked(View view) {
@@ -282,7 +278,6 @@ public class EntryActivity extends Activity {
             distBtn.setBackgroundResource(R.drawable.ic_action_remove);
             _distEnabled = true;
         }
-
     }
 
     public void onCSTDurBtnClicked(View view) {
@@ -305,7 +300,47 @@ public class EntryActivity extends Activity {
             durBtn.setBackgroundResource(R.drawable.ic_action_remove);
             _durEnabled = true;
         }
+    }
 
+    public void onCSTWgtBtnClicked(View view) {
+        FrameLayout wgtBg = (FrameLayout) findViewById(R.id.custom_wgt_bg);
+        EditText wgt = (EditText) findViewById(R.id.custom_wgt);
+        ImageButton wgtBtn = (ImageButton) findViewById(R.id.custom_wgt_btn);
+        if (_wgtEnabled) {
+            // disable it
+            wgtBg.setBackgroundResource(R.drawable.edittext_cream_bg);
+            wgt.setFocusable(false);
+            wgtBtn.setBackgroundResource(R.drawable.ic_action_done);
+            _wgtEnabled = false;
+        } else {
+            // enable it
+            wgtBg.setBackgroundResource(R.drawable.edittext_green_bg);
+            wgt.setFocusableInTouchMode(true);
+            wgtBtn.setBackgroundResource(R.drawable.ic_action_remove);
+            _wgtEnabled = true;
+        }
+    }
+
+    public void onCSTSetrepBtnClicked(View view) {
+        FrameLayout setrepBg = (FrameLayout) findViewById(R.id.custom_setrep_bg);
+        EditText sets = (EditText) findViewById(R.id.custom_sets);
+        EditText reps = (EditText) findViewById(R.id.custom_reps);
+        ImageButton setrepBtn = (ImageButton) findViewById(R.id.custom_setrep_btn);
+        if (_setrepEnabled) {
+            // disable it
+            setrepBg.setBackgroundResource(R.drawable.edittext_cream_bg);
+            sets.setFocusable(false);
+            reps.setFocusable(false);
+            setrepBtn.setBackgroundResource(R.drawable.ic_action_done);
+            _setrepEnabled = false;
+        } else {
+            // enable it
+            setrepBg.setBackgroundResource(R.drawable.edittext_green_bg);
+            sets.setFocusableInTouchMode(true);
+            reps.setFocusableInTouchMode(true);
+            setrepBtn.setBackgroundResource(R.drawable.ic_action_remove);
+            _setrepEnabled = true;
+        }
     }
 
     private void setActvArray(int arrayId) {
