@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -22,11 +23,16 @@ public class WOLogListAdapter extends BaseAdapter {
     Context mContext;
     int layoutResourceId;
     ArrayList<WOLog> data = null;
+    ActivityFilter mactivityFilter;
+    ArrayList<WOLog> originalDataToFilter;
 
     public WOLogListAdapter(Context mContext, int layoutResourceId, ArrayList<WOLog> data ){
         this.layoutResourceId = layoutResourceId;
         this.mContext = mContext;
         this.data = data;
+        this.mactivityFilter = null;
+        this.originalDataToFilter = new ArrayList<WOLog>();
+        this.originalDataToFilter.addAll(this.data);
     }
 
     public WOLogListAdapter(Context mContext, int layoutResourceId){
@@ -41,6 +47,10 @@ public class WOLogListAdapter extends BaseAdapter {
         this.layoutResourceId = layoutResourceId;
         this.mContext = mContext;
         this.data = pulledData;
+        this.mactivityFilter = null;
+        this.originalDataToFilter = new ArrayList<WOLog>();
+        this.originalDataToFilter.addAll(this.data);
+
     }
 
     public View getView(int position, View convertView, ViewGroup parent){
@@ -84,4 +94,66 @@ public class WOLogListAdapter extends BaseAdapter {
         return i;
     }
 
+    //for filtering purposes
+    public Filter getFilter() {
+        Log.d("FILTER", "hey, making a filter");
+        if (mactivityFilter == null)
+            mactivityFilter = new ActivityFilter();
+
+        return mactivityFilter;
+    }
+
+    //*************private class to deal with filtering activities********************
+    private class ActivityFilter extends Filter {
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+
+            String searchconstraint = constraint.toString().toLowerCase();
+            FilterResults result = new FilterResults();
+            Log.d("FILTER", "okay, we're somewhere");
+            if(searchconstraint != null && searchconstraint.toString().length() > 0)
+            {
+                Log.d("FILTER", "made it here!");
+                ArrayList<WOLog> filteredItems = new ArrayList<WOLog>();
+
+                for(int i = 0, l = originalDataToFilter.size(); i < l; i++)
+                {
+                    WOLog w = originalDataToFilter.get(i);
+
+                    if(w.getMood().toLowerCase().contains(searchconstraint))
+                        filteredItems.add(w);
+                    Log.d("FILTER", "added to new thing!");
+
+                }
+                Log.d("FILTER", "length of thing is: " + filteredItems.size());
+                result.count = filteredItems.size();
+                result.values = filteredItems;
+            }
+            else
+            {
+                synchronized(this)
+                {
+                    result.values = originalDataToFilter;
+                    result.count = originalDataToFilter.size();
+                }
+            }
+            return result;
+        }
+
+        @SuppressWarnings("unchecked")
+        @Override
+        protected void publishResults(CharSequence constraint,
+                                      FilterResults results) {
+
+            data = (ArrayList<WOLog>)results.values;
+            notifyDataSetChanged();
+            data.clear();
+            for(int i = 0, l = data.size(); i < l; i++)
+                data.add(data.get(i));
+            notifyDataSetInvalidated();
+        }
+    }
+
 }
+
