@@ -3,10 +3,13 @@ package com.cs121.team2.workoutlog;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import java.io.IOException;
@@ -65,6 +68,30 @@ public class WOLogListActivity extends Activity {
                 startActivity(detailIntent);
             }
         });
+
+        //Added for filtering use
+        EditText activityTypeFilterText = (EditText) findViewById(R.id.activityTypeFilterText);
+        activityTypeFilterText.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                System.out.println("Text ["+s+"]");
+                mWOLogListAdapter.getFilter().filter(s.toString());
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+
+
     }
 
 
@@ -95,5 +122,8 @@ public class WOLogListActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
 
 }
