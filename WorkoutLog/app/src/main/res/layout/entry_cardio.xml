@@ -9,21 +9,24 @@ android:paddingTop="@dimen/activity_vertical_margin"
 android:paddingBottom="@dimen/activity_vertical_margin"
 tools:context=".EntryActivity">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="4"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@drawable/edittext_green_bg"
+        android:layout_margin="@dimen/layout_margin"
+        >
         <AutoCompleteTextView
             android:id="@+id/cardio_actv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/layout_margin"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:textSize="@dimen/entry_font_size"
-            android:background="@drawable/edittext_green_bg"
+            android:background="#00000000"
             android:hint="@string/name_prompt"/>
 
-    </LinearLayout>
+    </FrameLayout>
 
 
     <LinearLayout
