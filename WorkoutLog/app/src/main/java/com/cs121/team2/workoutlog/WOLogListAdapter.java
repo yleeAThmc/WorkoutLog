@@ -105,8 +105,9 @@ public class WOLogListAdapter extends ArrayAdapter<WOLog> {
 
                 for (int i = 0, l = originalDataToFilter.size(); i < l; i++) {
                     WOLog w = originalDataToFilter.get(i);
-                    Log.d("FILTER", "and it's mood is: " + w.getMood().toLowerCase());
-                    if (w.getMood().toLowerCase().contains(searchconstraint)) {
+                    Log.d("FILTER", "and it's type is: " + w.getType().toLowerCase());
+                    Log.d("FILTER", "and it's name is: " + w.getName().toLowerCase());
+                    if (w.getType().toLowerCase().contains(searchconstraint)) {
                         filteredItems.add(w);
                     }
                     Log.d("FILTER", "added to new thing!");
