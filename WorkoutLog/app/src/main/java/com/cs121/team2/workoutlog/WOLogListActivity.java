@@ -42,7 +42,7 @@ public class WOLogListActivity extends Activity {
         //Create a LogListAdapter for the ListView
         DataHandler dhInstance = DataHandler.getDataHandler(this);
         try {
-            mWOLogListAdapter = new WOLogListAdapter( this,R.layout.row_wolog, dhInstance.getLogs());
+            mWOLogListAdapter = new WOLogListAdapter( this,dhInstance.getLogs());
         } catch (IOException e) {
             e.printStackTrace();
         }
