@@ -105,8 +105,7 @@ public class DataHandler extends Activity {
             }
         });
 
-        // For clearing the file while testing:
-        logList = null;
+        // For clearing the file while testing: logList = null;
 
         //convert to JSON
         String jsonLog = gson.toJson(logList);
