@@ -13,21 +13,6 @@
     android:focusableInTouchMode="true"
     tools:context=".WOLogListActivity">
 
-    //filter editText
-    <EditText
-        android:id="@+id/activityTypeFilterText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:maxLines="1"
-        android:hint="@string/filter_workout_loglist"/>
-
-
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/timePickSpinner"
-        android:layout_gravity="center_horizontal"/>
     <!-- List whose dataset is defined in code with an adapter -->
     <ListView
         android:id="@+id/wologlist_listview"

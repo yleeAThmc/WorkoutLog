@@ -20,17 +20,13 @@ import java.io.IOException;
 /**
  * Created by Sam E on 10/7/2014.
  */
-public class WOLogListActivity extends Activity implements OnItemSelectedListener{
+public class WOLogListActivity extends Activity{
 
     private final String TAG = "WOLOGLIST ACTIVITY";
     ListView wologlistListView;
     WOLogListAdapter mWOLogListAdapter;
     private WOLog toSendAlong;
-    Spinner timePicker;
 
-    //I know this is kinda hacky--CHANGE THIS DURING REFACTORING (Sam E)
-    String[] keywordsTimePicker = {"All Time", "Last Day", "Last Week", "Last 2 Weeks",
-            "Last Month", "Last 6 Months", };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,17 +40,6 @@ public class WOLogListActivity extends Activity implements OnItemSelectedListene
             getActionBar().setDisplayShowTitleEnabled(false);
         }
 
-        //set the spinner for time selection
-        timePicker = (Spinner) findViewById(R.id.timePickSpinner);
-
-        //creating and setting the timePicker's adapter
-        ArrayAdapter<String> tpValues =
-                new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, keywordsTimePicker);
-        tpValues.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        timePicker.setAdapter(tpValues);
-
-        //setting the setOnItemSelectedListener for the spinner
-        timePicker.setOnItemSelectedListener(this);
 
         //Access the ListView
         wologlistListView = (ListView) findViewById(R.id.wologlist_listview);
@@ -89,26 +74,6 @@ public class WOLogListActivity extends Activity implements OnItemSelectedListene
             }
         });
 
-        //Added for filtering use
-        EditText activityTypeFilterText = (EditText) findViewById(R.id.activityTypeFilterText);
-        activityTypeFilterText.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mWOLogListAdapter.getFilter().filter(s.toString());
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
-
 
 
     }
@@ -140,19 +105,6 @@ public class WOLogListActivity extends Activity implements OnItemSelectedListene
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-
-    public void onItemSelected(AdapterView<?> parent, View v, int position,
-                               long id) {
-        // listview.setFilterText(Category[position]);
-        String Text = timePicker.getSelectedItem().toString();
-        mWOLogListAdapter.getFilter().filter(Text);
-        mWOLogListAdapter.notifyDataSetChanged();
-    }
-
-    public void onNothingSelected(AdapterView<?> parent) {
-        // do nada
     }
 
 
