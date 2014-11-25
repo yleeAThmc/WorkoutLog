@@ -10,7 +10,7 @@
     <string name="loglist_screen">Previous Workouts</string>
     <string name="add_WOlog">Add New Workout</string>
     <string name="name_prompt">Enter exercise name</string>
-    <string name="filter_workout_loglist">Filter by Workout Type</string>
+    <string name="filter_workout_loglist">Filter by Workout Name or Type</string>
 
     <string-array name="length_array">
         <item>ft</item>

@@ -79,13 +79,9 @@ public class WOLogListAdapter extends ArrayAdapter<WOLog> {
 
     //for filtering purposes
     public Filter getFilter() {
-        Log.d("FILTER", "hey, making a filter");
         if (mactivityFilter == null) {
-            Log.d("FILTER", "first time through!");
-
             mactivityFilter = new ActivityFilter();
         }
-        Log.d("FILTER", "using what we have");
         return mactivityFilter;
     }
 
@@ -98,25 +94,21 @@ public class WOLogListAdapter extends ArrayAdapter<WOLog> {
 
             String searchconstraint = constraint.toString().toLowerCase();
             FilterResults result = new FilterResults();
-            Log.d("FILTER", "okay, we're somewhere");
             if (searchconstraint != null && searchconstraint.toString().length() > 0) {
-                Log.d("FILTER", "made it here!");
                 ArrayList<WOLog> filteredItems = new ArrayList<WOLog>();
 
                 for (int i = 0, l = originalDataToFilter.size(); i < l; i++) {
                     WOLog w = originalDataToFilter.get(i);
-                    Log.d("FILTER", "and it's type is: " + w.getType().toLowerCase());
-                    Log.d("FILTER", "and it's name is: " + w.getName().toLowerCase());
-                    if (w.getType().toLowerCase().contains(searchconstraint)) {
+                    if (w.getType().toLowerCase().contains(searchconstraint) ||
+                            w.getName().toLowerCase().contains(searchconstraint)) {
                         filteredItems.add(w);
                     }
-                    Log.d("FILTER", "added to new thing!");
 
                 }
-                Log.d("FILTER", "length of thing is: " + filteredItems.size());
+
                 result.count = filteredItems.size();
                 result.values = filteredItems;
-                Log.d("FILTER", "this is result: " + result.values);
+
             } else {
                 synchronized (this) {
                     result.values = originalDataToFilter;

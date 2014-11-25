@@ -75,7 +75,6 @@ public class WOLogListActivity extends Activity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                System.out.println("Text ["+s+"]");
                 mWOLogListAdapter.getFilter().filter(s.toString());
             }
 
