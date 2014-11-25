@@ -24,13 +24,6 @@ import java.util.List;
  * Created by Sam J on 10/4/14.
  */
 
-/*
-* TODO:
-* add variables needed for this class??????
-* finish constructor
-* fill in the methods
- * think of a better name for "Log" because that is a Java object already
-*/
 public class DataHandler extends Activity {
     private final String TAG = "Data Handler";
     public static DataHandler _dh; //the DataHandler instance that will be constructed and kept
@@ -123,6 +116,7 @@ public class DataHandler extends Activity {
         ArrayList<WOLog> logList = (ArrayList<WOLog>) gson.fromJson(temp, listType);
 
         if(delete) { //are we deleting the log?
+            Log.d("delete=true","oldLog weight: " + oldLog.getWeight() + ", oldLog sets: " + oldLog.getSets());
             logList.remove(oldLog); //...if so, delete the log
         }
         else { //...if not, we're editing the log

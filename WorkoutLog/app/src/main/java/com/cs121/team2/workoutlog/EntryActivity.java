@@ -34,11 +34,30 @@ public class EntryActivity extends Activity {
     private SeekBar _mood;
     private AutoCompleteTextView _actv;
 
+    private WOLog toEdit;
+    private boolean editing;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //assume we are not editing
+        editing = false;
+        // get the WOLog to be edited IF the user is trying to edit from Detail view
+        Intent i = getIntent();
+        if (i.getExtras() != null) { //are the extras in this intent null? If not, we're editing
+            toEdit = (WOLog) i.getParcelableExtra("toEdit");
+            editing = true;
+        }
+
         super.onCreate(savedInstanceState);
-        // Initial choice: Cardio/Strength/Custom
-        setContentView(R.layout.entry_initial_choice);
+
+        //set content based on whether we are editing or not
+        //if (!editing) { // If we're not editing, go to initial choice: Cardio/Strength/Custom
+            setContentView(R.layout.entry_initial_choice);
+        //} else { //If we are editing, just go straight to the actual data entry
+            // TODO: set the content of the view based on whether toEdit is cardio, strength, etc.
+            // TODO: make a field in WOLog which can tell whether the cardio is time based or not
+        //    getTimeCardioView(View view);
+        //}
 
         // hide icon and title on action bar
         getActionBar().setDisplayShowHomeEnabled(false);
@@ -83,7 +102,7 @@ public class EntryActivity extends Activity {
 
     public void getStrengthView(View view) {setContentView(R.layout.entry_second_choice_strength);}
 
-    public void getTimeCardioView(View view) {
+    public void getTimeCardioView(View view) { //this and other getViews called by the layout
         setCardioSubview(view);
         setActvArray(R.array.time_cardio_array);
     }
