@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,6 +28,7 @@ public class WOLogListActivity extends Activity implements OnItemSelectedListene
     WOLogListAdapter mWOLogListAdapter;
     private WOLog toSendAlong;
     Spinner timePicker;
+    String typeStringForContinuedUsed = "";
 
     //I know this is kinda hacky--CHANGE THIS DURING REFACTORING (Sam E)
     String[] keywordsTimePicker = {"All Time", "Today", "Last Week", "Last 2 Weeks",
@@ -91,11 +93,13 @@ public class WOLogListActivity extends Activity implements OnItemSelectedListene
 
         //Added for filtering use
         EditText activityTypeFilterText = (EditText) findViewById(R.id.activityTypeFilterText);
+
         activityTypeFilterText.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mWOLogListAdapter.getFilter().filter(s.toString());
+                typeStringForContinuedUsed = s.toString();
             }
 
             @Override
@@ -145,10 +149,14 @@ public class WOLogListActivity extends Activity implements OnItemSelectedListene
 
     public void onItemSelected(AdapterView<?> parent, View v, int position,
                                long id) {
-        // listview.setFilterText(Category[position]);
         String Text = timePicker.getSelectedItem().toString();
+        Log.d("FILTER", "going to filter time");
         mWOLogListAdapter.getFilter().filter(Text);
         mWOLogListAdapter.notifyDataSetChanged();
+        Log.d("FILTER", "going to filter text if needed");
+       // mWOLogListAdapter.getFilter().filter(typeStringForContinuedUsed);
+        mWOLogListAdapter.notifyDataSetChanged();
+
     }
 
     public void onNothingSelected(AdapterView<?> parent) {

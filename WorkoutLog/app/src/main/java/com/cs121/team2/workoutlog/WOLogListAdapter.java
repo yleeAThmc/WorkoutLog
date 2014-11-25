@@ -116,13 +116,13 @@ public class WOLogListAdapter extends ArrayAdapter<WOLog> {
             dateKeywords.add("all time");
             dateKeywords.add("last week");
             dateKeywords.add("last 2 weeks");
-            dateKeywords.add("last day");
+            dateKeywords.add("today");
             dateKeywords.add("last month");
             dateKeywords.add("last 6 months");
             FilterResults result = new FilterResults();
             Log.d("TIME FILTER", "my datecompare is: " + timeComparison);
             //if there is text entered to search by
-            if (searchconstraint != null && searchconstraint.length() > 0 ) {
+            if (searchconstraint != null && searchconstraint.length() > 0 && !dateKeywords.contains(searchconstraint) ) {
                 Log.d("TYPE FILTER", "filtering by type!");
                 ArrayList<WOLog> filteredItems = new ArrayList<WOLog>();
                 for (int i = 0, l = data.size(); i < l; i++) {
