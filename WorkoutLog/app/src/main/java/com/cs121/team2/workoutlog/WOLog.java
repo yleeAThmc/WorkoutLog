@@ -124,14 +124,11 @@ public class WOLog implements Parcelable {
         if(time != null && !time.isEmpty()){
             s += "<b>Time: </b>" + time + "<br>";
         }
-        if(distance != null && !distance.isEmpty()){
-            s += "<b>Distance: </b>" + distance + "<br>";
-        }
         if(mood != null && !mood.isEmpty()){
             s += "<b>Mood: </b>" + mood + "<br>";
         }
-        if(memo != null && !memo.isEmpty()) {
-            s += "<b>Memo: </b>" + memo + "<br>";
+        if(distance != null && !distance.isEmpty()){
+            s += "<b>Distance: </b>" + distance + "<br>";
         }
         Log.d(TAG, "weight: ." + weight + ".");
         if(weight != null && !weight.isEmpty()) {
@@ -142,6 +139,9 @@ public class WOLog implements Parcelable {
         }
         if(reps != null && !reps.isEmpty()) {
             s += "<b>Reps: </b>" + reps + "<br>";
+        }
+        if(memo != null && !memo.isEmpty()) {
+            s += "<b>Memo: </b>" + memo + "<br>";
         }
 
         s += "</center>";
