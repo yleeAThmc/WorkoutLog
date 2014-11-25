@@ -36,8 +36,10 @@ public class WOLogListAdapter extends ArrayAdapter<WOLog> {
         this.data = data;
         this.mactivityFilter = null;
         this.originalDataToFilter = new ArrayList<WOLog>();
-        this.originalDataToFilter.addAll(this.data);
-    }
+        if (this.data != null) {
+            this.originalDataToFilter.addAll(this.data);
+        }
+        }
 
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
@@ -125,6 +127,7 @@ public class WOLogListAdapter extends ArrayAdapter<WOLog> {
                 for (int i = 0, l = data.size(); i < l; i++) {
                     WOLog w = data.get(i);
                     if (w.getType().toLowerCase().contains(searchconstraint)) {
+                        Log.d("TYPE FILTER", "adding this thing:" + w.getType());
                         filteredItems.add(w);
                     }
                 }
