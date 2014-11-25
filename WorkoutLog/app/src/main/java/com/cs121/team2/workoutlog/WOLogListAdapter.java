@@ -99,6 +99,10 @@ public class WOLogListAdapter extends ArrayAdapter<WOLog> {
 
                 for (int i = 0, l = originalDataToFilter.size(); i < l; i++) {
                     WOLog w = originalDataToFilter.get(i);
+                    //figure out date thing here
+
+
+
                     if (w.getType().toLowerCase().contains(searchconstraint) ||
                             w.getName().toLowerCase().contains(searchconstraint)) {
                         filteredItems.add(w);

@@ -9,20 +9,28 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.AdapterView.OnItemSelectedListener;
 
 import java.io.IOException;
 
 /**
  * Created by Sam E on 10/7/2014.
  */
-public class WOLogListActivity extends Activity {
+public class WOLogListActivity extends Activity implements OnItemSelectedListener{
 
     private final String TAG = "WOLOGLIST ACTIVITY";
     ListView wologlistListView;
     WOLogListAdapter mWOLogListAdapter;
     private WOLog toSendAlong;
+    Spinner timePicker;
+
+    //I know this is kinda hacky--CHANGE THIS DURING REFACTORING (Sam E)
+    String[] keywordsTimePicker = { "Last Day", "Last Week", "Last 2 Weeks",
+            "Last Month", "Last 6 Months", "All Time"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +43,18 @@ public class WOLogListActivity extends Activity {
             getActionBar().setDisplayShowHomeEnabled(false);
             getActionBar().setDisplayShowTitleEnabled(false);
         }
+
+        //set the spinner for time selection
+        timePicker = (Spinner) findViewById(R.id.timePickSpinner);
+
+        //creating and setting the timePicker's adapter
+        ArrayAdapter<String> tpValues =
+                new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, keywordsTimePicker);
+        tpValues.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        timePicker.setAdapter(tpValues);
+
+        //setting the setOnItemSelectedListener for the spinner
+        timePicker.setOnItemSelectedListener(this);
 
         //Access the ListView
         wologlistListView = (ListView) findViewById(R.id.wologlist_listview);
@@ -123,6 +143,17 @@ public class WOLogListActivity extends Activity {
     }
 
 
+    public void onItemSelected(AdapterView<?> parent, View v, int position,
+                               long id) {
+        // listview.setFilterText(Category[position]);
+        String Text = timePicker.getSelectedItem().toString();
+        mWOLogListAdapter.getFilter().filter(Text);
+        mWOLogListAdapter.notifyDataSetChanged();
+    }
+
+    public void onNothingSelected(AdapterView<?> parent) {
+        // listview.setFilterText("");
+    }
 
 
 }
