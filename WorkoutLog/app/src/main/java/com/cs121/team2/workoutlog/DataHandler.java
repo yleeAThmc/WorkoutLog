@@ -84,6 +84,7 @@ public class DataHandler extends Activity {
         fis.close();
         //convert to non-JSON
         ArrayList<WOLog> logList = (ArrayList<WOLog>) gson.fromJson(temp, listType);
+        //TODO use getLogs here
 
         if (logList == null) {
             logList = new ArrayList<WOLog>();
@@ -107,5 +108,30 @@ public class DataHandler extends Activity {
         //write to internal storage
         fos.write(jsonLog.getBytes());
         fos.close();
+    }
+
+    public String getStats(){
+        ArrayList<WOLog> data = new ArrayList<WOLog>();
+        try {
+            data = this.getLogs();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        for(int i = 0; i < data.size(); i++){
+            WOLog log = data.get(i);
+            String type = log.getType();
+
+            //general case: average mood, time spent
+            if (type.equals(WOLog.TYPE_ARRAY[1])){
+                //cardio case
+            } else if (type.equals(WOLog.TYPE_ARRAY[2])){
+                //strength case
+            } else if (type.equals(WOLog.TYPE_ARRAY[3])){
+
+            }
+        }
+
+        return "";
     }
 }
