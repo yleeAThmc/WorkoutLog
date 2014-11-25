@@ -120,9 +120,10 @@ public class WOLogListAdapter extends ArrayAdapter<WOLog> {
             dateKeywords.add("last month");
             dateKeywords.add("last 6 months");
             FilterResults result = new FilterResults();
-
+            Log.d("TIME FILTER", "my datecompare is: " + timeComparison);
             //if there is text entered to search by
             if (searchconstraint != null && searchconstraint.length() > 0 ) {
+                Log.d("TYPE FILTER", "filtering by type!");
                 ArrayList<WOLog> filteredItems = new ArrayList<WOLog>();
                 for (int i = 0, l = data.size(); i < l; i++) {
                     WOLog w = data.get(i);
@@ -136,10 +137,10 @@ public class WOLogListAdapter extends ArrayAdapter<WOLog> {
             }
 
             //if the filtering is done by time values
-            Log.d("TIME FILTER", "my datecompare is: " + timeComparison);
-            if (dateKeywords.contains(searchconstraint) && !searchconstraint.equals("all time")){
+
+            else if (dateKeywords.contains(searchconstraint) && !searchconstraint.equals("all time")){
                 Log.d("Filter", "got something to filter w time");
-                if (searchconstraint.equals("last day")){
+                if (searchconstraint.equals("today")){
                     Log.d("Filter", "into the last day case");
                     ArrayList<WOLog> filteredItems = new ArrayList<WOLog>();
                     for (int i = 0, l = originalDataToFilter.size(); i < l; i++) {
@@ -215,7 +216,7 @@ public class WOLogListAdapter extends ArrayAdapter<WOLog> {
 
                 }
             }
-            if (searchconstraint.equals("all time")){
+            else if (searchconstraint.equals("all time")){
                 Log.d("Filter", "into the all time case");
                 synchronized (this) {
                     result.values = originalDataToFilter;

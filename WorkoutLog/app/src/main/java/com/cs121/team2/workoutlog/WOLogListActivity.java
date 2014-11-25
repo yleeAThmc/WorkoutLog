@@ -29,7 +29,7 @@ public class WOLogListActivity extends Activity implements OnItemSelectedListene
     Spinner timePicker;
 
     //I know this is kinda hacky--CHANGE THIS DURING REFACTORING (Sam E)
-    String[] keywordsTimePicker = {"All Time", "Last Day", "Last Week", "Last 2 Weeks",
+    String[] keywordsTimePicker = {"All Time", "Today", "Last Week", "Last 2 Weeks",
             "Last Month", "Last 6 Months", };
 
     @Override
