@@ -66,8 +66,13 @@ public class DataHandler extends Activity {
             temp = temp + Character.toString((char)c);
         }
         fis.close();
+
         //convert to non-JSON
         ArrayList<WOLog> toReturn = (ArrayList<WOLog>) gson.fromJson(temp, listType);
+        if (toReturn == null){
+            toReturn = new ArrayList<WOLog>();
+            //TODO show user friendly error message
+        }
         //send to LLAdapter
         return toReturn;
     }
@@ -90,7 +95,7 @@ public class DataHandler extends Activity {
         }
         logList.add(toAdd);
 
-        // For clearing the file while testing: logList = new ArrayList<WOLog>();
+
 
         // Sorts the list of logs from oldest to newest
         Collections.sort(logList, new Comparator<WOLog>() {
@@ -99,6 +104,8 @@ public class DataHandler extends Activity {
                 return woLog2.getDateCompare() - woLog.getDateCompare();
             }
         });
+
+        // For clearing the file while testing: logList = null;
 
         //convert to JSON
         String jsonLog = gson.toJson(logList);

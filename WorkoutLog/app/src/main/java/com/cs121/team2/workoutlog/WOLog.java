@@ -96,13 +96,13 @@ public class WOLog implements Parcelable {
     public String toStringList(){
         String s = "";
 
-        s += "<center><b>" + name + "</b><br>";
+        s += "<center><b>" + name + "</b>";
 
         if(date != null){
-            s += "<b>Date: </b>" + date + "<br>";
+            s += "<br><b>Date: </b>" + date;
         }
         if(mood != null){
-            s += "<b>Mood: </b>" + mood + "<br>";
+            s += "<br><b>Mood: </b>" + mood;
         }
 
         s += "</center>";

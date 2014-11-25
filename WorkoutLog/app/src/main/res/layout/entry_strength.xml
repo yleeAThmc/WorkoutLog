@@ -10,21 +10,23 @@
     tools:context=".EntryActivity"
     android:id="@+id/entry_view">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="4"
+        android:background="@drawable/edittext_green_bg"
+        android:layout_margin="@dimen/layout_margin"
         android:orientation="horizontal">
         <AutoCompleteTextView
             android:id="@+id/strength_actv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/layout_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="#00000000"
             android:textSize="@dimen/entry_font_size"
-            android:background="@drawable/edittext_green_bg"
             android:hint="@string/name_prompt"/>
 
-    </LinearLayout>
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
