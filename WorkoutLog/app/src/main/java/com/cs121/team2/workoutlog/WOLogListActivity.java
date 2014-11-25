@@ -29,8 +29,8 @@ public class WOLogListActivity extends Activity implements OnItemSelectedListene
     Spinner timePicker;
 
     //I know this is kinda hacky--CHANGE THIS DURING REFACTORING (Sam E)
-    String[] keywordsTimePicker = { "Last Day", "Last Week", "Last 2 Weeks",
-            "Last Month", "Last 6 Months", "All Time"};
+    String[] keywordsTimePicker = {"All Time", "Last Day", "Last Week", "Last 2 Weeks",
+            "Last Month", "Last 6 Months", };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,7 +152,7 @@ public class WOLogListActivity extends Activity implements OnItemSelectedListene
     }
 
     public void onNothingSelected(AdapterView<?> parent) {
-        // listview.setFilterText("");
+        // do nada
     }
 
 

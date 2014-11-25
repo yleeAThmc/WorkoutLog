@@ -10,7 +10,7 @@
     <string name="loglist_screen">Previous Workouts</string>
     <string name="add_WOlog">Add New Workout</string>
     <string name="name_prompt">Enter exercise name</string>
-    <string name="filter_workout_loglist">Filter by Workout Name or Type</string>
+    <string name="filter_workout_loglist">Filter by Workout Type</string>
 
     <string-array name="length_array">
         <item>ft</item>
@@ -53,14 +53,6 @@
         <item>Crunch</item>
         <item>Squats</item>
         <item>Plank</item>
-    </string-array>
-    <string-array name="timePickVals">
-        <item>Last Day</item>
-        <item>Last Week</item>
-        <item>Last 2 Weeks</item>
-        <item>Last Month</item>
-        <item>Last 6 Months</item>
-        <item>All Time</item>
     </string-array>
     <string name="activity_details">Log Details</string>
 </resources>
