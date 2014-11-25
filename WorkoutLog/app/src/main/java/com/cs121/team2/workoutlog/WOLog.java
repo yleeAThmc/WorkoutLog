@@ -69,13 +69,19 @@ public class WOLog implements Parcelable {
     // TODO: Remove these if we don't wind up using them for stats
     public int getDateCompare(){ return dateCompare; }
 
-    public String getName(){ return name; }
-
     public String getDate(){ return date; }
+
+    public String getName(){ return name; }
 
     public String getTime(){ return time; }
 
     public String getDistance(){ return distance; }
+
+    public String getReps() { return  reps; }
+
+    public String getSets() { return sets; }
+
+    public String getWeight() { return weight; }
 
     public String getMood(){ return mood; }
 
@@ -143,6 +149,23 @@ public class WOLog implements Parcelable {
         return s;
     }
 
+    // TODO: Write comparable function in WOLog instead of overriding in DataHandler?
+
+    //Equals function
+    public boolean equals(WOLog otherLog){
+        return (this.getDateCompare() == otherLog.getDateCompare() &&
+                this.getDate().equals(otherLog.getDate()) &&
+                this.getName().equals(otherLog.getName()) &&
+                this.getTime().equals(otherLog.getTime()) &&
+                this.getDistance().equals(otherLog.getDistance()) &&
+                this.getMood().equals(otherLog.getMood()) &&
+                this.getWeight().equals(otherLog.getWeight()) &&
+                this.getSets().equals(otherLog.getSets()) &&
+                this.getReps().equals(otherLog.getReps()) &&
+                this.getMemo().equals(otherLog.getMemo()) &&
+                this.getType().equals(otherLog.getType()) &&
+                this.getSubtype().equals(otherLog.getSubtype()));
+    }
 
     //The following functions allow for a WOLog to be passed as a Parcel
     public static final Parcelable.Creator<WOLog> CREATOR = new Parcelable.Creator<WOLog>() {
