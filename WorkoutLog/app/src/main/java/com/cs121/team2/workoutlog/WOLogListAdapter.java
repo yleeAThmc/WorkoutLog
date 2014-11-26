@@ -94,6 +94,15 @@ public class WOLogListAdapter extends ArrayAdapter<WOLog> {
 
     private class ActivityFilter extends Filter {
 
+
+        /*
+        *
+        * So, every time either thing gets changed, the time must be filtered first, then
+        * the type must be filtered. Time is always done off of the original set, then type
+        * is done off of data that was changed by Time.
+        */
+
+
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             //used with edit text
@@ -119,10 +128,19 @@ public class WOLogListAdapter extends ArrayAdapter<WOLog> {
             dateKeywords.add("today");
             dateKeywords.add("last month");
             dateKeywords.add("last 6 months");
+
+            ArrayList<String> typeKeywords =  new ArrayList<String>();
+            typeKeywords.add("all workouts");
+            typeKeywords.add("cardio");
+            typeKeywords.add("strength");
+            typeKeywords.add("custom");
+
             FilterResults result = new FilterResults();
             Log.d("TIME FILTER", "my datecompare is: " + timeComparison);
+
             //if there is text entered to search by
-            if (searchconstraint != null && searchconstraint.length() > 0 && !dateKeywords.contains(searchconstraint) ) {
+            if (searchconstraint.length() > 0 &&
+                    !dateKeywords.contains(searchconstraint) && !searchconstraint.equals("all workouts") ) {
                 Log.d("TYPE FILTER", "filtering by type!");
                 ArrayList<WOLog> filteredItems = new ArrayList<WOLog>();
                 for (int i = 0, l = data.size(); i < l; i++) {
@@ -131,6 +149,17 @@ public class WOLogListAdapter extends ArrayAdapter<WOLog> {
                         Log.d("TYPE FILTER", "adding this thing:" + w.getType());
                         filteredItems.add(w);
                     }
+                }
+                result.count = filteredItems.size();
+                result.values = filteredItems;
+            }
+
+            else if (searchconstraint != null && searchconstraint.length() > 0 &&
+                    !dateKeywords.contains(searchconstraint) && searchconstraint.equals("all workouts") ) {
+                Log.d("TYPE FILTER", "want all types!");
+                ArrayList<WOLog> filteredItems = new ArrayList<WOLog>();
+                for (int i = 0, l = data.size(); i < l; i++) {
+                    WOLog w = data.get(i);
                 }
                 result.count = filteredItems.size();
                 result.values = filteredItems;

@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -27,12 +28,14 @@ public class WOLogListActivity extends Activity implements OnItemSelectedListene
     ListView wologlistListView;
     WOLogListAdapter mWOLogListAdapter;
     private WOLog toSendAlong;
+    Spinner typePicker;
     Spinner timePicker;
-    String typeStringForContinuedUsed = "";
+
 
     //I know this is kinda hacky--CHANGE THIS DURING REFACTORING (Sam E)
     String[] keywordsTimePicker = {"All Time", "Today", "Last Week", "Last 2 Weeks",
             "Last Month", "Last 6 Months", };
+    String[] keywordsTypePicker = {"All Workouts", "Cardio", "Strength", "Custom" };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +52,26 @@ public class WOLogListActivity extends Activity implements OnItemSelectedListene
         //set the spinner for time selection
         timePicker = (Spinner) findViewById(R.id.timePickSpinner);
 
+        //set the spinner for type selection
+        typePicker = (Spinner) findViewById(R.id.typePickSpinner);
+
         //creating and setting the timePicker's adapter
         ArrayAdapter<String> tpValues =
                 new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, keywordsTimePicker);
         tpValues.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         timePicker.setAdapter(tpValues);
 
+        //creating and setting the typePicker's adapter
+        ArrayAdapter<String> tyValues =
+                new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, keywordsTypePicker);
+        tyValues.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        typePicker.setAdapter(tyValues);
+
         //setting the setOnItemSelectedListener for the spinner
         timePicker.setOnItemSelectedListener(this);
+
+        //setting the setOnItemSelectedListener for the spinner
+        typePicker.setOnItemSelectedListener(this);
 
         //Access the ListView
         wologlistListView = (ListView) findViewById(R.id.wologlist_listview);
@@ -91,27 +106,28 @@ public class WOLogListActivity extends Activity implements OnItemSelectedListene
             }
         });
 
-        //Added for filtering use
-        EditText activityTypeFilterText = (EditText) findViewById(R.id.activityTypeFilterText);
-
-        activityTypeFilterText.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mWOLogListAdapter.getFilter().filter(s.toString());
-                typeStringForContinuedUsed = s.toString();
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
+        //get rid of if 2 spinners does work instead of text + spinner
+//        //Added for filtering use
+//        EditText activityTypeFilterText = (EditText) findViewById(R.id.activityTypeFilterText);
+//
+//        activityTypeFilterText.addTextChangedListener(new TextWatcher() {
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                mWOLogListAdapter.getFilter().filter(s.toString());
+//                typeStringForContinuedUsed = s.toString();
+//            }
+//
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count,
+//                                          int after) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//            }
+//        });
 
 
 
@@ -149,13 +165,30 @@ public class WOLogListActivity extends Activity implements OnItemSelectedListene
 
     public void onItemSelected(AdapterView<?> parent, View v, int position,
                                long id) {
-        String Text = timePicker.getSelectedItem().toString();
-        Log.d("FILTER", "going to filter time");
-        mWOLogListAdapter.getFilter().filter(Text);
-        mWOLogListAdapter.notifyDataSetChanged();
-        Log.d("FILTER", "going to filter text if needed");
-       // mWOLogListAdapter.getFilter().filter(typeStringForContinuedUsed);
-        mWOLogListAdapter.notifyDataSetChanged();
+
+        switch (position) {
+            case 1:
+                Toast.makeText(this, "changed type", Toast.LENGTH_LONG).show();
+                break;
+            case 2:
+                Toast.makeText(this, "changed time", Toast.LENGTH_LONG).show();
+                break;
+        }
+
+//        String timePick = "all time";
+//        String typePick = "all workouts";
+//        String timeText = timePicker.getSelectedItem().toString();
+//        String typeText = typePicker.getSelectedItem().toString();
+//        if (timeText != null){
+//            timePick = timeText;
+//        }
+//        if (typeText != null){
+//            typePick = typeText;
+//        }
+//        Log.d("FILTER", "going to filter time and type");
+//        mWOLogListAdapter.getFilter().filter(timePick);
+//        mWOLogListAdapter.getFilter().filter(typePick);
+//        mWOLogListAdapter.notifyDataSetChanged();
 
     }
 
