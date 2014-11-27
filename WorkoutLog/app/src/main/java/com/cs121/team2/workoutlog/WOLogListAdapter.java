@@ -38,7 +38,7 @@ public class WOLogListAdapter extends ArrayAdapter<WOLog> {
         if (this.data != null) {
             this.originalDataToFilter.addAll(this.data);
         }
-        }
+    }
 
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
