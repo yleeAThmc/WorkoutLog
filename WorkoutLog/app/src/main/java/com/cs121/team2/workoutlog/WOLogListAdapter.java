@@ -7,47 +7,44 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Sam E on 10/7/2014.
  */
-public class WOLogListAdapter extends BaseAdapter {
+public class WOLogListAdapter extends ArrayAdapter<WOLog> {
     private final String TAG = "WOLogListAdapter";
 
     Context mContext;
-    int layoutResourceId;
     ArrayList<WOLog> data = null;
 
-    public WOLogListAdapter(Context mContext, int layoutResourceId, ArrayList<WOLog> data ){
-        this.layoutResourceId = layoutResourceId;
-        this.mContext = mContext;
+    ArrayList<WOLog> originalDataToFilter;
+
+
+    public WOLogListAdapter(Context ctx, ArrayList<WOLog> data) {
+        super(ctx, android.R.layout.simple_list_item_1, data);
+        this.mContext = ctx;
         this.data = data;
-    }
-
-    public WOLogListAdapter(Context mContext, int layoutResourceId){
-
-        ArrayList<WOLog> pulledData = null;
-        try {
-            pulledData = DataHandler.getDataHandler(this.mContext).getLogs();
-        } catch (IOException e) {
-            e.printStackTrace();
+        this.originalDataToFilter = new ArrayList<WOLog>();
+        if (this.data != null) {
+            this.originalDataToFilter.addAll(this.data);
+        }
         }
 
-        this.layoutResourceId = layoutResourceId;
-        this.mContext = mContext;
-        this.data = pulledData;
-    }
-
-    public View getView(int position, View convertView, ViewGroup parent){
-        if (convertView == null){
+    public View getView(int position, View convertView, ViewGroup parent) {
+        if (convertView == null) {
             //inflate layout
-            LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
-            convertView = inflater.inflate(layoutResourceId, parent, false);
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.row_wolog, parent, false);
         }
         WOLog logItem = data.get(position);
 
@@ -75,7 +72,7 @@ public class WOLogListAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int i) {
+    public WOLog getItem(int i) {
         return data.get(i);
     }
 
@@ -85,3 +82,5 @@ public class WOLogListAdapter extends BaseAdapter {
     }
 
 }
+
+

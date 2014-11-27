@@ -3,23 +3,30 @@ package com.cs121.team2.workoutlog;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.AdapterView.OnItemSelectedListener;
 
 import java.io.IOException;
 
 /**
  * Created by Sam E on 10/7/2014.
  */
-public class WOLogListActivity extends Activity {
+public class WOLogListActivity extends Activity{
 
     private final String TAG = "WOLOGLIST ACTIVITY";
     ListView wologlistListView;
     WOLogListAdapter mWOLogListAdapter;
     private WOLog toSendAlong;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,13 +40,14 @@ public class WOLogListActivity extends Activity {
             getActionBar().setDisplayShowTitleEnabled(false);
         }
 
+
         //Access the ListView
         wologlistListView = (ListView) findViewById(R.id.wologlist_listview);
 
         //Create a LogListAdapter for the ListView
         DataHandler dhInstance = DataHandler.getDataHandler(this);
         try {
-            mWOLogListAdapter = new WOLogListAdapter( this,R.layout.row_wolog, dhInstance.getLogs());
+            mWOLogListAdapter = new WOLogListAdapter( this,dhInstance.getLogs());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -65,6 +73,9 @@ public class WOLogListActivity extends Activity {
                 startActivity(detailIntent);
             }
         });
+
+
+
     }
 
 
@@ -95,5 +106,6 @@ public class WOLogListActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+
 
 }
