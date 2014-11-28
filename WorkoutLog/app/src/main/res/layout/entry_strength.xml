@@ -10,93 +10,81 @@
     tools:context=".EntryActivity"
     android:id="@+id/entry_view">
 
-    <AutoCompleteTextView
-        android:id="@+id/strength_actv"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Search exercise name"/>
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:background="@drawable/edittext_green_bg"
+        android:layout_margin="@dimen/layout_margin"
+        android:orientation="horizontal">
+        <AutoCompleteTextView
+            android:id="@+id/strength_actv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="#00000000"
+            android:textSize="@dimen/entry_font_size"
+            android:hint="@string/name_prompt"/>
+
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-        <DatePicker
-            android:id="@+id/strength_date"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:calendarViewShown="false"/>
-
-        <TimePicker
-            android:id="@+id/strength_time"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-    <SeekBar
-        android:id="@+id/strength_mood"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bar2"
-        android:max="4"
-        android:progress="2"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/strength_sets"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:hint="Enter sets"/>
-        <EditText
-            android:id="@+id/strength_reps"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:hint="Enter reps"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:orientation="horizontal">
         <EditText
             android:id="@+id/strength_weight"
             android:layout_width="0dp"
-            android:layout_weight="3"
-            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/layout_margin"
+            android:background="@drawable/edittext_green_bg"
             android:inputType="number"
             android:hint="@string/wgt_prompt"/>
-        <Spinner
-            android:id="@+id/strength_weight_unit"
+
+        <FrameLayout
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:entries="@array/weight_array"/>
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/layout_margin"
+            android:background="@drawable/edittext_green_bg">
+                <EditText
+                    android:id="@+id/strength_sets"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|start"
+                    android:inputType="number"
+                    android:hint="Sets"/>
+
+                <EditText
+                    android:id="@+id/strength_reps"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|end"
+                    android:inputType="number"
+                    android:hint="Reps"/>
+        </FrameLayout>
     </LinearLayout>
-    <EditText
-        android:id="@+id/strength_memo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Additional memo "
-        android:lines="1"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_weight="1">
         <Button
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:background="@drawable/btn_cream_bg"
+            android:layout_margin="@dimen/btn_margin"
             android:text="Back"
-            android:onClick="getStrengthView"/>
+            android:onClick="getCommonDataView"/>
         <Button
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:background="@drawable/btn_green_bg"
+            android:layout_margin="@dimen/btn_margin"
             android:text="Save"
             android:onClick="onStrengthSubmit"/>
     </LinearLayout>

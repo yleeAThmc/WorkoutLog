@@ -59,8 +59,13 @@ public class DataHandler extends Activity {
             temp = temp + Character.toString((char)c);
         }
         fis.close();
+
         //convert to non-JSON
         ArrayList<WOLog> toReturn = (ArrayList<WOLog>) gson.fromJson(temp, listType);
+        if (toReturn == null){
+            toReturn = new ArrayList<WOLog>();
+            //TODO show user friendly error message
+        }
         //send to LLAdapter
         return toReturn;
     }
@@ -83,15 +88,17 @@ public class DataHandler extends Activity {
         }
         logList.add(toAdd);
 
-        // For clearing the file while testing: logList = new ArrayList<WOLog>();
 
-        //sort loglist
+
+        // Sorts the list of logs from oldest to newest
         Collections.sort(logList, new Comparator<WOLog>() {
             @Override
             public int compare(WOLog woLog, WOLog woLog2) {
                 return woLog2.getDateCompare() - woLog.getDateCompare();
             }
         });
+
+        // For clearing the file while testing: logList = null;
 
         //convert to JSON
         String jsonLog = gson.toJson(logList);
@@ -104,6 +111,8 @@ public class DataHandler extends Activity {
 
     //edits or removes an existing log
     public synchronized void editLog(WOLog newLog, WOLog oldLog, boolean delete) throws IOException {
+        //save a dummy copy of oldLog
+        WOLog dummy = oldLog;
         //retrieve data from file
         FileInputStream fis = mContext.openFileInput("jsonLogs.json");
         int c;
@@ -112,11 +121,11 @@ public class DataHandler extends Activity {
             temp = temp + Character.toString((char)c);
         }
         fis.close();
+
         //convert to non-JSON
         ArrayList<WOLog> logList = (ArrayList<WOLog>) gson.fromJson(temp, listType);
 
         if(delete) { //are we deleting the log?
-            Log.d("delete=true","oldLog weight: " + oldLog.getWeight() + ", oldLog sets: " + oldLog.getSets());
             logList.remove(oldLog); //...if so, delete the log
         }
         else { //...if not, we're editing the log
@@ -127,19 +136,26 @@ public class DataHandler extends Activity {
         // For clearing the file while testing: logList = new ArrayList<WOLog>();
 
         //sort loglist
-        Collections.sort(logList, new Comparator<WOLog>() {
-            @Override
-            public int compare(WOLog woLog, WOLog woLog2) {
-                return woLog2.getDateCompare() - woLog.getDateCompare();
-            }
-        });
+        if(!logList.isEmpty()) {
+            Collections.sort(logList, new Comparator<WOLog>() {
+                @Override
+                public int compare(WOLog woLog, WOLog woLog2) {
+                    return woLog2.getDateCompare() - woLog.getDateCompare();
+                }
+            });
+        }
+        Log.d("past sort","we got past Collections.sort");
 
         //convert to JSON
         String jsonLog = gson.toJson(logList);
+        Log.d("past toJson","we got past jsonLog = gson.toJson(logList)");
         //save to a .txt file
         FileOutputStream fos = mContext.openFileOutput("jsonLogs.json", Context.MODE_PRIVATE);
+        Log.d("past fos","we got past fos = mContext.openFileOutput(...)");
         //write to internal storage
         fos.write(jsonLog.getBytes());
+        Log.d("past write","we got past fos.write(...)");
         fos.close();
+        Log.d("past close","we got past fos.close()");
     }
 }
