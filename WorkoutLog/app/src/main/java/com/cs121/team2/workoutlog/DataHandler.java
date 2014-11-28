@@ -144,18 +144,13 @@ public class DataHandler extends Activity {
                 }
             });
         }
-        Log.d("past sort","we got past Collections.sort");
 
         //convert to JSON
         String jsonLog = gson.toJson(logList);
-        Log.d("past toJson","we got past jsonLog = gson.toJson(logList)");
         //save to a .txt file
         FileOutputStream fos = mContext.openFileOutput("jsonLogs.json", Context.MODE_PRIVATE);
-        Log.d("past fos","we got past fos = mContext.openFileOutput(...)");
         //write to internal storage
         fos.write(jsonLog.getBytes());
-        Log.d("past write","we got past fos.write(...)");
         fos.close();
-        Log.d("past close","we got past fos.close()");
     }
 }

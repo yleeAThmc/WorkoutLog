@@ -39,8 +39,9 @@ public class EntryActivity extends Activity {
 
     private AutoCompleteTextView _actv;
 
-    private WOLog toEdit;
-    private boolean editing;
+    private WOLog toEdit; //the WOLog that we might be editing from Detail activity
+    private boolean editing = false; //are we editing? Assume we are not
+    private int[] toEditDate = new int[5]; //the array that the split date string will be stored in from toEdit
 
     // specific to custom wo
     private Boolean _distEnabled = true;
@@ -50,25 +51,34 @@ public class EntryActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //assume we are not editing
-        editing = false;
         // get the WOLog to be edited IF the user is trying to edit from Detail view
         Intent i = getIntent();
         if (i.getExtras() != null) { //are the extras in this intent null? If not, we're editing
             toEdit = (WOLog) i.getParcelableExtra("toEdit");
             editing = true;
+            String[] toEditDateString = toEdit.getDate().split("\\W"); //split the date string
+            //next line: make sure minutes has no leading 0s
+            toEditDateString[4] = toEditDateString[4].replaceAll("^0+", "");
+            for(int j = 0; j < toEditDateString.length; j++) { //populate our date array
+                toEditDate[j] = Integer.parseInt(toEditDateString[j]);
+                Log.d("toEditDate","Here: " + toEditDate[j]);
+            }
         }
 
         super.onCreate(savedInstanceState);
 
         //set content based on whether we are editing or not
-        //if (!editing) { // If we're not editing, go to initial choice: Cardio/Strength/Custom
+        if (!editing) { // If we're not editing, go to initial choice: Cardio/Strength/Custom
             setContentView(R.layout.entry_initial_choice);
-        //} else { //If we are editing, just go straight to the actual data entry
-            // TODO: set the content of the view based on whether toEdit is cardio, strength, etc.
-            // TODO: make a field in WOLog which can tell whether the cardio is time based or not
-        //    getTimeCardioView(View view);
-        //}
+        } else { //If we are editing, just go straight to the actual data entry for the correct type
+            if(toEdit.getType().equals("Cardio")) { //toEdit is cardio?
+                setContentView(R.layout.entry_second_choice_cardio);
+            } else if(toEdit.getType().equals("Strength")) { //toEdit is strength?
+                setContentView(R.layout.entry_second_choice_strength);
+            } else if(toEdit.getType().equals("Custom")) {
+                setContentView(R.layout.entry_common_data);
+            }
+        }
 
         // hide icon and title on action bar
         if(getActionBar() != null) {
@@ -145,6 +155,23 @@ public class EntryActivity extends Activity {
     public void getCommonDataView(View view) {
         setContentView(R.layout.entry_common_data);
         initializeDateAndTime();
+        if (editing) { //if we're editing...
+            //...pre-fill the seekbar depending on mood from toEdit...
+            SeekBar seek = (SeekBar) findViewById(R.id.mood);
+            if (toEdit.getMood().equals("awful")) {
+                seek.setProgress(0);
+            } else if (toEdit.getMood().equals("bad")) {
+                seek.setProgress(1);
+            } else if (toEdit.getMood().equals("k")) {
+                seek.setProgress(2);
+            } else if (toEdit.getMood().equals("good")) {
+                seek.setProgress(3);
+            } else if (toEdit.getMood().equals("perfect")) {
+                seek.setProgress(4);
+            }
+            //...and pre-fill the date depending on date from toEdit in InitializeDateAndTime()
+            //TODO: prefill the memo box
+        }
     }
 
     public void goBackFromCommon(View view) {
@@ -188,6 +215,11 @@ public class EntryActivity extends Activity {
         _date = (DatePicker) findViewById(R.id.date);
         _time = (TimePicker) findViewById(R.id.time);
         _time.setIs24HourView(true);
+        if (editing) { //if we're editing, prefill the datepicker feilds
+            _date.updateDate(toEditDate[2],toEditDate[0]-1,toEditDate[1]);
+            _time.setCurrentHour(toEditDate[3]);
+            _time.setCurrentMinute(toEditDate[4]);
+        }
     }
 
     //TODO: should go to WOLOG???
@@ -202,7 +234,7 @@ public class EntryActivity extends Activity {
         _wl.setMemo(String.valueOf(_memo.getText()));
     }
 
-    private void setMood() { _mood = (SeekBar) findViewById(R.id.mood); }
+    private void setMood() { _mood = (SeekBar) findViewById(R.id.mood);}
 
     private void setMemo() {
         _memo = (EditText) findViewById(R.id.memo);

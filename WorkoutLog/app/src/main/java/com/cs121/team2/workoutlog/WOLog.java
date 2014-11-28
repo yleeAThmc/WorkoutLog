@@ -150,7 +150,7 @@ public class WOLog implements Parcelable {
 
     // TODO: Write comparable function in WOLog instead of overriding in DataHandler?
 
-
+    //equals override for WOLog
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
