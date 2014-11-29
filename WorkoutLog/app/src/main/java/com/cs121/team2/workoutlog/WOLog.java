@@ -46,7 +46,7 @@ public class WOLog implements Parcelable {
 
     public void setName(String t){ name = t; }
 
-    public void setTime(String t){ time = t; }
+    public void setTime(String h, String m, String s){ time = h + ":" + m + ":" + s; }
 
     public void setDistance(String d){ distance = d; }
 

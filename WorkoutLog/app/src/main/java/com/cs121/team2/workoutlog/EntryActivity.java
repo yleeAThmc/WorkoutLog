@@ -42,6 +42,7 @@ public class EntryActivity extends Activity {
     private WOLog toEdit; //the WOLog that we might be editing from Detail activity
     private boolean editing = false; //are we editing? Assume we are not
     private int[] toEditDate = new int[5]; //the array that the split date string will be stored in from toEdit
+    private String[] toEditTime = new String[3];
 
     // specific to custom wo
     private Boolean _distEnabled = true;
@@ -56,9 +57,19 @@ public class EntryActivity extends Activity {
         if (i.getExtras() != null) { //are the extras in this intent null? If not, we're editing
             toEdit = (WOLog) i.getParcelableExtra("toEdit");
             editing = true;
+            if (toEdit.getTime() != null && !toEdit.getTime().isEmpty()) { //do we have a time?
+                //if so, create a string array and parse the ints from that string array of [h,m,s]
+                toEditTime = toEdit.getTime().split(":");
+                for(int x = 0; x < toEditTime.length; x++) {
+                    Log.d("toEdit Time","Time: " + toEditTime[x]);
+                }
+            }
             String[] toEditDateString = toEdit.getDate().split("\\W"); //split the date string
-            //next line: make sure minutes has no leading 0s
-            toEditDateString[4] = toEditDateString[4].replaceAll("^0+", "");
+            //make sure date's time is not a whole hour so minutes != "" after taking out 0s
+            if (!(toEditDateString[4].equals("00"))) {
+                //next line: make sure minutes has no leading 0s
+                toEditDateString[4] = toEditDateString[4].replaceAll("^0+", "");
+            }
             for(int j = 0; j < toEditDateString.length; j++) { //populate our date array
                 toEditDate[j] = Integer.parseInt(toEditDateString[j]);
                 Log.d("toEditDate","Here: " + toEditDate[j]);
@@ -170,7 +181,9 @@ public class EntryActivity extends Activity {
                 seek.setProgress(4);
             }
             //...and pre-fill the date depending on date from toEdit in InitializeDateAndTime()
-            //TODO: prefill the memo box
+            //...and pre-fill the memo depending on memo from toEdit
+            EditText memorandum = (EditText) findViewById(R.id.memo);
+            memorandum.setText(toEdit.getMemo());
         }
     }
 
@@ -193,10 +206,21 @@ public class EntryActivity extends Activity {
         if (_type == WOLog.TYPE_CARDIO) {
             setContentView(R.layout.entry_cardio);
             _actv = (AutoCompleteTextView) findViewById(R.id.cardio_actv);
+            EditText dist = (EditText) findViewById(R.id.cardio_dist);
+            EditText hour = (EditText) findViewById(R.id.cardio_hour);
+            EditText minute = (EditText) findViewById(R.id.cardio_minute);
+            EditText second = (EditText) findViewById(R.id.cardio_second);
             if (_subType == WOLog.SUBTYPE_TIME_BODY) {
                 setActvArray(R.array.time_cardio_array);
             } else {
                 setActvArray(R.array.dist_cardio_array);
+            }
+            if(editing) { //are we editing?
+                _actv.setText(toEdit.getName()); //if so, preset the name field
+                dist.setText(toEdit.getDistance()); //also preset the distance field
+                hour.setText(toEditTime[0]); //also preset all time fields...
+                minute.setText(toEditTime[1]);
+                second.setText(toEditTime[2]);
             }
         } else if (_type == WOLog.TYPE_STRENGTH) {
             setContentView(R.layout.entry_strength);
@@ -206,8 +230,15 @@ public class EntryActivity extends Activity {
             } else {
                 setActvArray(R.array.weights_strength_array);
             }
+            if(editing) { //are we editing?
+                _actv.setText(toEdit.getName()); //if so, preset the name field
+            }
         } else if (_type == WOLog.TYPE_CUSTOM) {
             setContentView(R.layout.entry_custom_workout);
+            if (editing) {
+                EditText customName = (EditText) findViewById(R.id.custom_type);
+                customName.setText(toEdit.getName());
+            }
         }
     }
 
@@ -248,8 +279,10 @@ public class EntryActivity extends Activity {
         EditText dist = (EditText) findViewById(R.id.cardio_dist);
         EditText hour = (EditText) findViewById(R.id.cardio_hour);
         EditText minute = (EditText) findViewById(R.id.cardio_minute);
+        EditText second = (EditText) findViewById(R.id.cardio_second);
         _wl.setDistance(String.valueOf(dist.getText()));
-        _wl.setTime(String.valueOf(hour.getText()));
+        _wl.setTime(String.valueOf(hour.getText()),
+                String.valueOf(minute.getText()),String.valueOf(second.getText()));
         _wl.setName(String.valueOf(_actv.getText()));
         onSubmit();
     }
@@ -276,7 +309,7 @@ public class EntryActivity extends Activity {
         if (_durEnabled) {
             EditText hour = (EditText) findViewById(R.id.custom_hour);
             EditText minute = (EditText) findViewById(R.id.custom_minute);
-            _wl.setTime(String.valueOf(hour.getText()));
+            _wl.setTime(String.valueOf(hour.getText()),String.valueOf(minute.getText()),"");
         }
         if (_setrepEnabled) {
             EditText setText = (EditText) findViewById(R.id.custom_sets);
@@ -294,10 +327,18 @@ public class EntryActivity extends Activity {
     private void onSubmit() {
         _wl.setType(WOLog.TYPE_ARRAY[_type]);
         _wl.setSubtype(WOLog.SUBTYPE_ARRAY[_subType]);
-        try {
-            _dhInstance.addLog(_wl);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(!editing) {
+            try {
+                _dhInstance.addLog(_wl);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if (editing) {
+            try {
+                _dhInstance.editLog(_wl,toEdit,false);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         setContentView(R.layout.entry_initial_choice);
         startWOLogListAct();
