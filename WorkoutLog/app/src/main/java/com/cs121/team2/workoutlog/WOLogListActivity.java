@@ -43,12 +43,17 @@ public class WOLogListActivity extends Activity{
         }
 
 
+
         //Access the ListView
         wologlistListView = (ListView) findViewById(R.id.wologlist_listview);
 
         //Create a LogListAdapter for the ListView
         DataHandler dhInstance = DataHandler.getDataHandler(this);
         try {
+            if (dhInstance.getLogs().isEmpty()){
+                Intent statsIntent = new Intent(wologlistListView.getContext(),EmptyWOLogList.class);
+                startActivity(statsIntent);
+            }
             mWOLogListAdapter = new WOLogListAdapter( this,dhInstance.getLogs());
         } catch (IOException e) {
             e.printStackTrace();

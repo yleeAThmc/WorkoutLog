@@ -58,5 +58,6 @@
     <string name="activity_details">Log Details</string>
     <string name="title_activity_stats">StatsActivity</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_empty_wolog_list">EmptyWOLogList</string>
 
 </resources>

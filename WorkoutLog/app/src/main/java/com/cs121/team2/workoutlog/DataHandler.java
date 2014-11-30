@@ -156,21 +156,21 @@ public class DataHandler extends Activity {
             //general case: average mood, time spent
             if (type.equals(WOLog.TYPE_ARRAY[0])){ //cardio case
                 cardioCount++;
-                if (log.getDistance() != null) {
+                if (log.getDistance() != null && !log.getDistance().equals("")) {
                     cardioTotalDistance += Integer.parseInt(log.getDistance());
                 }
-                if (log.getTime() != null) {
+                if (log.getDistance() != null && !log.getTime().equals("")) {
                     cardioTotalTime += Integer.parseInt(log.getTime());
                 }
             } else if (type.equals(WOLog.TYPE_ARRAY[1])){ //strength case
                 strengthCount++;
-                if (log.getSets() != null) {
+                if (log.getSets() != null && !log.getSets().equals("")) {
                     strengthTotalSets += Integer.parseInt(log.getSets());
                 }
-                if (log.getReps() != null) {
+                if (log.getReps() != null && !log.getReps().equals("") ) {
                     strengthTotalReps += Integer.parseInt(log.getReps());
                 }
-                if (log.getWeight() != null) {
+                if (log.getWeight() != null && !log.getWeight().equals("")) {
                     strengthTotalWeight += Integer.parseInt(log.getWeight());
                     strengthMaxWeight = Math.max(
                             Integer.parseInt(log.getWeight()),
@@ -178,20 +178,25 @@ public class DataHandler extends Activity {
                 }
             } else if (type.equals(WOLog.TYPE_ARRAY[2])){ //custom case
                 customCount++;
-                Integer integer = (Integer) customNameCount.get(log.getName());
-                if (integer == null || log.getName() != null){
-                    customNameCount.put(log.getName(), 1);
-                } else if (log.getName() != null) {
-                    customNameCount.put(log.getName(), integer++);
+                if (log.getName() != null && !log.getName().equals("") ) {
+                    Integer integer = (Integer) customNameCount.get(log.getName());
+                    if (integer == null) {
+                        customNameCount.put(log.getName(), 1);
+                    } else {
+                        customNameCount.put(log.getName(), integer++);
+                    }
                 }
             }
         }
 
-        cardioAverageSpeed = cardioTotalDistance / cardioTotalTime;
-        strengthAverageReps = strengthTotalReps / strengthCount;
-        strengthAverageSets = strengthTotalSets / strengthCount;
-        strengthAverageWeight = strengthTotalWeight / strengthCount;
-
+        if (cardioTotalTime != 0) {
+            cardioAverageSpeed = cardioTotalDistance / cardioTotalTime;
+        }
+        if (strengthCount != 0) {
+            strengthAverageReps = strengthTotalReps / strengthCount;
+            strengthAverageSets = strengthTotalSets / strengthCount;
+            strengthAverageWeight = strengthTotalWeight / strengthCount;
+        }
 
         String s = "";
 

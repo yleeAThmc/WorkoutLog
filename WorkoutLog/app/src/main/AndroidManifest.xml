@@ -38,6 +38,10 @@
             android:name=".StatsActivity"
             android:label="@string/title_activity_stats" >
         </activity>
+        <activity
+            android:name=".EmptyWOLogList"
+            android:label="@string/title_activity_empty_wolog_list" >
+        </activity>
     </application>
 
 </manifest>
