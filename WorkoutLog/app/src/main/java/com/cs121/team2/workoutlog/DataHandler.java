@@ -18,7 +18,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 /**
  * Created by Sam J on 10/4/14.
@@ -79,18 +83,20 @@ public class DataHandler extends Activity {
 
     //appends a new log to the Log AList
     public synchronized void addLog(WOLog toAdd) throws IOException {
-        //retrive data from file
-        FileInputStream fis = mContext.openFileInput("jsonLogs.json");
-        int c;
-        String temp="";
-        while( (c = fis.read()) != -1){
-            temp = temp + Character.toString((char)c);
-        }
-        fis.close();
-        //convert to non-JSON
-        ArrayList<WOLog> logList = (ArrayList<WOLog>) gson.fromJson(temp, listType);
+//        //retrive data from file
+//        FileInputStream fis = mContext.openFileInput("jsonLogs.json");
+//        int c;
+//        String temp="";
+//        while( (c = fis.read()) != -1){
+//            temp = temp + Character.toString((char)c);
+//        }
+//        fis.close();
+//        //convert to non-JSON
+//        ArrayList<WOLog> logList = (ArrayList<WOLog>) gson.fromJson(temp, listType);
         //TODO use getLogs here
 
+
+        ArrayList<WOLog> logList = getLogs();
         if (logList == null) {
             logList = new ArrayList<WOLog>();
         }
@@ -125,20 +131,90 @@ public class DataHandler extends Activity {
             e.printStackTrace();
         }
 
+        int cardioCount = 0;
+        int cardioTotalDistance = 0;
+        int cardioTotalTime = 0;
+        double cardioAverageSpeed = 0;
+
+        int strengthCount = 0;
+        int strengthTotalSets = 0;
+        int strengthTotalReps = 0;
+        int strengthTotalWeight = 0;
+        int strengthMaxWeight = 0;
+        double strengthAverageSets = 0;
+        double strengthAverageReps = 0;
+        double strengthAverageWeight = 0;
+
+        int customCount = 0;
+        Map customNameCount = new TreeMap<String, Integer>();
+
         for(int i = 0; i < data.size(); i++){
             WOLog log = data.get(i);
             String type = log.getType();
 
+            //TODO unit handling
             //general case: average mood, time spent
-            if (type.equals(WOLog.TYPE_ARRAY[1])){
-                //cardio case
-            } else if (type.equals(WOLog.TYPE_ARRAY[2])){
-                //strength case
-            } else if (type.equals(WOLog.TYPE_ARRAY[3])){
-
+            if (type.equals(WOLog.TYPE_ARRAY[0])){ //cardio case
+                cardioCount++;
+                if (log.getDistance() != null) {
+                    cardioTotalDistance += Integer.parseInt(log.getDistance());
+                }
+                if (log.getTime() != null) {
+                    cardioTotalTime += Integer.parseInt(log.getTime());
+                }
+            } else if (type.equals(WOLog.TYPE_ARRAY[1])){ //strength case
+                strengthCount++;
+                if (log.getSets() != null) {
+                    strengthTotalSets += Integer.parseInt(log.getSets());
+                }
+                if (log.getReps() != null) {
+                    strengthTotalReps += Integer.parseInt(log.getReps());
+                }
+                if (log.getWeight() != null) {
+                    strengthTotalWeight += Integer.parseInt(log.getWeight());
+                    strengthMaxWeight = Math.max(
+                            Integer.parseInt(log.getWeight()),
+                            strengthMaxWeight);
+                }
+            } else if (type.equals(WOLog.TYPE_ARRAY[2])){ //custom case
+                customCount++;
+                Integer integer = (Integer) customNameCount.get(log.getName());
+                if (integer == null || log.getName() != null){
+                    customNameCount.put(log.getName(), 1);
+                } else if (log.getName() != null) {
+                    customNameCount.put(log.getName(), integer++);
+                }
             }
         }
 
-        return "";
+        cardioAverageSpeed = cardioTotalDistance / cardioTotalTime;
+        strengthAverageReps = strengthTotalReps / strengthCount;
+        strengthAverageSets = strengthTotalSets / strengthCount;
+        strengthAverageWeight = strengthTotalWeight / strengthCount;
+
+
+        String s = "";
+
+        s += "<b> Cardio </b> (" + cardioCount + ") <br>";
+        s += "Total Distance: " + cardioTotalDistance + "<br>";
+        s += "Total Time: " + cardioTotalTime + "<br>";
+        s += "Average Speed: " + cardioAverageSpeed + "<br>";
+
+        s += "<br> <b> Strength </b> (" + strengthCount + ")<br>";
+        s += "Average Sets: " + strengthAverageSets + "<br>";
+        s += "Average Reps: " + strengthAverageReps + "<br>";
+        s += "Average Weight: " + strengthAverageWeight + "<br>";
+        s += "Heaviest Weight: " + strengthMaxWeight + "<br>";
+
+        s += "<br> <b> Custom </b> (" + customCount + ")<br>";
+        Set<Map.Entry<String,Integer>> entrySet = customNameCount.entrySet();
+        for (Map.Entry entry : entrySet) {
+            s += entry.getKey() + ": " + entry.getValue() + "<br>";
+        }
+
+
+        s += "</center>";
+
+        return s;
     }
 }

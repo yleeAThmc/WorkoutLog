@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -24,6 +25,7 @@ public class WOLogListActivity extends Activity{
 
     private final String TAG = "WOLOGLIST ACTIVITY";
     ListView wologlistListView;
+    Button statsButton;
     WOLogListAdapter mWOLogListAdapter;
     private WOLog toSendAlong;
 
@@ -74,8 +76,17 @@ public class WOLogListActivity extends Activity{
             }
         });
 
+        //access the Stats Button
+        statsButton = (Button) findViewById(R.id.stats_button);
 
-
+        //handle click of Stats Button
+        statsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                Intent statsIntent = new Intent(v.getContext(),StatsActivity.class);
+                startActivity(statsIntent);
+            }
+        });
     }
 
 

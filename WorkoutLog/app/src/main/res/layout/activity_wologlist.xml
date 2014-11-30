@@ -14,6 +14,14 @@
     tools:context=".WOLogListActivity">
 
     <!-- List whose dataset is defined in code with an adapter -->
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="30pt"
+        android:text="Statistics"
+        android:background="@drawable/btn_green_border"
+        android:id="@+id/stats_button"
+        android:layout_gravity="center_horizontal" />
+
     <ListView
         android:id="@+id/wologlist_listview"
         android:layout_width="match_parent"
