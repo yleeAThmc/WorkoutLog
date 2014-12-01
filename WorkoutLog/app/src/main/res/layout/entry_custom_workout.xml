@@ -54,6 +54,27 @@
             android:background="#00000000"
             android:inputType="number"
             android:hint="@string/dist_prompt"/>
+            <ImageButton
+                android:id="@+id/ftBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|start"
+                android:background="@drawable/cream_ft"
+                android:onClick="onClickFt"/>
+            <ImageButton
+                android:id="@+id/mBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:background="@drawable/cream_m"
+                android:onClick="onClickM"/>
+            <ImageButton
+                android:id="@+id/kmBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:background="@drawable/cream_km"
+                android:onClick="onClickKm"/>
         </FrameLayout>
 
         <FrameLayout
@@ -74,6 +95,7 @@
                 android:id="@+id/custom_hour"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="#00000000"
                 android:layout_gravity="center_vertical|start"
                 android:inputType="number"
                 android:hint="hh"/>
@@ -81,9 +103,18 @@
                 android:id="@+id/custom_minute"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|end"
+                android:background="#00000000"
+                android:layout_gravity="center"
                 android:inputType="number"
                 android:hint="mm"/>
+            <EditText
+                android:id="@+id/custom_second"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#00000000"
+                android:layout_gravity="center_vertical|end"
+                android:inputType="number"
+                android:hint="ss"/>
         </FrameLayout>
     </LinearLayout>
 
@@ -114,6 +145,20 @@
                 android:background="#00000000"
                 android:inputType="number"
                 android:hint="@string/wgt_prompt"/>
+            <ImageButton
+                android:id="@+id/lbBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|start"
+                android:background="@drawable/cream_lb"
+                android:onClick="onClickLb"/>
+            <ImageButton
+                android:id="@+id/kgBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:background="@drawable/cream_kg"
+                android:onClick="onClickKg"/>
         </FrameLayout>
 
 
@@ -135,6 +180,7 @@
                 android:id="@+id/custom_sets"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="#00000000"
                 android:layout_gravity="center_vertical|start"
                 android:inputType="number"
                 android:hint="Sets"/>
@@ -143,6 +189,7 @@
                 android:id="@+id/custom_reps"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="#00000000"
                 android:layout_gravity="center_vertical|end"
                 android:inputType="number"
                 android:hint="Reps"/>

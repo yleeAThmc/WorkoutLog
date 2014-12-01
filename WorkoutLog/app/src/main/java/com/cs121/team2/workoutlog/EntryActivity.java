@@ -37,6 +37,9 @@ public class EntryActivity extends Activity {
     private SeekBar _mood;
     private EditText _memo;
 
+    private int _cardioUnit = -1;
+    private int _strengthUnit = -1;
+
     private AutoCompleteTextView _actv;
 
     // specific to custom wo
@@ -171,7 +174,81 @@ public class EntryActivity extends Activity {
         _time.setIs24HourView(true);
     }
 
-    //TODO: should go to WOLOG???
+    private void setTime(String h, String m, String s) {
+        if (h.length() == 0) {
+            h = "0";
+        }
+        if (m.length() == 0) {
+            m = "00";
+        }
+        if (s.length() == 0) {
+            s = "00";
+        }
+        _wl.setTime(h+":"+m+":"+s);
+    }
+
+    public void onClickFt(View view) {
+        ImageButton ftBtn = (ImageButton) findViewById(R.id.ftBtn);
+        ImageButton mBtn = (ImageButton) findViewById(R.id.mBtn);
+        ImageButton kmBtn = (ImageButton) findViewById(R.id.kmBtn);
+        ftBtn.setBackgroundResource(R.drawable.cream_dark_ft);
+        mBtn.setBackgroundResource(R.drawable.cream_m);
+        kmBtn.setBackgroundResource(R.drawable.cream_km);
+        _cardioUnit = WOLog.UNIT_FT_LB;
+    }
+
+    public void onClickM(View view) {
+        ImageButton ftBtn = (ImageButton) findViewById(R.id.ftBtn);
+        ImageButton mBtn = (ImageButton) findViewById(R.id.mBtn);
+        ImageButton kmBtn = (ImageButton) findViewById(R.id.kmBtn);
+        ftBtn.setBackgroundResource(R.drawable.cream_ft);
+        mBtn.setBackgroundResource(R.drawable.cream_dark_m);
+        kmBtn.setBackgroundResource(R.drawable.cream_km);
+        _cardioUnit = WOLog.UNIT_M_KG;
+
+    }
+
+    public void onClickKm(View view) {
+        ImageButton ftBtn = (ImageButton) findViewById(R.id.ftBtn);
+        ImageButton mBtn = (ImageButton) findViewById(R.id.mBtn);
+        ImageButton kmBtn = (ImageButton) findViewById(R.id.kmBtn);
+        ftBtn.setBackgroundResource(R.drawable.cream_ft);
+        mBtn.setBackgroundResource(R.drawable.cream_m);
+        kmBtn.setBackgroundResource(R.drawable.cream_dark_km);
+        _cardioUnit = WOLog.UNIT_KM;
+    }
+
+    public void onClickLb(View view) {
+        ImageButton lbBtn = (ImageButton) findViewById(R.id.lbBtn);
+        ImageButton kgBtn = (ImageButton) findViewById(R.id.kgBtn);
+        lbBtn.setBackgroundResource(R.drawable.cream_dark_lb);
+        kgBtn.setBackgroundResource(R.drawable.cream_kg);
+        _strengthUnit = WOLog.UNIT_FT_LB;
+    }
+
+    public void onClickKg(View view) {
+        ImageButton lbBtn = (ImageButton) findViewById(R.id.lbBtn);
+        ImageButton kgBtn = (ImageButton) findViewById(R.id.kgBtn);
+        lbBtn.setBackgroundResource(R.drawable.cream_lb);
+        kgBtn.setBackgroundResource(R.drawable.cream_dark_kg);
+        _strengthUnit = WOLog.UNIT_M_KG;
+    }
+
+    private void setCardioUnit() {
+
+        Log.e(TAG, _cardioUnit+"");
+        if (_cardioUnit != -1) {
+            _wl.setCardioUnit(WOLog.CARDIO_UNIT_ARRAY[_cardioUnit]);
+        }
+
+    }
+
+    private void setStrengthUnit() {
+        if (_strengthUnit != -1) {
+            _wl.setStrengthUnit(WOLog.STRENGTH_UNIT_ARRAY[_strengthUnit]);
+        }
+    }
+
     private void setCommonData() {
         int woMonth = _date.getMonth() + 1; // Jan == 0
         int woDay = _date.getDayOfMonth(); // day 1 == 1
@@ -196,10 +273,13 @@ public class EntryActivity extends Activity {
     public void onCardioSubmit(View view) {
         EditText dist = (EditText) findViewById(R.id.cardio_dist);
         EditText hour = (EditText) findViewById(R.id.cardio_hour);
-        EditText minute = (EditText) findViewById(R.id.cardio_minute);
+        EditText min = (EditText) findViewById(R.id.cardio_minute);
+        EditText sec = (EditText) findViewById(R.id.cardio_second);
         _wl.setDistance(String.valueOf(dist.getText()));
-        _wl.setTime(String.valueOf(hour.getText()));
         _wl.setName(String.valueOf(_actv.getText()));
+        setTime(String.valueOf(hour.getText()), String.valueOf(min.getText()),
+                String.valueOf(sec.getText()));
+        setCardioUnit();
         onSubmit();
     }
 
@@ -211,6 +291,7 @@ public class EntryActivity extends Activity {
         _wl.setReps(String.valueOf(reps.getText()));
         _wl.setWeight(String.valueOf(weight.getText()));
         _wl.setName(String.valueOf(_actv.getText()));
+        setStrengthUnit();
         onSubmit();
     }
 
@@ -221,11 +302,14 @@ public class EntryActivity extends Activity {
         if (_distEnabled) {
             EditText distText = (EditText) findViewById(R.id.custom_dist);
             _wl.setDistance(String.valueOf(distText.getText()));
+            setCardioUnit();
         }
         if (_durEnabled) {
             EditText hour = (EditText) findViewById(R.id.custom_hour);
-            EditText minute = (EditText) findViewById(R.id.custom_minute);
-            _wl.setTime(String.valueOf(hour.getText()));
+            EditText min = (EditText) findViewById(R.id.custom_minute);
+            EditText sec = (EditText) findViewById(R.id.custom_second);
+            setTime(String.valueOf(hour.getText()), String.valueOf(min.getText()),
+                    String.valueOf(sec.getText()));
         }
         if (_setrepEnabled) {
             EditText setText = (EditText) findViewById(R.id.custom_sets);
@@ -236,6 +320,7 @@ public class EntryActivity extends Activity {
         if (_wgtEnabled) {
             EditText wgtText = (EditText) findViewById(R.id.custom_wgt);
             _wl.setWeight(String.valueOf(wgtText.getText()));
+            setStrengthUnit();
         }
         onSubmit();
     }
@@ -255,17 +340,26 @@ public class EntryActivity extends Activity {
         FrameLayout distBg = (FrameLayout) findViewById(R.id.custom_dist_bg);
         EditText dist = (EditText) findViewById(R.id.custom_dist);
         ImageButton distBtn = (ImageButton) findViewById(R.id.custom_dist_btn);
+        ImageButton ftBtn = (ImageButton) findViewById(R.id.ftBtn);
+        ImageButton mBtn = (ImageButton) findViewById(R.id.mBtn);
+        ImageButton kmBtn = (ImageButton) findViewById(R.id.kmBtn);
         if (_distEnabled) {
             // disable it
             distBg.setBackgroundResource(R.drawable.edittext_cream_bg);
             dist.setFocusable(false);
             distBtn.setBackgroundResource(R.drawable.ic_action_done);
+            ftBtn.setClickable(false);
+            mBtn.setClickable(false);
+            kmBtn.setClickable(false);
             _distEnabled = false;
         } else {
             // enable it
             distBg.setBackgroundResource(R.drawable.edittext_green_bg);
             dist.setFocusableInTouchMode(true);
             distBtn.setBackgroundResource(R.drawable.ic_action_remove);
+            ftBtn.setClickable(true);
+            mBtn.setClickable(true);
+            kmBtn.setClickable(true);
             _distEnabled = true;
         }
     }
@@ -274,12 +368,14 @@ public class EntryActivity extends Activity {
         FrameLayout durBg = (FrameLayout) findViewById(R.id.custom_dur_bg);
         EditText hour = (EditText) findViewById(R.id.custom_hour);
         EditText min = (EditText) findViewById(R.id.custom_minute);
+        EditText sec = (EditText) findViewById(R.id.custom_second);
         ImageButton durBtn = (ImageButton) findViewById(R.id.custom_dur_btn);
         if (_durEnabled) {
             // disable it
             durBg.setBackgroundResource(R.drawable.edittext_cream_bg);
             hour.setFocusable(false);
             min.setFocusable(false);
+            sec.setFocusable(false);
             durBtn.setBackgroundResource(R.drawable.ic_action_done);
             _durEnabled = false;
         } else {
@@ -287,6 +383,7 @@ public class EntryActivity extends Activity {
             durBg.setBackgroundResource(R.drawable.edittext_green_bg);
             hour.setFocusableInTouchMode(true);
             min.setFocusableInTouchMode(true);
+            sec.setFocusableInTouchMode(true);
             durBtn.setBackgroundResource(R.drawable.ic_action_remove);
             _durEnabled = true;
         }
@@ -296,17 +393,23 @@ public class EntryActivity extends Activity {
         FrameLayout wgtBg = (FrameLayout) findViewById(R.id.custom_wgt_bg);
         EditText wgt = (EditText) findViewById(R.id.custom_wgt);
         ImageButton wgtBtn = (ImageButton) findViewById(R.id.custom_wgt_btn);
+        ImageButton lbBtn = (ImageButton) findViewById(R.id.lbBtn);
+        ImageButton kgBtn = (ImageButton) findViewById(R.id.kgBtn);
         if (_wgtEnabled) {
             // disable it
             wgtBg.setBackgroundResource(R.drawable.edittext_cream_bg);
             wgt.setFocusable(false);
             wgtBtn.setBackgroundResource(R.drawable.ic_action_done);
+            lbBtn.setClickable(false);
+            kgBtn.setClickable(false);
             _wgtEnabled = false;
         } else {
             // enable it
             wgtBg.setBackgroundResource(R.drawable.edittext_green_bg);
             wgt.setFocusableInTouchMode(true);
             wgtBtn.setBackgroundResource(R.drawable.ic_action_remove);
+            lbBtn.setClickable(true);
+            kgBtn.setClickable(true);
             _wgtEnabled = true;
         }
     }

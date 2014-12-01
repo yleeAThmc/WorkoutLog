@@ -33,15 +33,36 @@
         android:layout_height="0dp"
         android:layout_weight="4"
         android:orientation="horizontal">
-        <EditText
-            android:id="@+id/strength_weight"
+
+        <FrameLayout
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:layout_margin="@dimen/layout_margin"
-            android:background="@drawable/edittext_green_bg"
-            android:inputType="number"
-            android:hint="@string/wgt_prompt"/>
+            android:background="@drawable/edittext_green_bg">
+            <EditText
+                android:id="@+id/strength_weight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="#00000000"
+                android:inputType="number"
+                android:hint="@string/wgt_prompt"/>
+            <ImageButton
+                android:id="@+id/lbBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|start"
+                android:background="@drawable/cream_lb"
+                android:onClick="onClickLb"/>
+            <ImageButton
+                android:id="@+id/kgBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:background="@drawable/cream_kg"
+                android:onClick="onClickKg"/>
+        </FrameLayout>
 
         <FrameLayout
             android:layout_width="0dp"
@@ -53,6 +74,7 @@
                     android:id="@+id/strength_sets"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="#00000000"
                     android:layout_gravity="center_vertical|start"
                     android:inputType="number"
                     android:hint="Sets"/>
@@ -61,6 +83,7 @@
                     android:id="@+id/strength_reps"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="#00000000"
                     android:layout_gravity="center_vertical|end"
                     android:inputType="number"
                     android:hint="Reps"/>

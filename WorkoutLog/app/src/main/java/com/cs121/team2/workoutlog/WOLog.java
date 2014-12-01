@@ -12,14 +12,20 @@ public class WOLog implements Parcelable {
     final static int SUBTYPE_NONE = 0;
     final static int SUBTYPE_TIME_BODY = 1;
     final static int SUBTYPE_DIST_WEIGHTS = 2;
+    final static int UNIT_FT_LB = 0;
+    final static int UNIT_M_KG = 1;
+    final static int UNIT_KM = 2;
 
     final static String[] MOOD_ARRAY = {"awful", "bad", "k", "good", "perfect"};
     final static String[] TYPE_ARRAY = {"Cardio", "Strength", "Custom"};
     final static String[] SUBTYPE_ARRAY = {"None", "Time/Body", "Distance/Weights"};
+    final static String[] CARDIO_UNIT_ARRAY = {"ft", "m", "km"};
+    final static String[] STRENGTH_UNIT_ARRAY = {"lb", "kg"};
 
     // Data stored in log
     private int dateCompare;
-    private String date, name, time, distance, mood, weight, sets, reps, memo, type, subtype;
+    private String date, name, time, distance, mood, weight, sets, reps, memo, type, subtype,
+                   cardioUnit, strengthUnit;
 
     //tag for debug logging.
     private static final String TAG = "WOLog";
@@ -62,7 +68,13 @@ public class WOLog implements Parcelable {
 
     public void setType(String t) { type = t; }
 
-    public void setSubtype(String t) { subtype = t; }
+    public void setSubtype(String st) { subtype = st; }
+
+    public void setCardioUnit(String cu) { cardioUnit = cu; }
+
+    public void setStrengthUnit(String su) { strengthUnit = su; }
+
+
 
 
     // Getter Methods
@@ -91,6 +103,10 @@ public class WOLog implements Parcelable {
 
     public String getSubtype() { return subtype; }
 
+    public String getCardioUnit() { return cardioUnit; }
+
+    public String getStrengthUnit() {return strengthUnit; }
+
 
     // toString formatted with HTML for ListView
     public String toStringList(){
@@ -112,6 +128,8 @@ public class WOLog implements Parcelable {
 
     // toString formatted with HTML for DetailView
     public String toStringDetail(){
+
+        Log.e(TAG, "is cardioUnit null: "+cardioUnit);
         String s = "";
 
         s += "<center><b>" + name.toUpperCase() + "</b><br>";
@@ -127,11 +145,14 @@ public class WOLog implements Parcelable {
         if(mood != null && !mood.isEmpty()){
             s += "<b>Mood: </b>" + mood + "<br>";
         }
-        if(distance != null && !distance.isEmpty()){
+        if(distance != null && !distance.isEmpty() && cardioUnit != null){
+            s += "<b>Distance: </b>" + distance + " " + cardioUnit + "<br>";
+        } else if (distance != null && !distance.isEmpty()) {
             s += "<b>Distance: </b>" + distance + "<br>";
         }
-        Log.d(TAG, "weight: ." + weight + ".");
-        if(weight != null && !weight.isEmpty()) {
+        if(weight != null && !weight.isEmpty() && strengthUnit != null && !strengthUnit.isEmpty()) {
+            s += "<b>Weight: </b>" + weight + " " + strengthUnit + "<br>";
+        } else if(weight != null && !weight.isEmpty()) {
             s += "<b>Weight: </b>" + weight + "<br>";
         }
         if(sets != null && !sets.isEmpty()) {
@@ -164,7 +185,9 @@ public class WOLog implements Parcelable {
                 this.getReps().equals(otherLog.getReps()) &&
                 this.getMemo().equals(otherLog.getMemo()) &&
                 this.getType().equals(otherLog.getType()) &&
-                this.getSubtype().equals(otherLog.getSubtype()));
+                this.getSubtype().equals(otherLog.getSubtype()) &&
+                this.getCardioUnit().equals(otherLog.getCardioUnit()) &&
+                this.getStrengthUnit().equals(otherLog.getStrengthUnit()));
     }
 
     //The following functions allow for a WOLog to be passed as a Parcel
@@ -194,6 +217,8 @@ public class WOLog implements Parcelable {
         dest.writeString(weight);
         dest.writeString(sets);
         dest.writeString(reps);
+        dest.writeString(cardioUnit);
+        dest.writeString(strengthUnit);
     }
 
     private WOLog(Parcel in) {
@@ -215,6 +240,10 @@ public class WOLog implements Parcelable {
         sets = in.readString();
         reps = null;
         reps = in.readString();
+        cardioUnit = null;
+        cardioUnit = in.readString();
+        strengthUnit = null;
+        strengthUnit = in.readString();
         dateCompare = 0;
     }
 }
