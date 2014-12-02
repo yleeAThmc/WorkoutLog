@@ -18,7 +18,7 @@ public class WOLog implements Parcelable {
     final static String[] SUBTYPE_ARRAY = {"None", "Time/Body", "Distance/Weights"};
 
     // Data stored in log
-    private int dateCompare;
+    private int dateCompare, month, day, year;
     private String date, name, time, distance, mood, weight, sets, reps, memo, type, subtype;
 
     //tag for debug logging.
@@ -26,7 +26,7 @@ public class WOLog implements Parcelable {
 
     public WOLog()
     {
-        dateCompare = 0;
+        dateCompare = month = day = year = 0;
         date = name = time = distance = mood = weight = sets = reps = memo = type = subtype = null;
     }
 
@@ -37,6 +37,9 @@ public class WOLog implements Parcelable {
         if (min < 10) date += "0" + min;
         else date += min;
 
+        month = m;
+        day = dy;
+        year = yr;
         dateCompare += min;
         dateCompare += hr * 10;
         dateCompare += dy * 1000;
@@ -85,6 +88,11 @@ public class WOLog implements Parcelable {
 
     public String getSubtype() { return subtype; }
 
+    public int getMonth() {return month;}
+
+    public int getDay() {return day;}
+
+    public int getYear() {return year;}
 
     // toString formatted with HTML for ListView
     public String toStringList(){

@@ -97,11 +97,13 @@ public class WOLogListAdapter extends ArrayAdapter<WOLog> {
 
 
         /*
-        *
         * So, every time either thing gets changed, the time must be filtered first, then
         * the type must be filtered. Time is always done off of the original set, then type
         * is done off of data that was changed by Time.
         */
+
+        //for filtering purposes by date, getting length of a month
+        int[] daysOfMonth = new int[]{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
 
         @Override
@@ -110,8 +112,8 @@ public class WOLogListAdapter extends ArrayAdapter<WOLog> {
             StringTokenizer tokens= new StringTokenizer(constraint.toString().toLowerCase(), ":");
             String timeConstraint = tokens.nextToken();
             String typeConstraint = tokens.nextToken();
-            Log.d("FILTER", "my time is: '" + timeConstraint +"'");
-            Log.d("FILTER", "my type is: '" + typeConstraint +"'");
+           // Log.d("FILTER", "my time is: '" + timeConstraint +"'");
+            //Log.d("FILTER", "my type is: '" + typeConstraint +"'");
             //used for date compare with spinner
             WOLog todaysDateInfo = new WOLog();
             Date rightNow = new Date();
@@ -124,6 +126,7 @@ public class WOLogListAdapter extends ArrayAdapter<WOLog> {
             int woMinute =  cal.get(Calendar.MINUTE); // minute 0 == 0
             todaysDateInfo.setDate(woMonth, woDay, woYear, woHour, woMinute);
             int timeComparison = todaysDateInfo.getDateCompare();
+            String dateInString = todaysDateInfo.getDate();
 
             ArrayList<String> dateKeywords =  new ArrayList<String>();
             dateKeywords.add("all time");
@@ -133,6 +136,8 @@ public class WOLogListAdapter extends ArrayAdapter<WOLog> {
             dateKeywords.add("last month");
             dateKeywords.add("last 6 months");
 
+            //these might be a leftover from a different filter implementation--let's
+            //see if we actually need them during refactoring or not
             ArrayList<String> typeKeywords =  new ArrayList<String>();
             typeKeywords.add("all workouts");
             typeKeywords.add("cardio");
@@ -140,17 +145,21 @@ public class WOLogListAdapter extends ArrayAdapter<WOLog> {
             typeKeywords.add("custom");
 
             FilterResults result = new FilterResults();
-            Log.d("TIME FILTER", "my datecompare is: " + timeComparison);
-
+            //Log.d("TIME FILTER", "my datecompare is: " + timeComparison);
+           // Log.d("FILTER", "m: " + todaysDateInfo.getMonth() + " d: " + todaysDateInfo.getDay() + " y: " + todaysDateInfo.getYear());
 
             //First, we sort using time on data
             ArrayList<WOLog> filteredItemsTime = new ArrayList<WOLog>();
-                Log.d("Filter", "DOING TIME RIGHT NOW");
+              //  Log.d("Filter", "DOING TIME RIGHT NOW");
                 if (timeConstraint.equals("today")) {
-                    Log.d("Filter", "into the last day case");
+                //    Log.d("Filter", "into the last day case");
+                    filteredItemsTime.clear();
                     for (int i = 0, l = originalDataToFilter.size(); i < l; i++) {
                         WOLog w = originalDataToFilter.get(i);
-                        if (w.getDateCompare() >= timeComparison - 1000) {
+                  //      Log.d("FILTER w", "w's m: " + w.getMonth() + " w's d: " + w.getDay() + " w's y: " + w.getYear());
+                        if (w.getMonth() == todaysDateInfo.getMonth()
+                                && w.getDay() == todaysDateInfo.getDay() &&
+                                w.getYear() == todaysDateInfo.getYear()) {
                           //  Log.d("TIME FILTER", "w's date is: " + w.getDate());
                            // Log.d("TIME FILTER", "adding w's time compare!: " + w.getDateCompare());
                             filteredItemsTime.add(w);
@@ -160,22 +169,42 @@ public class WOLogListAdapter extends ArrayAdapter<WOLog> {
 
                 }
                 if (timeConstraint.equals("last week")) {
-                    Log.d("Filter", "into the last week case");
-                    for (int i = 0, l = originalDataToFilter.size(); i < l; i++) {
-                        WOLog w = originalDataToFilter.get(i);
-                        if (w.getDateCompare() >= timeComparison - 7000) {
-                           // Log.d("TIME FILTER", "w's date is: " + w.getDate());
-                            //Log.d("TIME FILTER", "adding w's time compare!: " + w.getDateCompare());
-                            filteredItemsTime.add(w);
+                      //  Log.d("Filter", "into the last week case");
+                    filteredItemsTime.clear();
+                        for (int i = 0, l = originalDataToFilter.size(); i < l; i++) {
+                            WOLog w = originalDataToFilter.get(i);
+                            if ((w.getMonth() == todaysDateInfo.getMonth()
+                                    && w.getYear() == todaysDateInfo.getYear()
+                                    && w.getDay() >= (todaysDateInfo.getDay()-7))
+                                    || (w.getYear() == todaysDateInfo.getYear()
+                                    && w.getMonth() == (todaysDateInfo.getMonth()-1) &&
+                                    w.getDay() >= (daysOfMonth[w.getMonth()-1] - (7 - todaysDateInfo.getDay())))
+                                    || (todaysDateInfo.getMonth() == 1 && todaysDateInfo.getDay() <= 7
+                                    && w.getYear() == (todaysDateInfo.getYear() -1) && w.getMonth() == 12 &&
+                                        w.getDay() >= (31-(7-todaysDateInfo.getDay()))   )
+                                    ) {
+                                // Log.d("TIME FILTER", "w's date is: " + w.getDate());
+                                //Log.d("TIME FILTER", "adding w's time compare!: " + w.getDateCompare());
+                                filteredItemsTime.add(w);
+                            }
                         }
-                    }
 
-                }
+                    }
                 if (timeConstraint.equals("last 2 weeks")) {
-                    Log.d("Filter", "into the last 2 wks case");
+                   // Log.d("Filter", "into the last 2 wks case");
+                    filteredItemsTime.clear();
                     for (int i = 0, l = originalDataToFilter.size(); i < l; i++) {
                         WOLog w = originalDataToFilter.get(i);
-                        if (w.getDateCompare() >= timeComparison - 14000) {
+                        if ((w.getMonth() == todaysDateInfo.getMonth()
+                                && w.getYear() == todaysDateInfo.getYear()
+                                && w.getDay() >= (todaysDateInfo.getDay()-14))
+                                || (w.getYear() == todaysDateInfo.getYear()
+                                && w.getMonth() == (todaysDateInfo.getMonth()-1) &&
+                                w.getDay() >= (daysOfMonth[w.getMonth()-1] - (14 - todaysDateInfo.getDay())))
+                                || (todaysDateInfo.getMonth() == 1 && todaysDateInfo.getDay() <= 14
+                                && w.getYear() == (todaysDateInfo.getYear() -1) && w.getMonth() == 12 &&
+                                w.getDay() >= (31-(14-todaysDateInfo.getDay()))   )
+                                ) {
                           //  Log.d("TIME FILTER", "w's date is: " + w.getDate());
                           //  Log.d("TIME FILTER", "adding w's time compare!: " + w.getDateCompare());
                             filteredItemsTime.add(w);
@@ -184,22 +213,34 @@ public class WOLogListAdapter extends ArrayAdapter<WOLog> {
 
                 }
                 if (timeConstraint.equals("last month")) {
-                    Log.d("Filter", "into the last mo case");
+                   // Log.d("Filter", "into the last mo case");
+                    filteredItemsTime.clear();
                     for (int i = 0, l = originalDataToFilter.size(); i < l; i++) {
                         WOLog w = originalDataToFilter.get(i);
-                        if (w.getDateCompare() >= timeComparison - 100000) {
+                        if ( (w.getYear() == todaysDateInfo.getYear() &&
+                                ((w.getMonth() == todaysDateInfo.getMonth() && w.getDay() <= todaysDateInfo.getDay()) ||
+                                (w.getMonth() == todaysDateInfo.getMonth()-1 && todaysDateInfo.getDay() <= w.getDay())  )   )
+                                || (todaysDateInfo.getMonth() ==1 && w.getYear() == todaysDateInfo.getYear()-1
+                                && w.getMonth() == 12 && w.getDay() >= todaysDateInfo.getDay())) {
                          //   Log.d("TIME FILTER", "w's date is: " + w.getDate());
                          //   Log.d("TIME FILTER", "adding w's time compare!: " + w.getDateCompare());
                             filteredItemsTime.add(w);
                         }
                     }
 
+
                 }
                 if (timeConstraint.equals("last 6 months")) {
-                    Log.d("Filter", "into the last 6 mo case");
+                    //Log.d("Filter", "into the last 6 mo case");
+                    filteredItemsTime.clear();
                     for (int i = 0, l = originalDataToFilter.size(); i < l; i++) {
                         WOLog w = originalDataToFilter.get(i);
-                        if (w.getDateCompare() >= timeComparison - 600000) {
+                        if ( (w.getMonth() >= (todaysDateInfo.getMonth()-6)
+                                && w.getYear() == todaysDateInfo.getYear()
+                                && w.getDay() >= todaysDateInfo.getDay())
+                                || (w.getYear() == todaysDateInfo.getYear()-1 &&
+                                w.getMonth() >= (12-(todaysDateInfo.getMonth()-6)) &&
+                                w.getDay() >= todaysDateInfo.getDay())) {
                          //   Log.d("TIME FILTER", "w's date is: " + w.getDate());
                          //   Log.d("TIME FILTER", "adding w's time compare!: " + w.getDateCompare());
                             filteredItemsTime.add(w);
@@ -209,7 +250,8 @@ public class WOLogListAdapter extends ArrayAdapter<WOLog> {
                 }
 
                 if (timeConstraint.equals("all time")) {
-                    Log.d("Filter", "into the all time case");
+                  //  Log.d("Filter", "into the all time case");
+                    filteredItemsTime.clear();
                     synchronized (this) {
                         filteredItemsTime = originalDataToFilter;
                     }
@@ -219,7 +261,7 @@ public class WOLogListAdapter extends ArrayAdapter<WOLog> {
                 Log.d("Filter", "DOING TYPE RIGHT NOW");
                 //and now we take what we had and filter by the type
                 if (typeConstraint.equals("all workouts")){
-                    Log.d("Filter", "into the all workouts case");
+                   // Log.d("Filter", "into the all workouts case");
                     ArrayList<WOLog> filteredItemsType = new ArrayList<WOLog>();
                     for (int i = 0, l = filteredItemsTime.size(); i < l; i++) {
                         WOLog w = filteredItemsTime.get(i);
@@ -232,7 +274,7 @@ public class WOLogListAdapter extends ArrayAdapter<WOLog> {
 
                 }
                 if (typeConstraint.equals("cardio")){
-                    Log.d("Filter", "into the cardio case");
+                   // Log.d("Filter", "into the cardio case");
                     ArrayList<WOLog> filteredItemsType = new ArrayList<WOLog>();
                     for (int i = 0, l = filteredItemsTime.size(); i < l; i++) {
                         WOLog w = filteredItemsTime.get(i);
@@ -246,7 +288,7 @@ public class WOLogListAdapter extends ArrayAdapter<WOLog> {
 
                 }
                 if (typeConstraint.equals("strength")){
-                    Log.d("Filter", "into the strength case");
+                    //Log.d("Filter", "into the strength case");
                     ArrayList<WOLog> filteredItemsType = new ArrayList<WOLog>();
                     for (int i = 0, l = filteredItemsTime.size(); i < l; i++) {
                         WOLog w = filteredItemsTime.get(i);
@@ -260,8 +302,9 @@ public class WOLogListAdapter extends ArrayAdapter<WOLog> {
 
                 }
                 if (typeConstraint.equals("custom")){
-                    Log.d("Filter", "into the custom case");
+                   // Log.d("Filter", "into the custom case");
                     ArrayList<WOLog> filteredItemsType = new ArrayList<WOLog>();
+                   // Log.d("filter", "filteredItemsTIME size: " + filteredItemsTime.size());
                     for (int i = 0, l = filteredItemsTime.size(); i < l; i++) {
                         WOLog w = filteredItemsTime.get(i);
                         if (w.getType().toLowerCase().contains(typeConstraint)) {
@@ -269,10 +312,12 @@ public class WOLogListAdapter extends ArrayAdapter<WOLog> {
                             filteredItemsType.add(w);
                         }
                     }
+
                     result.count = filteredItemsType.size();
                     result.values = filteredItemsType;
                 }
-
+//            Log.d("filter", "results count: " + result.count);
+//            Log.d("filter", "result values: " + result.values);
             return result;
 
         }
@@ -282,13 +327,8 @@ public class WOLogListAdapter extends ArrayAdapter<WOLog> {
         @Override
         protected void publishResults(CharSequence constraint,
                                       FilterResults results) {
-
-            if (results.count == 0)
-                notifyDataSetInvalidated();
-            else {
                 data = (ArrayList<WOLog>) results.values;
                 notifyDataSetChanged();
-            }
         }
 
     }

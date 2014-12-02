@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -60,12 +61,14 @@ public class WOLogListActivity extends Activity implements OnItemSelectedListene
         ArrayAdapter<String> tpValues =
                 new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, keywordsTimePicker);
         tpValues.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         timePicker.setAdapter(tpValues);
 
         //creating and setting the typePicker's adapter
         ArrayAdapter<String> tyValues =
                 new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, keywordsTypePicker);
         tyValues.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         typePicker.setAdapter(tyValues);
 
         //setting the setOnItemSelectedListener for the spinner
@@ -85,16 +88,20 @@ public class WOLogListActivity extends Activity implements OnItemSelectedListene
             e.printStackTrace();
         }
 
+
         // Set the ListView to use the ArrayAdapter
         wologlistListView.setAdapter(mWOLogListAdapter);
+
         // Set the ListView to use a single choice mode for list item selection
         wologlistListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+
         // Set the ListView to have an OnItemClickListener so it can take in selections
         wologlistListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 toSendAlong = (WOLog) parent.getItemAtPosition(position);
+
                 // create an Intent to take you over to a new DetailActivity
                 Intent detailIntent;
                 detailIntent = new Intent(view.getContext(), DetailActivity.class);
@@ -106,29 +113,6 @@ public class WOLogListActivity extends Activity implements OnItemSelectedListene
                 startActivity(detailIntent);
             }
         });
-
-        //get rid of if 2 spinners does work instead of text + spinner
-//        //Added for filtering use
-//        EditText activityTypeFilterText = (EditText) findViewById(R.id.activityTypeFilterText);
-//
-//        activityTypeFilterText.addTextChangedListener(new TextWatcher() {
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                mWOLogListAdapter.getFilter().filter(s.toString());
-//                typeStringForContinuedUsed = s.toString();
-//            }
-//
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count,
-//                                          int after) {
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//            }
-//        });
 
 
 
@@ -167,36 +151,6 @@ public class WOLogListActivity extends Activity implements OnItemSelectedListene
     public void onItemSelected(AdapterView<?> parent, View v, int position,
                                long id) {
 
-//        switch (position) {
-//            case 1:
-//                Toast.makeText(this, "changed type!", Toast.LENGTH_LONG).show();
-//                String timePick = "all time";
-//                String timeText = timePicker.getSelectedItem().toString();
-//                String typePick = typePicker.getSelectedItem().toString();
-//                if (timeText != null){
-//                    timePick = timeText;
-//                }
-//                Log.d("FILTER", "going to filter time and type by changing type");
-//                mWOLogListAdapter.getFilter().filter(timePick);
-//                mWOLogListAdapter.getFilter().filter(typePick);
-//                mWOLogListAdapter.notifyDataSetChanged();
-//                break;
-//            case 2:
-//                Toast.makeText(this, "changed time", Toast.LENGTH_LONG).show();
-//                String typePick2 = "all workouts";
-//                String timePick2 = timePicker.getSelectedItem().toString();
-//                String typeText = typePicker.getSelectedItem().toString();
-//
-//                if (typeText != null){
-//                    typePick2 = typeText;
-//                }
-//                Log.d("FILTER", "going to filter time and type by changing time");
-//                mWOLogListAdapter.getFilter().filter(timePick2);
-//                mWOLogListAdapter.getFilter().filter(typePick2);
-//                mWOLogListAdapter.notifyDataSetChanged();
-//                break;
-//        }
-
         String timePick = "all time";
         String typePick = "all workouts";
         String timeText = timePicker.getSelectedItem().toString();
@@ -207,26 +161,19 @@ public class WOLogListActivity extends Activity implements OnItemSelectedListene
         if (typeText != null){
             typePick = typeText;
         }
-        Log.d("FILTER", "going to filter time and type");
-        Log.d("FILTER", "Type: " + typePick + " Time: " + timePick);
+//        Log.d("FILTER", "going to filter time and type");
+//        Log.d("FILTER", "Type: " + typePick + " Time: " + timePick);
         String concatTimeAndType = timePick + ":" + typePick;
-        Log.d("FILTER", "the damn cat is: " + concatTimeAndType);
-        //ActivityFilter filterToUse = mWOLogListAdapter.getFilter();
-        //filterToUse.performSpecialFiltering(timePick, typePick);
+//        Log.d("FILTER", "the damn cat is: " + concatTimeAndType);
         mWOLogListAdapter.getFilter().filter(concatTimeAndType.toLowerCase());
         mWOLogListAdapter.notifyDataSetChanged();
-      //  Log.d("FILTER", "did time!");
-
-       // mWOLogListAdapter.getFilter().filter(typePick.toLowerCase());
-       // mWOLogListAdapter.notifyDataSetChanged();
-        //Log.d("FILTER", "did type!");
-
 
     }
 
     public void onNothingSelected(AdapterView<?> parent) {
         // do nada
     }
+
 
 
 }
