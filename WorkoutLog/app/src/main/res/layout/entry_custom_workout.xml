@@ -23,7 +23,7 @@
             android:layout_gravity="center"
             android:background="#00000000"
             android:textSize="@dimen/entry_font_size"
-            android:id="@+id/custom_type"
+            android:id="@+id/custom_name"
             android:hint="@string/name_prompt"/>
     </FrameLayout>
 
