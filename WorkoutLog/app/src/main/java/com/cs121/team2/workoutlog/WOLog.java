@@ -128,41 +128,38 @@ public class WOLog implements Parcelable {
 
     // toString formatted with HTML for DetailView
     public String toStringDetail(){
-
-        Log.e(TAG, "is cardioUnit null: "+cardioUnit);
         String s = "";
-
         s += "<center><b>" + name.toUpperCase() + "</b><br>";
         s += "<b>(Workout Info):</b><br>";
 
         if(date != null && !date.isEmpty()){
-            s += "<b>Date: </b>" + date + "<br>";
+            s += "<b>Date: </b>" + date;
         }
 
         if(time != null && !time.isEmpty()){
-            s += "<b>Time: </b>" + time + "<br>";
+            s +=  "<br>" + "<b>Time: </b>" + time;
         }
         if(mood != null && !mood.isEmpty()){
-            s += "<b>Mood: </b>" + mood + "<br>";
+            s += "<br>" + "<b>Mood: </b>" + mood;
         }
         if(distance != null && !distance.isEmpty() && cardioUnit != null){
-            s += "<b>Distance: </b>" + distance + " " + cardioUnit + "<br>";
+            s += "<br>" + "<b>Distance: </b>" + distance + " " + cardioUnit;
         } else if (distance != null && !distance.isEmpty()) {
-            s += "<b>Distance: </b>" + distance + "<br>";
+            s += "<br>" + "<b>Distance: </b>" + distance;
         }
         if(weight != null && !weight.isEmpty() && strengthUnit != null && !strengthUnit.isEmpty()) {
-            s += "<b>Weight: </b>" + weight + " " + strengthUnit + "<br>";
+            s += "<br>" + "<b>Weight: </b>" + weight + " " + strengthUnit;
         } else if(weight != null && !weight.isEmpty()) {
-            s += "<b>Weight: </b>" + weight + "<br>";
+            s += "<br>" + "<b>Weight: </b>" + weight;
         }
         if(sets != null && !sets.isEmpty()) {
-            s += "<b>Sets: </b>" + sets + "<br>";
+            s += "<br>" + "<b>Sets: </b>" + sets;
         }
         if(reps != null && !reps.isEmpty()) {
-            s += "<b>Reps: </b>" + reps + "<br>";
+            s += "<br>" + "<b>Reps: </b>" + reps;
         }
         if(memo != null && !memo.isEmpty()) {
-            s += "<b>Memo: </b>" + memo + "<br>";
+            s += "<br>" + "<b>Memo: </b>" + memo;
         }
 
         s += "</center>";
