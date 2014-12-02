@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Filter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -166,29 +167,60 @@ public class WOLogListActivity extends Activity implements OnItemSelectedListene
     public void onItemSelected(AdapterView<?> parent, View v, int position,
                                long id) {
 
-        switch (position) {
-            case 1:
-                Toast.makeText(this, "changed type", Toast.LENGTH_LONG).show();
-                break;
-            case 2:
-                Toast.makeText(this, "changed time", Toast.LENGTH_LONG).show();
-                break;
-        }
+//        switch (position) {
+//            case 1:
+//                Toast.makeText(this, "changed type!", Toast.LENGTH_LONG).show();
+//                String timePick = "all time";
+//                String timeText = timePicker.getSelectedItem().toString();
+//                String typePick = typePicker.getSelectedItem().toString();
+//                if (timeText != null){
+//                    timePick = timeText;
+//                }
+//                Log.d("FILTER", "going to filter time and type by changing type");
+//                mWOLogListAdapter.getFilter().filter(timePick);
+//                mWOLogListAdapter.getFilter().filter(typePick);
+//                mWOLogListAdapter.notifyDataSetChanged();
+//                break;
+//            case 2:
+//                Toast.makeText(this, "changed time", Toast.LENGTH_LONG).show();
+//                String typePick2 = "all workouts";
+//                String timePick2 = timePicker.getSelectedItem().toString();
+//                String typeText = typePicker.getSelectedItem().toString();
+//
+//                if (typeText != null){
+//                    typePick2 = typeText;
+//                }
+//                Log.d("FILTER", "going to filter time and type by changing time");
+//                mWOLogListAdapter.getFilter().filter(timePick2);
+//                mWOLogListAdapter.getFilter().filter(typePick2);
+//                mWOLogListAdapter.notifyDataSetChanged();
+//                break;
+//        }
 
-//        String timePick = "all time";
-//        String typePick = "all workouts";
-//        String timeText = timePicker.getSelectedItem().toString();
-//        String typeText = typePicker.getSelectedItem().toString();
-//        if (timeText != null){
-//            timePick = timeText;
-//        }
-//        if (typeText != null){
-//            typePick = typeText;
-//        }
-//        Log.d("FILTER", "going to filter time and type");
-//        mWOLogListAdapter.getFilter().filter(timePick);
-//        mWOLogListAdapter.getFilter().filter(typePick);
-//        mWOLogListAdapter.notifyDataSetChanged();
+        String timePick = "all time";
+        String typePick = "all workouts";
+        String timeText = timePicker.getSelectedItem().toString();
+        String typeText = typePicker.getSelectedItem().toString();
+        if (timeText != null){
+            timePick = timeText;
+        }
+        if (typeText != null){
+            typePick = typeText;
+        }
+        Log.d("FILTER", "going to filter time and type");
+        Log.d("FILTER", "Type: " + typePick + " Time: " + timePick);
+        String concatTimeAndType = timePick + ":" + typePick;
+        Log.d("FILTER", "the damn cat is: " + concatTimeAndType);
+        //ActivityFilter filterToUse = mWOLogListAdapter.getFilter();
+        //filterToUse.performSpecialFiltering(timePick, typePick);
+        mWOLogListAdapter.getFilter().filter(concatTimeAndType.toLowerCase());
+        mWOLogListAdapter.notifyDataSetChanged();
+      //  Log.d("FILTER", "did time!");
+
+       // mWOLogListAdapter.getFilter().filter(typePick.toLowerCase());
+       // mWOLogListAdapter.notifyDataSetChanged();
+        //Log.d("FILTER", "did type!");
+
 
     }
 

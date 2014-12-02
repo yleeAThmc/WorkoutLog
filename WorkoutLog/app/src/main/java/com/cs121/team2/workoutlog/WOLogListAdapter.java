@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.StringTokenizer;
 
 /**
  * Created by Sam E on 10/7/2014.
@@ -106,8 +107,11 @@ public class WOLogListAdapter extends ArrayAdapter<WOLog> {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             //used with edit text
-            String searchconstraint = constraint.toString().toLowerCase();
-            Log.d("FILTER", "my string is: '" + searchconstraint +"'");
+            StringTokenizer tokens= new StringTokenizer(constraint.toString().toLowerCase(), ":");
+            String timeConstraint = tokens.nextToken();
+            String typeConstraint = tokens.nextToken();
+            Log.d("FILTER", "my time is: '" + timeConstraint +"'");
+            Log.d("FILTER", "my type is: '" + typeConstraint +"'");
             //used for date compare with spinner
             WOLog todaysDateInfo = new WOLog();
             Date rightNow = new Date();
@@ -138,132 +142,141 @@ public class WOLogListAdapter extends ArrayAdapter<WOLog> {
             FilterResults result = new FilterResults();
             Log.d("TIME FILTER", "my datecompare is: " + timeComparison);
 
-            //if there is text entered to search by
-            if (searchconstraint.length() > 0 &&
-                    !dateKeywords.contains(searchconstraint) && !searchconstraint.equals("all workouts") ) {
-                Log.d("TYPE FILTER", "filtering by type!");
-                ArrayList<WOLog> filteredItems = new ArrayList<WOLog>();
-                for (int i = 0, l = data.size(); i < l; i++) {
-                    WOLog w = data.get(i);
-                    if (w.getType().toLowerCase().contains(searchconstraint)) {
-                        Log.d("TYPE FILTER", "adding this thing:" + w.getType());
-                        filteredItems.add(w);
-                    }
-                }
-                result.count = filteredItems.size();
-                result.values = filteredItems;
-            }
 
-            else if (searchconstraint != null && searchconstraint.length() > 0 &&
-                    !dateKeywords.contains(searchconstraint) && searchconstraint.equals("all workouts") ) {
-                Log.d("TYPE FILTER", "want all types!");
-                ArrayList<WOLog> filteredItems = new ArrayList<WOLog>();
-                for (int i = 0, l = data.size(); i < l; i++) {
-                    WOLog w = data.get(i);
-                }
-                result.count = filteredItems.size();
-                result.values = filteredItems;
-            }
-
-            //if the filtering is done by time values
-
-            else if (dateKeywords.contains(searchconstraint) && !searchconstraint.equals("all time")){
-                Log.d("Filter", "got something to filter w time");
-                if (searchconstraint.equals("today")){
+            //First, we sort using time on data
+            ArrayList<WOLog> filteredItemsTime = new ArrayList<WOLog>();
+                Log.d("Filter", "DOING TIME RIGHT NOW");
+                if (timeConstraint.equals("today")) {
                     Log.d("Filter", "into the last day case");
-                    ArrayList<WOLog> filteredItems = new ArrayList<WOLog>();
                     for (int i = 0, l = originalDataToFilter.size(); i < l; i++) {
                         WOLog w = originalDataToFilter.get(i);
-                        if (w.getDateCompare() >= timeComparison-1000) {
-                            Log.d("TIME FILTER", "w's date is: " + w.getDate());
-                            Log.d("TIME FILTER", "adding w's time compare!: " + w.getDateCompare());
-                            filteredItems.add(w);
+                        if (w.getDateCompare() >= timeComparison - 1000) {
+                          //  Log.d("TIME FILTER", "w's date is: " + w.getDate());
+                           // Log.d("TIME FILTER", "adding w's time compare!: " + w.getDateCompare());
+                            filteredItemsTime.add(w);
                         }
                     }
-                    result.count = filteredItems.size();
-                    result.values = filteredItems;
+
 
                 }
-                if (searchconstraint.equals("last week")){
+                if (timeConstraint.equals("last week")) {
                     Log.d("Filter", "into the last week case");
-                    ArrayList<WOLog> filteredItems = new ArrayList<WOLog>();
                     for (int i = 0, l = originalDataToFilter.size(); i < l; i++) {
                         WOLog w = originalDataToFilter.get(i);
-                        if (w.getDateCompare() >= timeComparison-7000) {
-                            Log.d("TIME FILTER", "w's date is: " + w.getDate());
-                            Log.d("TIME FILTER", "adding w's time compare!: " + w.getDateCompare());
-                            filteredItems.add(w);
+                        if (w.getDateCompare() >= timeComparison - 7000) {
+                           // Log.d("TIME FILTER", "w's date is: " + w.getDate());
+                            //Log.d("TIME FILTER", "adding w's time compare!: " + w.getDateCompare());
+                            filteredItemsTime.add(w);
                         }
                     }
-                    result.count = filteredItems.size();
-                    result.values = filteredItems;
 
                 }
-                if (searchconstraint.equals("last 2 weeks")){
+                if (timeConstraint.equals("last 2 weeks")) {
                     Log.d("Filter", "into the last 2 wks case");
-                    ArrayList<WOLog> filteredItems = new ArrayList<WOLog>();
                     for (int i = 0, l = originalDataToFilter.size(); i < l; i++) {
                         WOLog w = originalDataToFilter.get(i);
-                        if (w.getDateCompare() >= timeComparison-14000) {
-                            Log.d("TIME FILTER", "w's date is: " + w.getDate());
-                            Log.d("TIME FILTER", "adding w's time compare!: " + w.getDateCompare());
-                            filteredItems.add(w);
+                        if (w.getDateCompare() >= timeComparison - 14000) {
+                          //  Log.d("TIME FILTER", "w's date is: " + w.getDate());
+                          //  Log.d("TIME FILTER", "adding w's time compare!: " + w.getDateCompare());
+                            filteredItemsTime.add(w);
                         }
                     }
-                    result.count = filteredItems.size();
-                    result.values = filteredItems;
 
                 }
-                if (searchconstraint.equals("last month")){
+                if (timeConstraint.equals("last month")) {
                     Log.d("Filter", "into the last mo case");
-                    ArrayList<WOLog> filteredItems = new ArrayList<WOLog>();
                     for (int i = 0, l = originalDataToFilter.size(); i < l; i++) {
                         WOLog w = originalDataToFilter.get(i);
-                        if (w.getDateCompare() >= timeComparison-100000) {
-                            Log.d("TIME FILTER", "w's date is: " + w.getDate());
-                            Log.d("TIME FILTER", "adding w's time compare!: " + w.getDateCompare());
-                            filteredItems.add(w);
+                        if (w.getDateCompare() >= timeComparison - 100000) {
+                         //   Log.d("TIME FILTER", "w's date is: " + w.getDate());
+                         //   Log.d("TIME FILTER", "adding w's time compare!: " + w.getDateCompare());
+                            filteredItemsTime.add(w);
                         }
                     }
-                    result.count = filteredItems.size();
-                    result.values = filteredItems;
 
                 }
-                if (searchconstraint.equals("last 6 months")){
+                if (timeConstraint.equals("last 6 months")) {
                     Log.d("Filter", "into the last 6 mo case");
-                    ArrayList<WOLog> filteredItems = new ArrayList<WOLog>();
                     for (int i = 0, l = originalDataToFilter.size(); i < l; i++) {
                         WOLog w = originalDataToFilter.get(i);
-                        if (w.getDateCompare() >= timeComparison-600000) {
-                            Log.d("TIME FILTER", "w's date is: " + w.getDate());
-                            Log.d("TIME FILTER", "adding w's time compare!: " + w.getDateCompare());
-                            filteredItems.add(w);
+                        if (w.getDateCompare() >= timeComparison - 600000) {
+                         //   Log.d("TIME FILTER", "w's date is: " + w.getDate());
+                         //   Log.d("TIME FILTER", "adding w's time compare!: " + w.getDateCompare());
+                            filteredItemsTime.add(w);
                         }
                     }
-                    result.count = filteredItems.size();
-                    result.values = filteredItems;
 
                 }
-            }
-            else if (searchconstraint.equals("all time")){
-                Log.d("Filter", "into the all time case");
-                synchronized (this) {
-                    result.values = originalDataToFilter;
-                    result.count = originalDataToFilter.size();
+
+                if (timeConstraint.equals("all time")) {
+                    Log.d("Filter", "into the all time case");
+                    synchronized (this) {
+                        filteredItemsTime = originalDataToFilter;
+                    }
                 }
-            }
 
 
-            else {
-                Log.d("Filter", "into the else case!");
-                synchronized (this) {
-                    result.values = originalDataToFilter;
-                    result.count = originalDataToFilter.size();
+                Log.d("Filter", "DOING TYPE RIGHT NOW");
+                //and now we take what we had and filter by the type
+                if (typeConstraint.equals("all workouts")){
+                    Log.d("Filter", "into the all workouts case");
+                    ArrayList<WOLog> filteredItemsType = new ArrayList<WOLog>();
+                    for (int i = 0, l = filteredItemsTime.size(); i < l; i++) {
+                        WOLog w = filteredItemsTime.get(i);
+                        //Log.d("TYPE FILTER", "adding this thing:" + w.getType());
+                        filteredItemsType.add(w);
+
+                    }
+                    result.count = filteredItemsType.size();
+                    result.values = filteredItemsType;
+
                 }
-            }
+                if (typeConstraint.equals("cardio")){
+                    Log.d("Filter", "into the cardio case");
+                    ArrayList<WOLog> filteredItemsType = new ArrayList<WOLog>();
+                    for (int i = 0, l = filteredItemsTime.size(); i < l; i++) {
+                        WOLog w = filteredItemsTime.get(i);
+                        if (w.getType().toLowerCase().contains(typeConstraint)) {
+                            //Log.d("TYPE FILTER", "adding this thing:" + w.getType());
+                            filteredItemsType.add(w);
+                        }
+                    }
+                    result.count = filteredItemsType.size();
+                    result.values = filteredItemsType;
+
+                }
+                if (typeConstraint.equals("strength")){
+                    Log.d("Filter", "into the strength case");
+                    ArrayList<WOLog> filteredItemsType = new ArrayList<WOLog>();
+                    for (int i = 0, l = filteredItemsTime.size(); i < l; i++) {
+                        WOLog w = filteredItemsTime.get(i);
+                        if (w.getType().toLowerCase().contains(typeConstraint)) {
+                            // Log.d("TYPE FILTER", "adding this thing:" + w.getType());
+                            filteredItemsType.add(w);
+                        }
+                    }
+                    result.count = filteredItemsType.size();
+                    result.values = filteredItemsType;
+
+                }
+                if (typeConstraint.equals("custom")){
+                    Log.d("Filter", "into the custom case");
+                    ArrayList<WOLog> filteredItemsType = new ArrayList<WOLog>();
+                    for (int i = 0, l = filteredItemsTime.size(); i < l; i++) {
+                        WOLog w = filteredItemsTime.get(i);
+                        if (w.getType().toLowerCase().contains(typeConstraint)) {
+                            // Log.d("TYPE FILTER", "adding this thing:" + w.getType());
+                            filteredItemsType.add(w);
+                        }
+                    }
+                    result.count = filteredItemsType.size();
+                    result.values = filteredItemsType;
+                }
 
             return result;
+
         }
+
 
         @SuppressWarnings("unchecked")
         @Override
