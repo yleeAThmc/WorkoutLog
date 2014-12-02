@@ -258,7 +258,7 @@ public class WOLogListAdapter extends ArrayAdapter<WOLog> {
                 }
 
 
-                Log.d("Filter", "DOING TYPE RIGHT NOW");
+                //Log.d("Filter", "DOING TYPE RIGHT NOW");
                 //and now we take what we had and filter by the type
                 if (typeConstraint.equals("all workouts")){
                    // Log.d("Filter", "into the all workouts case");
