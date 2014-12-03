@@ -29,6 +29,7 @@ public class WOLogListAdapter extends ArrayAdapter<WOLog> {
     ArrayList<WOLog> data = null;
 
     ArrayList<WOLog> originalDataToFilter;
+    ActivityFilter mactivityFilter;
 
 
     public WOLogListAdapter(Context ctx, ArrayList<WOLog> data) {
@@ -82,8 +83,6 @@ public class WOLogListAdapter extends ArrayAdapter<WOLog> {
         return i;
     }
 
-<<<<<<< HEAD
-=======
     //for filtering purposes
     public Filter getFilter() {
         if (mactivityFilter == null) {
@@ -333,7 +332,6 @@ public class WOLogListAdapter extends ArrayAdapter<WOLog> {
         }
 
     }
->>>>>>> origin/filter-loglist-creation-take-2
 }
 
 
