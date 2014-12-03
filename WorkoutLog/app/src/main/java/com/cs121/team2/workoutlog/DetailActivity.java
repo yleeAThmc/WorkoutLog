@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 /**
@@ -38,6 +39,7 @@ public class DetailActivity extends Activity {
         String sourceString = myLog.toStringDetail();
         //set the text for the TextView
         textView.setText(Html.fromHtml(sourceString));
+        setBackgroundColor(textView, myLog);
     }
 
     @Override
@@ -70,5 +72,19 @@ public class DetailActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setBackgroundColor(View view, WOLog wl) {
+        if (wl.getMood().equals(WOLog.MOOD_ARRAY[0])) {
+            view.setBackgroundResource(R.drawable.list_awful);
+        } else if (wl.getMood().equals(WOLog.MOOD_ARRAY[1])) {
+            view.setBackgroundResource(R.drawable.list_bad);
+        } else if (wl.getMood().equals(WOLog.MOOD_ARRAY[2])) {
+            view.setBackgroundResource(R.drawable.list_ok);
+        } else if (wl.getMood().equals(WOLog.MOOD_ARRAY[3])) {
+            view.setBackgroundResource(R.drawable.list_good);
+        } else {
+            view.setBackgroundResource(R.drawable.list_perfect);
+        }
     }
 }

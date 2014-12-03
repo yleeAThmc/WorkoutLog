@@ -20,6 +20,7 @@ import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -36,6 +37,9 @@ public class EntryActivity extends Activity {
     private TimePicker _time;
     private SeekBar _mood;
     private EditText _memo;
+
+    private int _cardioUnit = -1;
+    private int _strengthUnit = -1;
 
     private AutoCompleteTextView _actv;
 
@@ -87,6 +91,7 @@ public class EntryActivity extends Activity {
         startActivity(newEntryIntent);
     }
 
+    // Selecting exercise type (these functions are called directly from each layout)
     public void getCardioView(View view) {
         _type = WOLog.TYPE_CARDIO;
         setContentView(R.layout.entry_second_choice_cardio);
@@ -138,6 +143,35 @@ public class EntryActivity extends Activity {
         }
     }
 
+    // Setting time to 24 hour
+    private void initializeDateAndTime() {
+        _date = (DatePicker) findViewById(R.id.date);
+        _time = (TimePicker) findViewById(R.id.time);
+        _time.setIs24HourView(true);
+    }
+
+    // Setting common data of a log when pressed "continue" in entry_common_data.xml
+    private void setCommonData() {
+        int woMonth = _date.getMonth() + 1; // Jan == 0
+        int woDay = _date.getDayOfMonth(); // day 1 == 1
+        int woYear = _date.getYear();
+        int woHour = _time.getCurrentHour(); // midnight == 0
+        int woMinute = _time.getCurrentMinute(); // minute 0 == 0
+        _wl.setDate(woMonth, woDay, woYear, woHour, woMinute);
+        _wl.setMood(WOLog.MOOD_ARRAY[_mood.getProgress()]);
+        _wl.setMemo(String.valueOf(_memo.getText()));
+    }
+
+    private void setMood() { _mood = (SeekBar) findViewById(R.id.mood); }
+
+    private void setMemo() {
+        _memo = (EditText) findViewById(R.id.memo);
+    }
+
+    public void getInitialChoiceView(View view) {
+        setContentView(R.layout.entry_initial_choice);
+    }
+
     public void continueFromCommon(View view) {
         _wl = new WOLog();
         setMood();
@@ -165,77 +199,207 @@ public class EntryActivity extends Activity {
         }
     }
 
-    private void initializeDateAndTime() {
-        _date = (DatePicker) findViewById(R.id.date);
-        _time = (TimePicker) findViewById(R.id.time);
-        _time.setIs24HourView(true);
+    // Used for cardio/custom workout
+    private void setTime(String h, String m, String s) {
+        if (h.length() == 0) {
+            h = "0";
+        }
+        if (m.length() == 0) {
+            m = "00";
+        }
+        if (s.length() == 0) {
+            s = "00";
+        }
+        _wl.setTime(h+":"+m+":"+s);
     }
 
-    //TODO: should go to WOLOG???
-    private void setCommonData() {
-        int woMonth = _date.getMonth() + 1; // Jan == 0
-        int woDay = _date.getDayOfMonth(); // day 1 == 1
-        int woYear = _date.getYear();
-        int woHour = _time.getCurrentHour(); // midnight == 0
-        int woMinute = _time.getCurrentMinute(); // minute 0 == 0
-        _wl.setDate(woMonth, woDay, woYear, woHour, woMinute);
-        _wl.setMood(WOLog.MOOD_ARRAY[_mood.getProgress()]);
-        _wl.setMemo(String.valueOf(_memo.getText()));
+    // Functions related to units (also called directly from layouts)
+    public void onClickMi(View view) {
+        ImageButton miBtn = (ImageButton) findViewById(R.id.miBtn);
+        ImageButton mBtn = (ImageButton) findViewById(R.id.mBtn);
+        ImageButton kmBtn = (ImageButton) findViewById(R.id.kmBtn);
+        miBtn.setBackgroundResource(R.drawable.cream_dark_mi);
+        mBtn.setBackgroundResource(R.drawable.cream_m);
+        kmBtn.setBackgroundResource(R.drawable.cream_km);
+        _cardioUnit = WOLog.UNIT_MI_LB;
     }
 
-    private void setMood() { _mood = (SeekBar) findViewById(R.id.mood); }
+    public void onClickM(View view) {
+        ImageButton miBtn = (ImageButton) findViewById(R.id.miBtn);
+        ImageButton mBtn = (ImageButton) findViewById(R.id.mBtn);
+        ImageButton kmBtn = (ImageButton) findViewById(R.id.kmBtn);
+        miBtn.setBackgroundResource(R.drawable.cream_mi);
+        mBtn.setBackgroundResource(R.drawable.cream_dark_m);
+        kmBtn.setBackgroundResource(R.drawable.cream_km);
+        _cardioUnit = WOLog.UNIT_M_KG;
 
-    private void setMemo() {
-        _memo = (EditText) findViewById(R.id.memo);
     }
 
-    public void getInitialChoiceView(View view) {
-        setContentView(R.layout.entry_initial_choice);
+    public void onClickKm(View view) {
+        ImageButton miBtn = (ImageButton) findViewById(R.id.miBtn);
+        ImageButton mBtn = (ImageButton) findViewById(R.id.mBtn);
+        ImageButton kmBtn = (ImageButton) findViewById(R.id.kmBtn);
+        miBtn.setBackgroundResource(R.drawable.cream_mi);
+        mBtn.setBackgroundResource(R.drawable.cream_m);
+        kmBtn.setBackgroundResource(R.drawable.cream_dark_km);
+        _cardioUnit = WOLog.UNIT_KM;
     }
 
+    public void onClickLb(View view) {
+        ImageButton lbBtn = (ImageButton) findViewById(R.id.lbBtn);
+        ImageButton kgBtn = (ImageButton) findViewById(R.id.kgBtn);
+        lbBtn.setBackgroundResource(R.drawable.cream_dark_lb);
+        kgBtn.setBackgroundResource(R.drawable.cream_kg);
+        _strengthUnit = WOLog.UNIT_MI_LB;
+    }
+
+    public void onClickKg(View view) {
+        ImageButton lbBtn = (ImageButton) findViewById(R.id.lbBtn);
+        ImageButton kgBtn = (ImageButton) findViewById(R.id.kgBtn);
+        lbBtn.setBackgroundResource(R.drawable.cream_lb);
+        kgBtn.setBackgroundResource(R.drawable.cream_dark_kg);
+        _strengthUnit = WOLog.UNIT_M_KG;
+    }
+
+    private void setCardioUnit() {
+        if (_cardioUnit != -1) {
+            _wl.setCardioUnit(WOLog.CARDIO_UNIT_ARRAY[_cardioUnit]);
+        }
+    }
+
+    private void setStrengthUnit() {
+        if (_strengthUnit != -1) {
+            _wl.setStrengthUnit(WOLog.STRENGTH_UNIT_ARRAY[_strengthUnit]);
+        }
+    }
+
+    // functions related to submitting log
+    // if a necessary field is not filled, show toast msg and do not add the log
     public void onCardioSubmit(View view) {
-        EditText dist = (EditText) findViewById(R.id.cardio_dist);
-        EditText hour = (EditText) findViewById(R.id.cardio_hour);
-        EditText minute = (EditText) findViewById(R.id.cardio_minute);
-        _wl.setDistance(String.valueOf(dist.getText()));
-        _wl.setTime(String.valueOf(hour.getText()));
-        _wl.setName(String.valueOf(_actv.getText()));
+        String name = String.valueOf(_actv.getText());
+        String dist = String.valueOf(((EditText) findViewById(R.id.cardio_dist)).getText());
+        String hour = String.valueOf(((EditText) findViewById(R.id.cardio_hour)).getText());
+        String min = String.valueOf(((EditText) findViewById(R.id.cardio_minute)).getText());
+        String sec = String.valueOf(((EditText) findViewById(R.id.cardio_second)).getText());
+        if (name.length() == 0) {
+            Toast.makeText(getApplicationContext(), "Enter exercise name!",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (dist.length() == 0) {
+            Toast.makeText(getApplicationContext(), "Enter distance!",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (hour.length() == 0 && min.length() == 0 && sec.length() == 0) {
+            Toast.makeText(getApplicationContext(), "Enter duration!",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+        _wl.setName(name);
+        _wl.setDistance(dist);
+        setTime(hour, min, sec);
+        setCardioUnit();
         onSubmit();
     }
 
     public void onStrengthSubmit(View view) {
-        EditText sets = (EditText) findViewById(R.id.strength_sets);
-        EditText reps = (EditText) findViewById(R.id.strength_reps);
-        EditText weight = (EditText) findViewById(R.id.strength_weight);
-        _wl.setSets(String.valueOf(sets.getText()));
-        _wl.setReps(String.valueOf(reps.getText()));
-        _wl.setWeight(String.valueOf(weight.getText()));
-        _wl.setName(String.valueOf(_actv.getText()));
+        String name = String.valueOf(_actv.getText());
+        String weight = String.valueOf(((EditText) findViewById(R.id.strength_weight)).getText());
+        String sets = String.valueOf(((EditText) findViewById(R.id.strength_sets)).getText());
+        String reps = String.valueOf(((EditText) findViewById(R.id.strength_reps)).getText());
+        if (name.length() == 0) {
+            Toast.makeText(getApplicationContext(), "Enter exercise name!",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (weight.length() == 0) {
+            Toast.makeText(getApplicationContext(), "Enter weight!",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (sets.length() == 0) {
+            Toast.makeText(getApplicationContext(), "Enter sets!",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (reps.length() == 0) {
+            Toast.makeText(getApplicationContext(), "Enter reps!",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+        _wl.setName(name);
+        _wl.setWeight(weight);
+        _wl.setSets(sets);
+        _wl.setReps(reps);
+        setStrengthUnit();
         onSubmit();
     }
 
     public void onCustomSubmit(View view) {
-        EditText type = (EditText) findViewById(R.id.custom_type);
-        _wl.setName(String.valueOf(type.getText()));
+        String name = String.valueOf(((EditText) findViewById(R.id.custom_name)).getText());
+        if (name.length() == 0) {
+            Toast.makeText(getApplicationContext(), "Enter exercise name!",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+        _wl.setName(name);
 
         if (_distEnabled) {
-            EditText distText = (EditText) findViewById(R.id.custom_dist);
-            _wl.setDistance(String.valueOf(distText.getText()));
+            String dist = String.valueOf(((EditText) findViewById(R.id.custom_dist)).getText());
+            if (dist.length() == 0) {
+                Toast.makeText(getApplicationContext(), "Enter distance!",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+            _wl.setDistance(dist);
+            setCardioUnit();
+        } else {
+            _wl.setDistance(null);
         }
         if (_durEnabled) {
-            EditText hour = (EditText) findViewById(R.id.custom_hour);
-            EditText minute = (EditText) findViewById(R.id.custom_minute);
-            _wl.setTime(String.valueOf(hour.getText()));
+            String hour = String.valueOf(((EditText) findViewById(R.id.custom_hour)).getText());
+            String min = String.valueOf(((EditText) findViewById(R.id.custom_minute)).getText());
+            String sec = String.valueOf(((EditText) findViewById(R.id.custom_second)).getText());
+            if (hour.length() == 0 && min.length() == 0 && sec.length() == 0) {
+                Toast.makeText(getApplicationContext(), "Enter duration!",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+            setTime(hour, min, sec);
+        } else {
+            _wl.setTime(null);
         }
         if (_setrepEnabled) {
-            EditText setText = (EditText) findViewById(R.id.custom_sets);
-            EditText repText = (EditText) findViewById(R.id.custom_reps);
-            _wl.setSets(String.valueOf(setText.getText()));
-            _wl.setReps(String.valueOf(repText.getText()));
+            String sets = String.valueOf(((EditText) findViewById(R.id.custom_sets)).getText());
+            String reps = String.valueOf(((EditText) findViewById(R.id.custom_reps)).getText());
+            if (sets.length() == 0) {
+                Toast.makeText(getApplicationContext(), "Enter sets!",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+            if (reps.length() == 0) {
+                Toast.makeText(getApplicationContext(), "Enter reps!",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+            _wl.setSets(sets);
+            _wl.setReps(reps);
+        } else {
+            _wl.setSets(null);
+            _wl.setReps(null);
         }
         if (_wgtEnabled) {
-            EditText wgtText = (EditText) findViewById(R.id.custom_wgt);
-            _wl.setWeight(String.valueOf(wgtText.getText()));
+            String weight = String.valueOf(((EditText) findViewById(R.id.custom_wgt)).getText());
+            if (weight.length() == 0) {
+                Toast.makeText(getApplicationContext(), "Enter weight!",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+            _wl.setWeight(String.valueOf(weight));
+            setStrengthUnit();
+        } else {
+            _wl.setWeight(null);
         }
         onSubmit();
     }
@@ -255,17 +419,26 @@ public class EntryActivity extends Activity {
         FrameLayout distBg = (FrameLayout) findViewById(R.id.custom_dist_bg);
         EditText dist = (EditText) findViewById(R.id.custom_dist);
         ImageButton distBtn = (ImageButton) findViewById(R.id.custom_dist_btn);
+        ImageButton miBtn = (ImageButton) findViewById(R.id.miBtn);
+        ImageButton mBtn = (ImageButton) findViewById(R.id.mBtn);
+        ImageButton kmBtn = (ImageButton) findViewById(R.id.kmBtn);
         if (_distEnabled) {
             // disable it
             distBg.setBackgroundResource(R.drawable.edittext_cream_bg);
             dist.setFocusable(false);
             distBtn.setBackgroundResource(R.drawable.ic_action_done);
+            miBtn.setClickable(false);
+            mBtn.setClickable(false);
+            kmBtn.setClickable(false);
             _distEnabled = false;
         } else {
             // enable it
             distBg.setBackgroundResource(R.drawable.edittext_green_bg);
             dist.setFocusableInTouchMode(true);
             distBtn.setBackgroundResource(R.drawable.ic_action_remove);
+            miBtn.setClickable(true);
+            mBtn.setClickable(true);
+            kmBtn.setClickable(true);
             _distEnabled = true;
         }
     }
@@ -274,12 +447,14 @@ public class EntryActivity extends Activity {
         FrameLayout durBg = (FrameLayout) findViewById(R.id.custom_dur_bg);
         EditText hour = (EditText) findViewById(R.id.custom_hour);
         EditText min = (EditText) findViewById(R.id.custom_minute);
+        EditText sec = (EditText) findViewById(R.id.custom_second);
         ImageButton durBtn = (ImageButton) findViewById(R.id.custom_dur_btn);
         if (_durEnabled) {
             // disable it
             durBg.setBackgroundResource(R.drawable.edittext_cream_bg);
             hour.setFocusable(false);
             min.setFocusable(false);
+            sec.setFocusable(false);
             durBtn.setBackgroundResource(R.drawable.ic_action_done);
             _durEnabled = false;
         } else {
@@ -287,6 +462,7 @@ public class EntryActivity extends Activity {
             durBg.setBackgroundResource(R.drawable.edittext_green_bg);
             hour.setFocusableInTouchMode(true);
             min.setFocusableInTouchMode(true);
+            sec.setFocusableInTouchMode(true);
             durBtn.setBackgroundResource(R.drawable.ic_action_remove);
             _durEnabled = true;
         }
@@ -296,17 +472,23 @@ public class EntryActivity extends Activity {
         FrameLayout wgtBg = (FrameLayout) findViewById(R.id.custom_wgt_bg);
         EditText wgt = (EditText) findViewById(R.id.custom_wgt);
         ImageButton wgtBtn = (ImageButton) findViewById(R.id.custom_wgt_btn);
+        ImageButton lbBtn = (ImageButton) findViewById(R.id.lbBtn);
+        ImageButton kgBtn = (ImageButton) findViewById(R.id.kgBtn);
         if (_wgtEnabled) {
             // disable it
             wgtBg.setBackgroundResource(R.drawable.edittext_cream_bg);
             wgt.setFocusable(false);
             wgtBtn.setBackgroundResource(R.drawable.ic_action_done);
+            lbBtn.setClickable(false);
+            kgBtn.setClickable(false);
             _wgtEnabled = false;
         } else {
             // enable it
             wgtBg.setBackgroundResource(R.drawable.edittext_green_bg);
             wgt.setFocusableInTouchMode(true);
             wgtBtn.setBackgroundResource(R.drawable.ic_action_remove);
+            lbBtn.setClickable(true);
+            kgBtn.setClickable(true);
             _wgtEnabled = true;
         }
     }
