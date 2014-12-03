@@ -55,12 +55,12 @@
             android:inputType="number"
             android:hint="@string/dist_prompt"/>
             <ImageButton
-                android:id="@+id/ftBtn"
+                android:id="@+id/miBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|start"
-                android:background="@drawable/cream_ft"
-                android:onClick="onClickFt"/>
+                android:background="@drawable/cream_mi"
+                android:onClick="onClickMi"/>
             <ImageButton
                 android:id="@+id/mBtn"
                 android:layout_width="wrap_content"

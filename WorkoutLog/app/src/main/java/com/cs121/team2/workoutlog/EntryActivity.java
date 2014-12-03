@@ -214,21 +214,21 @@ public class EntryActivity extends Activity {
     }
 
     // Functions related to units (also called directly from layouts)
-    public void onClickFt(View view) {
-        ImageButton ftBtn = (ImageButton) findViewById(R.id.ftBtn);
+    public void onClickMi(View view) {
+        ImageButton miBtn = (ImageButton) findViewById(R.id.miBtn);
         ImageButton mBtn = (ImageButton) findViewById(R.id.mBtn);
         ImageButton kmBtn = (ImageButton) findViewById(R.id.kmBtn);
-        ftBtn.setBackgroundResource(R.drawable.cream_dark_ft);
+        miBtn.setBackgroundResource(R.drawable.cream_dark_mi);
         mBtn.setBackgroundResource(R.drawable.cream_m);
         kmBtn.setBackgroundResource(R.drawable.cream_km);
-        _cardioUnit = WOLog.UNIT_FT_LB;
+        _cardioUnit = WOLog.UNIT_MI_LB;
     }
 
     public void onClickM(View view) {
-        ImageButton ftBtn = (ImageButton) findViewById(R.id.ftBtn);
+        ImageButton miBtn = (ImageButton) findViewById(R.id.miBtn);
         ImageButton mBtn = (ImageButton) findViewById(R.id.mBtn);
         ImageButton kmBtn = (ImageButton) findViewById(R.id.kmBtn);
-        ftBtn.setBackgroundResource(R.drawable.cream_ft);
+        miBtn.setBackgroundResource(R.drawable.cream_mi);
         mBtn.setBackgroundResource(R.drawable.cream_dark_m);
         kmBtn.setBackgroundResource(R.drawable.cream_km);
         _cardioUnit = WOLog.UNIT_M_KG;
@@ -236,10 +236,10 @@ public class EntryActivity extends Activity {
     }
 
     public void onClickKm(View view) {
-        ImageButton ftBtn = (ImageButton) findViewById(R.id.ftBtn);
+        ImageButton miBtn = (ImageButton) findViewById(R.id.miBtn);
         ImageButton mBtn = (ImageButton) findViewById(R.id.mBtn);
         ImageButton kmBtn = (ImageButton) findViewById(R.id.kmBtn);
-        ftBtn.setBackgroundResource(R.drawable.cream_ft);
+        miBtn.setBackgroundResource(R.drawable.cream_mi);
         mBtn.setBackgroundResource(R.drawable.cream_m);
         kmBtn.setBackgroundResource(R.drawable.cream_dark_km);
         _cardioUnit = WOLog.UNIT_KM;
@@ -250,7 +250,7 @@ public class EntryActivity extends Activity {
         ImageButton kgBtn = (ImageButton) findViewById(R.id.kgBtn);
         lbBtn.setBackgroundResource(R.drawable.cream_dark_lb);
         kgBtn.setBackgroundResource(R.drawable.cream_kg);
-        _strengthUnit = WOLog.UNIT_FT_LB;
+        _strengthUnit = WOLog.UNIT_MI_LB;
     }
 
     public void onClickKg(View view) {
@@ -419,7 +419,7 @@ public class EntryActivity extends Activity {
         FrameLayout distBg = (FrameLayout) findViewById(R.id.custom_dist_bg);
         EditText dist = (EditText) findViewById(R.id.custom_dist);
         ImageButton distBtn = (ImageButton) findViewById(R.id.custom_dist_btn);
-        ImageButton ftBtn = (ImageButton) findViewById(R.id.ftBtn);
+        ImageButton miBtn = (ImageButton) findViewById(R.id.miBtn);
         ImageButton mBtn = (ImageButton) findViewById(R.id.mBtn);
         ImageButton kmBtn = (ImageButton) findViewById(R.id.kmBtn);
         if (_distEnabled) {
@@ -427,7 +427,7 @@ public class EntryActivity extends Activity {
             distBg.setBackgroundResource(R.drawable.edittext_cream_bg);
             dist.setFocusable(false);
             distBtn.setBackgroundResource(R.drawable.ic_action_done);
-            ftBtn.setClickable(false);
+            miBtn.setClickable(false);
             mBtn.setClickable(false);
             kmBtn.setClickable(false);
             _distEnabled = false;
@@ -436,7 +436,7 @@ public class EntryActivity extends Activity {
             distBg.setBackgroundResource(R.drawable.edittext_green_bg);
             dist.setFocusableInTouchMode(true);
             distBtn.setBackgroundResource(R.drawable.ic_action_remove);
-            ftBtn.setClickable(true);
+            miBtn.setClickable(true);
             mBtn.setClickable(true);
             kmBtn.setClickable(true);
             _distEnabled = true;

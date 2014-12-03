@@ -12,14 +12,14 @@ public class WOLog implements Parcelable {
     final static int SUBTYPE_NONE = 0;
     final static int SUBTYPE_TIME_BODY = 1;
     final static int SUBTYPE_DIST_WEIGHTS = 2;
-    final static int UNIT_FT_LB = 0;
+    final static int UNIT_MI_LB = 0;
     final static int UNIT_M_KG = 1;
     final static int UNIT_KM = 2;
 
     final static String[] MOOD_ARRAY = {"awful", "bad", "k", "good", "perfect"};
     final static String[] TYPE_ARRAY = {"Cardio", "Strength", "Custom"};
     final static String[] SUBTYPE_ARRAY = {"None", "Time/Body", "Distance/Weights"};
-    final static String[] CARDIO_UNIT_ARRAY = {"ft", "m", "km"};
+    final static String[] CARDIO_UNIT_ARRAY = {"mi", "m", "km"};
     final static String[] STRENGTH_UNIT_ARRAY = {"lb", "kg"};
 
     // Data stored in log
