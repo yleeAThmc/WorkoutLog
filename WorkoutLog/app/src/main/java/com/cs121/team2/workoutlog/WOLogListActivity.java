@@ -5,16 +5,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Filter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -28,7 +32,18 @@ public class WOLogListActivity extends Activity{
     Button statsButton;
     WOLogListAdapter mWOLogListAdapter;
     private WOLog toSendAlong;
+<<<<<<< HEAD
 
+=======
+    Spinner typePicker;
+    Spinner timePicker;
+
+
+    //I know this is kinda hacky--CHANGE THIS DURING REFACTORING (Sam E)
+    String[] keywordsTimePicker = {"All Time", "Today", "Last Week", "Last 2 Weeks",
+            "Last Month", "Last 6 Months", };
+    String[] keywordsTypePicker = {"All Workouts", "Cardio", "Strength", "Custom" };
+>>>>>>> origin/filter-loglist-creation-take-2
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +58,31 @@ public class WOLogListActivity extends Activity{
         }
 
 
+<<<<<<< HEAD
+=======
+        //set the spinner for type selection
+        typePicker = (Spinner) findViewById(R.id.typePickSpinner);
+
+        //creating and setting the timePicker's adapter
+        ArrayAdapter<String> tpValues =
+                new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, keywordsTimePicker);
+        tpValues.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        timePicker.setAdapter(tpValues);
+
+        //creating and setting the typePicker's adapter
+        ArrayAdapter<String> tyValues =
+                new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, keywordsTypePicker);
+        tyValues.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        typePicker.setAdapter(tyValues);
+
+        //setting the setOnItemSelectedListener for the spinner
+        timePicker.setOnItemSelectedListener(this);
+>>>>>>> origin/filter-loglist-creation-take-2
+
+        //setting the setOnItemSelectedListener for the spinner
+        typePicker.setOnItemSelectedListener(this);
 
         //Access the ListView
         wologlistListView = (ListView) findViewById(R.id.wologlist_listview);
@@ -59,16 +99,20 @@ public class WOLogListActivity extends Activity{
             e.printStackTrace();
         }
 
+
         // Set the ListView to use the ArrayAdapter
         wologlistListView.setAdapter(mWOLogListAdapter);
+
         // Set the ListView to use a single choice mode for list item selection
         wologlistListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+
         // Set the ListView to have an OnItemClickListener so it can take in selections
         wologlistListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 toSendAlong = (WOLog) parent.getItemAtPosition(position);
+
                 // create an Intent to take you over to a new DetailActivity
                 Intent detailIntent;
                 detailIntent = new Intent(view.getContext(), DetailActivity.class);
@@ -81,6 +125,7 @@ public class WOLogListActivity extends Activity{
             }
         });
 
+<<<<<<< HEAD
         //access the Stats Button
         statsButton = (Button) findViewById(R.id.stats_button);
 
@@ -92,6 +137,10 @@ public class WOLogListActivity extends Activity{
                 startActivity(statsIntent);
             }
         });
+=======
+
+
+>>>>>>> origin/filter-loglist-creation-take-2
     }
 
 
@@ -124,4 +173,35 @@ public class WOLogListActivity extends Activity{
     }
 
 
+<<<<<<< HEAD
+=======
+    public void onItemSelected(AdapterView<?> parent, View v, int position,
+                               long id) {
+
+        String timePick = "all time";
+        String typePick = "all workouts";
+        String timeText = timePicker.getSelectedItem().toString();
+        String typeText = typePicker.getSelectedItem().toString();
+        if (timeText != null){
+            timePick = timeText;
+        }
+        if (typeText != null){
+            typePick = typeText;
+        }
+//        Log.d("FILTER", "going to filter time and type");
+//        Log.d("FILTER", "Type: " + typePick + " Time: " + timePick);
+        String concatTimeAndType = timePick + ":" + typePick;
+//        Log.d("FILTER", "the damn cat is: " + concatTimeAndType);
+        mWOLogListAdapter.getFilter().filter(concatTimeAndType.toLowerCase());
+        mWOLogListAdapter.notifyDataSetChanged();
+
+    }
+
+    public void onNothingSelected(AdapterView<?> parent) {
+        // do nada
+    }
+
+
+
+>>>>>>> origin/filter-loglist-creation-take-2
 }

@@ -13,6 +13,7 @@
     android:focusableInTouchMode="true"
     tools:context=".WOLogListActivity">
 
+<<<<<<< HEAD
     <!-- List whose dataset is defined in code with an adapter -->
     <Button
         android:layout_width="match_parent"
@@ -21,6 +22,14 @@
         android:background="@drawable/btn_green_border"
         android:id="@+id/stats_button"
         android:layout_gravity="center_horizontal" />
+=======
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/typePickSpinner"
+        android:layout_gravity="center_horizontal"/>
+
+>>>>>>> origin/filter-loglist-creation-take-2
 
     <ListView
         android:id="@+id/wologlist_listview"
@@ -28,4 +37,6 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:layout_marginTop="20dp" />
+
+
 </LinearLayout>
