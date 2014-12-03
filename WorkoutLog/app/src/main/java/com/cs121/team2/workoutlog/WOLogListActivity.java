@@ -25,14 +25,16 @@ import java.io.IOException;
 /**
  * Created by Sam E on 10/7/2014.
  */
-public class WOLogListActivity extends Activity implements OnItemSelectedListener{
+public class WOLogListActivity extends Activity{
 
     private final String TAG = "WOLOGLIST ACTIVITY";
     ListView wologlistListView;
     Button statsButton;
     WOLogListAdapter mWOLogListAdapter;
     private WOLog toSendAlong;
+<<<<<<< HEAD
 
+=======
     Spinner typePicker;
     Spinner timePicker;
 
@@ -41,6 +43,7 @@ public class WOLogListActivity extends Activity implements OnItemSelectedListene
     String[] keywordsTimePicker = {"All Time", "Today", "Last Week", "Last 2 Weeks",
             "Last Month", "Last 6 Months", };
     String[] keywordsTypePicker = {"All Workouts", "Cardio", "Strength", "Custom" };
+>>>>>>> origin/filter-loglist-creation-take-2
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,11 +58,10 @@ public class WOLogListActivity extends Activity implements OnItemSelectedListene
         }
 
 
+<<<<<<< HEAD
+=======
         //set the spinner for type selection
         typePicker = (Spinner) findViewById(R.id.typePickSpinner);
-
-        //set the spinner for time selection
-        timePicker = (Spinner) findViewById(R.id.timePickSpinner);
 
         //creating and setting the timePicker's adapter
         ArrayAdapter<String> tpValues =
@@ -77,6 +79,7 @@ public class WOLogListActivity extends Activity implements OnItemSelectedListene
 
         //setting the setOnItemSelectedListener for the spinner
         timePicker.setOnItemSelectedListener(this);
+>>>>>>> origin/filter-loglist-creation-take-2
 
         //setting the setOnItemSelectedListener for the spinner
         typePicker.setOnItemSelectedListener(this);
@@ -122,6 +125,7 @@ public class WOLogListActivity extends Activity implements OnItemSelectedListene
             }
         });
 
+<<<<<<< HEAD
         //access the Stats Button
         statsButton = (Button) findViewById(R.id.stats_button);
 
@@ -133,6 +137,10 @@ public class WOLogListActivity extends Activity implements OnItemSelectedListene
                 startActivity(statsIntent);
             }
         });
+=======
+
+
+>>>>>>> origin/filter-loglist-creation-take-2
     }
 
 
@@ -165,7 +173,8 @@ public class WOLogListActivity extends Activity implements OnItemSelectedListene
     }
 
 
-
+<<<<<<< HEAD
+=======
     public void onItemSelected(AdapterView<?> parent, View v, int position,
                                long id) {
 
@@ -192,4 +201,7 @@ public class WOLogListActivity extends Activity implements OnItemSelectedListene
         // do nada
     }
 
+
+
+>>>>>>> origin/filter-loglist-creation-take-2
 }

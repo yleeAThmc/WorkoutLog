@@ -30,8 +30,6 @@ public class WOLogListAdapter extends ArrayAdapter<WOLog> {
 
     ArrayList<WOLog> originalDataToFilter;
 
-    ActivityFilter mactivityFilter;
-
 
     public WOLogListAdapter(Context ctx, ArrayList<WOLog> data) {
         super(ctx, android.R.layout.simple_list_item_1, data);
@@ -84,7 +82,8 @@ public class WOLogListAdapter extends ArrayAdapter<WOLog> {
         return i;
     }
 
-
+<<<<<<< HEAD
+=======
     //for filtering purposes
     public Filter getFilter() {
         if (mactivityFilter == null) {
@@ -333,8 +332,8 @@ public class WOLogListAdapter extends ArrayAdapter<WOLog> {
                 notifyDataSetChanged();
         }
 
-        public ArrayList<WOLog> getData(){return data;}
     }
+>>>>>>> origin/filter-loglist-creation-take-2
 }
 
 
