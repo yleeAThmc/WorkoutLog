@@ -44,10 +44,10 @@ public class WOLog implements Parcelable {
         else date += min;
 
         dateCompare += min;
-        dateCompare += hr * 10;
-        dateCompare += dy * 1000;
-        dateCompare += m * 100000;
-        dateCompare += yr * 10000000;
+        dateCompare += hr * 100;
+        dateCompare += dy * 10000;
+        dateCompare += m * 1000000;
+        dateCompare += yr * 100000000;
     }
 
     public void setName(String t){ name = t; }
