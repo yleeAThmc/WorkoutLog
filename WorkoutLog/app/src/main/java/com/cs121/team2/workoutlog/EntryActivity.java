@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -60,9 +61,9 @@ public class EntryActivity extends Activity {
             if (toEdit.getTime() != null && !toEdit.getTime().isEmpty()) { //do we have a time?
                 //if so, create a string array and parse the ints from that string array of [h,m,s]
                 toEditTime = toEdit.getTime().split(":");
-                for(int x = 0; x < toEditTime.length; x++) {
-                    Log.d("toEdit Time","Time: " + toEditTime[x]);
-                }
+                //for(int x = 0; x < toEditTime.length; x++) {
+                    //Log.d("toEdit Time","Time: " + toEditTime[x]);
+                //}
             }
             String[] toEditDateString = toEdit.getDate().split("\\W"); //split the date string
             //make sure date's time is not a whole hour so minutes != "" after taking out 0s
@@ -72,7 +73,8 @@ public class EntryActivity extends Activity {
             }
             for(int j = 0; j < toEditDateString.length; j++) { //populate our date array
                 toEditDate[j] = Integer.parseInt(toEditDateString[j]);
-                Log.d("toEditDate","Here: " + toEditDate[j]);
+                //Log.d("toEdit custom fields","Weight:" + toEdit.getWeight() + ". Sets: " + toEdit.getSets() + ". Reps: " + toEdit.getReps() + ". Time: " + toEdit.getTime() + ". Distance: " + toEdit.getDistance() + ".");
+                Log.d("toEdit memo: ","Here: " + toEdit.getMemo());
             }
         }
 
@@ -87,7 +89,7 @@ public class EntryActivity extends Activity {
             } else if(toEdit.getType().equals("Strength")) { //toEdit is strength?
                 setContentView(R.layout.entry_second_choice_strength);
             } else if(toEdit.getType().equals("Custom")) {
-                setContentView(R.layout.entry_common_data);
+                setContentView(R.layout.entry_initial_choice);
             }
         }
 
@@ -225,6 +227,9 @@ public class EntryActivity extends Activity {
         } else if (_type == WOLog.TYPE_STRENGTH) {
             setContentView(R.layout.entry_strength);
             _actv = (AutoCompleteTextView) findViewById(R.id.strength_actv);
+            EditText weight = (EditText) findViewById(R.id.strength_weight);
+            EditText sets = (EditText) findViewById(R.id.strength_sets);
+            EditText reps = (EditText) findViewById(R.id.strength_reps);
             if (_subType == WOLog.SUBTYPE_TIME_BODY) {
                 setActvArray(R.array.body_strength_array);
             } else {
@@ -232,12 +237,64 @@ public class EntryActivity extends Activity {
             }
             if(editing) { //are we editing?
                 _actv.setText(toEdit.getName()); //if so, preset the name field
+                weight.setText(toEdit.getWeight());
+                sets.setText(toEdit.getSets());
+                reps.setText(toEdit.getReps());
             }
         } else if (_type == WOLog.TYPE_CUSTOM) {
+            //TODO: need to have getCustomWorkoutView's chain of calls and initialization to skip to here, insert into this function
             setContentView(R.layout.entry_custom_workout);
+            //get buttons for the deactivation stuff
+            ImageButton distButton = (ImageButton) findViewById(R.id.custom_dist_btn);
+            ImageButton timeButton = (ImageButton) findViewById(R.id.custom_dur_btn);
+            ImageButton weightButton = (ImageButton) findViewById(R.id.custom_wgt_btn);
+            ImageButton setRepButton = (ImageButton) findViewById(R.id.custom_setrep_btn);
+            //get text fields
+            EditText customDist = (EditText) findViewById(R.id.custom_dist);
+            EditText customHour = (EditText) findViewById(R.id.custom_hour);
+            EditText customMinute = (EditText) findViewById(R.id.custom_minute);
+            EditText customWeight = (EditText) findViewById(R.id.custom_wgt);
+            EditText customSets = (EditText) findViewById(R.id.custom_sets);
+            EditText customReps = (EditText) findViewById(R.id.custom_reps);
+            boolean distNull = false; //booleans = true if the field is null
+            boolean timeNull = false;
+            boolean weightNull = false;
+            boolean setRepNull = false;
             if (editing) {
                 EditText customName = (EditText) findViewById(R.id.custom_type);
                 customName.setText(toEdit.getName());
+                //deactivate fields if they are null in the saved log
+                if (toEdit.getWeight().equals(null)) {
+                    weightButton.performClick();
+                    weightNull = true;
+                }
+                if (toEdit.getDistance().equals(null)) {
+                    distButton.performClick();
+                    distNull = true;
+                }
+                if (toEdit.getTime().equals(null)) {
+                    timeButton.performClick();
+                    timeNull = true;
+                }
+                if (toEdit.getSets().equals(null) || toEdit.getReps().equals(null)) {
+                    setRepButton.performClick();
+                    setRepNull = true;
+                }
+                //fill active fields
+                if (!distNull) {
+                    customDist.setText(toEdit.getDistance());
+                }
+                if (!timeNull) {
+                    customHour.setText(toEditTime[0]);
+                    customMinute.setText(toEditTime[1]);
+                }
+                if (!weightNull) {
+                    customWeight.setText(toEdit.getWeight());
+                }
+                if (!setRepNull) {
+                    customSets.setText(toEdit.getSets());
+                    customReps.setText(toEdit.getReps());
+                }
             }
         }
     }
