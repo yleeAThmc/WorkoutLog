@@ -121,11 +121,4 @@ public class DetailActivity extends Activity {
         startActivity(myIntent);
     }
 
-    // Create a message handling object as an anonymous class.
-    //private AdapterView.OnItemClickListener editClickedHandler = new AdapterView.OnItemClickListener() {
-    //    public void onItemClick(AdapterView parent, View v, int position, long id) {
-            // Do something in response to the click
-    //    }
-    //};
-
 }

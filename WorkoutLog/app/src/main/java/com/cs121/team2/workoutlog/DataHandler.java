@@ -68,7 +68,6 @@ public class DataHandler extends Activity {
         ArrayList<WOLog> toReturn = (ArrayList<WOLog>) gson.fromJson(temp, listType);
         if (toReturn == null){
             toReturn = new ArrayList<WOLog>();
-            //TODO show user friendly error message
         }
         //send to LLAdapter
         return toReturn;
@@ -76,26 +75,11 @@ public class DataHandler extends Activity {
 
     //appends a new log to the Log AList
     public synchronized void addLog(WOLog toAdd) throws IOException {
-//        //retrive data from file
-//        FileInputStream fis = mContext.openFileInput("jsonLogs.json");
-//        int c;
-//        String temp="";
-//        while( (c = fis.read()) != -1){
-//            temp = temp + Character.toString((char)c);
-//        }
-//        fis.close();
-//        //convert to non-JSON
-//        ArrayList<WOLog> logList = (ArrayList<WOLog>) gson.fromJson(temp, listType);
-        //TODO use getLogs here
-
-
         ArrayList<WOLog> logList = getLogs();
         if (logList == null) {
             logList = new ArrayList<WOLog>();
         }
         logList.add(toAdd);
-
-
 
         // Sorts the list of logs from oldest to newest
         Collections.sort(logList, new Comparator<WOLog>() {
@@ -289,11 +273,6 @@ public class DataHandler extends Activity {
         ArrayList<WOLog> logList = (ArrayList<WOLog>) gson.fromJson(temp, listType);
 
         if(delete) { //are we deleting the log?
-            Log.d("Hello","Here: " + logList.contains(oldLog));
-            Log.d("fields","Here: name: " + oldLog.getName() + ". DateCompare: " + logList.get(0).getDateCompare() +  ". Type: " + oldLog.getType() + ". Date: " + oldLog.getDate() + ". Time: " + oldLog.getDistance() + ". Mood: " + oldLog.getMood() + ". Weight: " + oldLog.getWeight() + ". Sets: " + oldLog.getSets() + ". Reps: " + oldLog.getReps() + ". Memo: " + oldLog.getMemo() + ". Type: " + oldLog.getType() + ". Subtype: " + oldLog.getSubtype() + oldLog.getCardioUnit() + "<cardiounit. " + oldLog.getStrengthUnit());
-            Log.d("fields","Here: name: " + logList.get(0).getName() + ". DateCompare: " + logList.get(0).getDateCompare() + ". Type: " + logList.get(0).getType() + ". Date: " + logList.get(0).getDate() + ". Time: " + logList.get(0).getDistance() + ". Mood: " + logList.get(0).getMood() + ". Weight: " + logList.get(0).getWeight() + ". Sets: " + logList.get(0).getSets() + ". Reps: " + logList.get(0).getReps() + ". Memo: " + logList.get(0).getMemo() + ". Type: " + logList.get(0).getType() + ". Subtype: " + logList.get(0).getSubtype() + logList.get(0).getCardioUnit() + "<cardiounit. " + logList.get(0).getStrengthUnit());
-            Log.d("fields logList(0)","Here: " + logList.get(0).getCardioUnit() + "< cardio unit. " + logList.get(0).getStrengthUnit() + "< strength unit");
-
             logList.remove(oldLog); //...if so, delete the log
         }
         else { //...if not, we're editing the log
