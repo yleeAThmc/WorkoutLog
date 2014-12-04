@@ -264,19 +264,19 @@ public class EntryActivity extends Activity {
                 EditText customName = (EditText) findViewById(R.id.custom_type);
                 customName.setText(toEdit.getName());
                 //deactivate fields if they are null in the saved log
-                if (toEdit.getWeight().equals(null)) {
+                if (toEdit.getWeight() == null) {
                     weightButton.performClick();
                     weightNull = true;
                 }
-                if (toEdit.getDistance().equals(null)) {
+                if (toEdit.getDistance() == null) {
                     distButton.performClick();
                     distNull = true;
                 }
-                if (toEdit.getTime().equals(null)) {
+                if (toEdit.getTime() == null) {
                     timeButton.performClick();
                     timeNull = true;
                 }
-                if (toEdit.getSets().equals(null) || toEdit.getReps().equals(null)) {
+                if (toEdit.getSets() == null || toEdit.getReps() == null) {
                     setRepButton.performClick();
                     setRepNull = true;
                 }
