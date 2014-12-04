@@ -186,7 +186,9 @@ public class DataHandler extends Activity {
                     strengthTotalReps += Integer.parseInt(log.getReps());
                 }
                 //Weight is generalized to pounds
-                if (log.getWeight() != null && !log.getWeight().equals("")) {
+                if (log.getWeight() != null &&
+                        !log.getWeight().equals("") &&
+                        log.getStrengthUnit() != null) {
                     if (log.getStrengthUnit().equals(WOLog.STRENGTH_UNIT_ARRAY[0])) { //Case lb
                         strengthTotalWeightLb += Double.parseDouble(log.getWeight());
                         strengthMaxWeightLb = Math.max(
