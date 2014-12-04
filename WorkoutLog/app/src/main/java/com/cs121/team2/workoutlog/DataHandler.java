@@ -286,11 +286,16 @@ public class DataHandler extends Activity {
         ArrayList<WOLog> logList = (ArrayList<WOLog>) gson.fromJson(temp, listType);
 
         if(delete) { //are we deleting the log?
+            Log.d("Hello","Here: " + logList.contains(oldLog));
+            Log.d("fields","Here: name: " + oldLog.getName() + ". DateCompare: " + logList.get(0).getDateCompare() +  ". Type: " + oldLog.getType() + ". Date: " + oldLog.getDate() + ". Time: " + oldLog.getDistance() + ". Mood: " + oldLog.getMood() + ". Weight: " + oldLog.getWeight() + ". Sets: " + oldLog.getSets() + ". Reps: " + oldLog.getReps() + ". Memo: " + oldLog.getMemo() + ". Type: " + oldLog.getType() + ". Subtype: " + oldLog.getSubtype() + oldLog.getCardioUnit() + "<cardiounit. " + oldLog.getStrengthUnit());
+            Log.d("fields","Here: name: " + logList.get(0).getName() + ". DateCompare: " + logList.get(0).getDateCompare() + ". Type: " + logList.get(0).getType() + ". Date: " + logList.get(0).getDate() + ". Time: " + logList.get(0).getDistance() + ". Mood: " + logList.get(0).getMood() + ". Weight: " + logList.get(0).getWeight() + ". Sets: " + logList.get(0).getSets() + ". Reps: " + logList.get(0).getReps() + ". Memo: " + logList.get(0).getMemo() + ". Type: " + logList.get(0).getType() + ". Subtype: " + logList.get(0).getSubtype() + logList.get(0).getCardioUnit() + "<cardiounit. " + logList.get(0).getStrengthUnit());
+            Log.d("fields logList(0)","Here: " + logList.get(0).getCardioUnit() + "< cardio unit. " + logList.get(0).getStrengthUnit() + "< strength unit");
+
             logList.remove(oldLog); //...if so, delete the log
         }
         else { //...if not, we're editing the log
-            int myIndex = logList.indexOf(oldLog); //find the index of the old log
-            logList.set(myIndex, newLog); //set the old log to the new log
+            int myIndex = logList.indexOf(oldLog); //find the index of the oldLog
+            logList.set(myIndex,newLog); //set the old log to the new log
         }
 
         // For clearing the file while testing: logList = new ArrayList<WOLog>();

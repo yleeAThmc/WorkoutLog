@@ -183,14 +183,9 @@ public class WOLog implements Parcelable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
 
         WOLog woLog = (WOLog) o;
 
-        if (dateCompare != woLog.dateCompare) return false;
-        if (day != woLog.day) return false;
-        if (month != woLog.month) return false;
-        if (year != woLog.year) return false;
         if (cardioUnit != null ? !cardioUnit.equals(woLog.cardioUnit) : woLog.cardioUnit != null)
             return false;
         if (date != null ? !date.equals(woLog.date) : woLog.date != null) return false;
