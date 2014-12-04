@@ -28,13 +28,6 @@ import java.util.TreeMap;
  * Created by Sam J on 10/4/14.
  */
 
-/*
-* TODO:
-* add variables needed for this class??????
-* finish constructor
-* fill in the methods
- * think of a better name for "Log" because that is a Java object already
-*/
 public class DataHandler extends Activity {
     private final String TAG = "Data Handler";
     public static DataHandler _dh; //the DataHandler instance that will be constructed and kept
@@ -123,9 +116,9 @@ public class DataHandler extends Activity {
         fos.close();
     }
 
-    public String getStats(ArrayList<WOLog> inputList){
+    public String getStats(ArrayList<WOLog> inputList) {
         ArrayList<WOLog> data = inputList;
-        if (data.isEmpty()){
+        if (data.isEmpty()) {
             return "<center> No Logs With Present Filters </center>";
         }
 
@@ -146,23 +139,23 @@ public class DataHandler extends Activity {
         int customCount = 0;
         Map customNameCount = new TreeMap<String, Integer>();
 
-        for(int i = 0; i < data.size(); i++){
+        for (int i = 0; i < data.size(); i++) {
             WOLog log = data.get(i);
             String type = log.getType();
 
-            if (type.equals(WOLog.TYPE_ARRAY[0])){ //cardio case
+            if (type.equals(WOLog.TYPE_ARRAY[0])) { //cardio case
                 cardioCount++;
                 //calculate distance and generalize measurements to miles
                 if (log.getDistance() != null && !log.getDistance().equals("")) {
                     if (log.getCardioUnit().equals(WOLog.CARDIO_UNIT_ARRAY[0])) { //miles
                         cardioTotalDistanceMi += Double.parseDouble(log.getDistance());
                     }
-                    if (log.getCardioUnit().equals(WOLog.CARDIO_UNIT_ARRAY[1])){ //meters
+                    if (log.getCardioUnit().equals(WOLog.CARDIO_UNIT_ARRAY[1])) { //meters
                         cardioTotalDistanceMi +=
                                 //conversion m to mi from google
                                 Double.parseDouble(log.getDistance()) * 0.000621371;
                     }
-                    if (log.getCardioUnit().equals(WOLog.CARDIO_UNIT_ARRAY[2])){ //kilometers
+                    if (log.getCardioUnit().equals(WOLog.CARDIO_UNIT_ARRAY[2])) { //kilometers
                         cardioTotalDistanceMi +=
                                 //conversion km to mi from google
                                 Double.parseDouble(log.getDistance()) * 0.621371;
@@ -183,23 +176,23 @@ public class DataHandler extends Activity {
                     cardioTotalTimeHr += min * 0.0166667;
                     cardioTotalTimeHr += sec * 0.000277778;
                 }
-            } else if (type.equals(WOLog.TYPE_ARRAY[1])){ //strength case
+            } else if (type.equals(WOLog.TYPE_ARRAY[1])) { //strength case
                 strengthCount++;
                 if (log.getSets() != null && !log.getSets().equals("")) {
                     strengthTotalSets += Integer.parseInt(log.getSets());
                 }
-                if (log.getReps() != null && !log.getReps().equals("") ) {
+                if (log.getReps() != null && !log.getReps().equals("")) {
                     strengthTotalReps += Integer.parseInt(log.getReps());
                 }
                 //Weight is generalized to pounds
                 if (log.getWeight() != null && !log.getWeight().equals("")) {
-                    if(log.getStrengthUnit().equals(WOLog.STRENGTH_UNIT_ARRAY[0])) { //Case lb
+                    if (log.getStrengthUnit().equals(WOLog.STRENGTH_UNIT_ARRAY[0])) { //Case lb
                         strengthTotalWeightLb += Double.parseDouble(log.getWeight());
                         strengthMaxWeightLb = Math.max(
                                 Double.parseDouble(log.getWeight()),
                                 strengthMaxWeightLb);
                     }
-                    if(log.getStrengthUnit().equals(WOLog.STRENGTH_UNIT_ARRAY[1])) { //Case kg
+                    if (log.getStrengthUnit().equals(WOLog.STRENGTH_UNIT_ARRAY[1])) { //Case kg
                         //conversion kg to lb from google
                         strengthTotalWeightLb += Double.parseDouble(log.getWeight()) * 2.20462;
                         strengthMaxWeightLb = Math.max(
@@ -207,9 +200,9 @@ public class DataHandler extends Activity {
                                 strengthMaxWeightLb);
                     }
                 }
-            } else if (type.equals(WOLog.TYPE_ARRAY[2])){ //custom case
+            } else if (type.equals(WOLog.TYPE_ARRAY[2])) { //custom case
                 customCount++;
-                if (log.getName() != null && !log.getName().equals("") ) {
+                if (log.getName() != null && !log.getName().equals("")) {
                     Integer integer = (Integer) customNameCount.get(log.getName());
                     if (integer == null) {
                         customNameCount.put(log.getName(), 1);
@@ -233,36 +226,36 @@ public class DataHandler extends Activity {
         // HTML formatted string that shows all data. Decimals are rounded four places.
         String s = "<center>";
 
-        if(cardioCount != 0) {
+        if (cardioCount != 0) {
             s += "<b> Cardio </b> (" + cardioCount + ") <br>";
 
             s += "Total Distance: ";
-            s += (double) Math.round(cardioTotalDistanceMi * 10000)/10000 + " mi <br>";
+            s += (double) Math.round(cardioTotalDistanceMi * 10000) / 10000 + " mi <br>";
 
             s += "Total Time: ";
-            s += (double) Math.round(cardioTotalTimeHr * 10000)/10000 + " hr <br>";
+            s += (double) Math.round(cardioTotalTimeHr * 10000) / 10000 + " hr <br>";
 
             s += "Average Speed: ";
-            s += (double) Math.round(cardioAverageSpeed * 10000)/10000 + " mi/hr <br>";
+            s += (double) Math.round(cardioAverageSpeed * 10000) / 10000 + " mi/hr <br>";
         }
 
-        if(strengthCount != 0) {
+        if (strengthCount != 0) {
             s += "<br> <b> Strength </b> (" + strengthCount + ")<br>";
             s += "Average Sets: ";
-            s += (double) Math.round(strengthAverageSets * 10000)/10000 + "<br>";
+            s += (double) Math.round(strengthAverageSets * 10000) / 10000 + "<br>";
 
             s += "Average Reps: ";
-            s += (double) Math.round(strengthAverageReps * 10000)/10000 + "<br>";
+            s += (double) Math.round(strengthAverageReps * 10000) / 10000 + "<br>";
 
 
             s += "Average Weight: ";
-            s += (double) Math.round(strengthAverageWeightLb * 10000)/10000 + " lbs <br>";
+            s += (double) Math.round(strengthAverageWeightLb * 10000) / 10000 + " lbs <br>";
 
             s += "Heaviest Weight: ";
-            s += (double) Math.round(strengthAverageWeightLb * 10000)/10000 + " lbs <br>";
+            s += (double) Math.round(strengthAverageWeightLb * 10000) / 10000 + " lbs <br>";
         }
 
-        if(customCount != 0) {
+        if (customCount != 0) {
             s += "<br> <b> Custom </b> (" + customCount + ")<br>";
             Set<Map.Entry<String, Integer>> entrySet = customNameCount.entrySet();
             for (Map.Entry entry : entrySet) {
@@ -274,5 +267,50 @@ public class DataHandler extends Activity {
         s += "</center>";
 
         return s;
+    }
+
+    //edits or removes an existing log
+    public synchronized void editLog(WOLog newLog, WOLog oldLog, boolean delete) throws IOException {
+        //save a dummy copy of oldLog
+        WOLog dummy = oldLog;
+        //retrieve data from file
+        FileInputStream fis = mContext.openFileInput("jsonLogs.json");
+        int c;
+        String temp="";
+        while( (c = fis.read()) != -1){
+            temp = temp + Character.toString((char)c);
+        }
+        fis.close();
+
+        //convert to non-JSON
+        ArrayList<WOLog> logList = (ArrayList<WOLog>) gson.fromJson(temp, listType);
+
+        if(delete) { //are we deleting the log?
+            logList.remove(oldLog); //...if so, delete the log
+        }
+        else { //...if not, we're editing the log
+            int myIndex = logList.indexOf(oldLog); //find the index of the old log
+            logList.set(myIndex, newLog); //set the old log to the new log
+        }
+
+        // For clearing the file while testing: logList = new ArrayList<WOLog>();
+
+        //sort loglist
+        if(!logList.isEmpty()) {
+            Collections.sort(logList, new Comparator<WOLog>() {
+                @Override
+                public int compare(WOLog woLog, WOLog woLog2) {
+                    return woLog2.getDateCompare() - woLog.getDateCompare();
+                }
+            });
+        }
+
+        //convert to JSON
+        String jsonLog = gson.toJson(logList);
+        //save to a .txt file
+        FileOutputStream fos = mContext.openFileOutput("jsonLogs.json", Context.MODE_PRIVATE);
+        //write to internal storage
+        fos.write(jsonLog.getBytes());
+        fos.close();
     }
 }

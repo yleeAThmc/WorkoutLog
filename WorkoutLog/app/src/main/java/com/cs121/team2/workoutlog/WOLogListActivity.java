@@ -53,7 +53,6 @@ public class WOLogListActivity extends Activity implements OnItemSelectedListene
             getActionBar().setDisplayShowTitleEnabled(false);
         }
 
-
         //set the spinner for type selection
         typePicker = (Spinner) findViewById(R.id.typePickSpinner);
 

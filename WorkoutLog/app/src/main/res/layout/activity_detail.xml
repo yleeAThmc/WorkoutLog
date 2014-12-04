@@ -1,21 +1,31 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollLinearLayout"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".DetailActivity">
-
+    android:gravity="center_horizontal">
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/detail_page"
         android:layout_width="wrap_content" android:layout_height="wrap_content"
         android:padding="@dimen/edittext_padding_size"
         android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"
-        android:textSize="26sp">
+        android:textSize="26sp"></TextView>
 
-
-    </TextView>
-</FrameLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Log"
+        android:id="@+id/editButton"
+        android:onClick="onEditClick"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete Log"
+        android:id="@+id/deleteButton"
+        android:onClick="onDeleteClick"/>
+</LinearLayout>

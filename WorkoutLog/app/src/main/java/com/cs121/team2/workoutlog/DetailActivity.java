@@ -7,12 +7,20 @@ import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.IOException;
 
 /**
  * Created by Sam Jackson on 10/29/14.
  */
 public class DetailActivity extends Activity {
+    private WOLog myLog;
+    DataHandler _dhInstance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,12 +35,17 @@ public class DetailActivity extends Activity {
             getActionBar().setDisplayShowTitleEnabled(false);
         }
 
-        // Access the textview from XML
+        //get the datahandler
+        _dhInstance = DataHandler.getDataHandler(this);
+
+        // Access the linearlayout from XML
+        LinearLayout detailView = (LinearLayout) findViewById(R.id.scrollLinearLayout);
+
+        //access the textview from XML
         TextView textView = (TextView) findViewById(R.id.detail_page);
 
         //access the intent from WOLogListActivity
         Intent i = getIntent();
-        WOLog myLog;
         myLog = i.getParcelableExtra("log");
 
         //source string with HTML formatting tags for setText()
@@ -40,6 +53,11 @@ public class DetailActivity extends Activity {
         //set the text for the TextView
         textView.setText(Html.fromHtml(sourceString));
         setBackgroundColor(textView, myLog);
+
+        //get the edit log button
+        Button editButton = (Button) findViewById(R.id.editButton);
+        //get the delete log button
+        Button deleteButton = (Button) findViewById(R.id.deleteButton);
     }
 
     @Override
@@ -87,4 +105,27 @@ public class DetailActivity extends Activity {
             view.setBackgroundResource(R.drawable.list_perfect);
         }
     }
+
+    public void onDeleteClick(View view) throws IOException { //called from the view, handles deletion clicks
+        _dhInstance.editLog(myLog, myLog, true); //call editLog with delete = true
+        //make a toast to confirm the deletion
+        Toast myToast = Toast.makeText(this, "Log deleted.", Toast.LENGTH_SHORT);
+        Intent myIntent = new Intent(DetailActivity.this, WOLogListActivity.class);
+        myToast.show();
+        startActivity(myIntent);
+    }
+
+    public void onEditClick(View view) { //called from the view, handles editing clicks
+        Intent myIntent = new Intent(DetailActivity.this, EntryActivity.class);
+        myIntent.putExtra("toEdit", (android.os.Parcelable) myLog);
+        startActivity(myIntent);
+    }
+
+    // Create a message handling object as an anonymous class.
+    //private AdapterView.OnItemClickListener editClickedHandler = new AdapterView.OnItemClickListener() {
+    //    public void onItemClick(AdapterView parent, View v, int position, long id) {
+            // Do something in response to the click
+    //    }
+    //};
+
 }

@@ -33,7 +33,8 @@ public class WOLog implements Parcelable {
     public WOLog()
     {
         dateCompare = month = day = year = 0;
-        date = name = time = distance = mood = weight = sets = reps = memo = type = subtype = null;
+        date = name = time = distance = mood = weight = sets = reps = memo = type = subtype
+                = cardioUnit = strengthUnit = null;
     }
 
 
@@ -55,7 +56,7 @@ public class WOLog implements Parcelable {
 
     public void setName(String t){ name = t; }
 
-    public void setTime(String t){ time = t; }
+    public void setTime(String h, String m, String s){ time = h + ":" + m + ":" + s; }
 
     public void setDistance(String d){ distance = d; }
 
@@ -178,22 +179,42 @@ public class WOLog implements Parcelable {
 
     // TODO: Write comparable function in WOLog instead of overriding in DataHandler?
 
-    //Equals function
-    public boolean equals(WOLog otherLog){
-        return (this.getDateCompare() == otherLog.getDateCompare() &&
-                this.getDate().equals(otherLog.getDate()) &&
-                this.getName().equals(otherLog.getName()) &&
-                this.getTime().equals(otherLog.getTime()) &&
-                this.getDistance().equals(otherLog.getDistance()) &&
-                this.getMood().equals(otherLog.getMood()) &&
-                this.getWeight().equals(otherLog.getWeight()) &&
-                this.getSets().equals(otherLog.getSets()) &&
-                this.getReps().equals(otherLog.getReps()) &&
-                this.getMemo().equals(otherLog.getMemo()) &&
-                this.getType().equals(otherLog.getType()) &&
-                this.getSubtype().equals(otherLog.getSubtype()) &&
-                this.getCardioUnit().equals(otherLog.getCardioUnit()) &&
-                this.getStrengthUnit().equals(otherLog.getStrengthUnit()));
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        WOLog woLog = (WOLog) o;
+
+        if (dateCompare != woLog.dateCompare) return false;
+        if (day != woLog.day) return false;
+        if (month != woLog.month) return false;
+        if (year != woLog.year) return false;
+        if (cardioUnit != null ? !cardioUnit.equals(woLog.cardioUnit) : woLog.cardioUnit != null)
+            return false;
+        if (date != null ? !date.equals(woLog.date) : woLog.date != null) return false;
+        if (distance != null ? !distance.equals(woLog.distance) : woLog.distance != null)
+            return false;
+        if (memo != null ? !memo.equals(woLog.memo) : woLog.memo != null) return false;
+        if (mood != null ? !mood.equals(woLog.mood) : woLog.mood != null) return false;
+        if (name != null ? !name.equals(woLog.name) : woLog.name != null) return false;
+        if (reps != null ? !reps.equals(woLog.reps) : woLog.reps != null) return false;
+        if (sets != null ? !sets.equals(woLog.sets) : woLog.sets != null) return false;
+        if (strengthUnit != null ? !strengthUnit.equals(woLog.strengthUnit) : woLog.strengthUnit != null)
+            return false;
+        if (subtype != null ? !subtype.equals(woLog.subtype) : woLog.subtype != null) return false;
+        if (time != null ? !time.equals(woLog.time) : woLog.time != null) return false;
+        if (type != null ? !type.equals(woLog.type) : woLog.type != null) return false;
+        if (weight != null ? !weight.equals(woLog.weight) : woLog.weight != null) return false;
+
+        return true;
+    }
+
+    //in case this project ever uses hash coding, make sure they know they have to write it
+    @Override public int hashCode() {
+        throw new UnsupportedOperationException();
+
     }
 
     //The following functions allow for a WOLog to be passed as a Parcel
@@ -214,6 +235,7 @@ public class WOLog implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(dateCompare);
         dest.writeString(name);
         dest.writeString(time);
         dest.writeString(distance);
@@ -225,9 +247,13 @@ public class WOLog implements Parcelable {
         dest.writeString(reps);
         dest.writeString(cardioUnit);
         dest.writeString(strengthUnit);
+        dest.writeString(type);
+        dest.writeString(subtype);
     }
 
     private WOLog(Parcel in) {
+        dateCompare = 0;
+        dateCompare = in.readInt();
         name = null;
         name = in.readString();
         time = null;
@@ -251,5 +277,9 @@ public class WOLog implements Parcelable {
         strengthUnit = null;
         strengthUnit = in.readString();
         dateCompare = 0;
+        type = null;
+        type = in.readString();
+        subtype = null;
+        subtype = in.readString();
     }
 }
