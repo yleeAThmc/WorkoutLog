@@ -228,7 +228,7 @@ public class DataHandler extends Activity {
         String s = "<center>";
 
         if (cardioCount != 0) {
-            s += "<b> Cardio </b> (" + cardioCount + ") <br>";
+            s += "<br> <b> Cardio </b> (" + cardioCount + ") <br>";
 
             s += "Total Distance: ";
             s += (double) Math.round(cardioTotalDistanceMi * 10000) / 10000 + " mi <br>";
