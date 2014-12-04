@@ -146,7 +146,8 @@ public class DataHandler extends Activity {
             if (type.equals(WOLog.TYPE_ARRAY[0])) { //cardio case
                 cardioCount++;
                 //calculate distance and generalize measurements to miles
-                if (log.getDistance() != null && !log.getDistance().equals("")) {
+                if (log.getDistance() != null &&
+                        !log.getDistance().equals("") && log.getCardioUnit()!=null) {
                     if (log.getCardioUnit().equals(WOLog.CARDIO_UNIT_ARRAY[0])) { //miles
                         cardioTotalDistanceMi += Double.parseDouble(log.getDistance());
                     }
