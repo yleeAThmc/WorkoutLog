@@ -288,7 +288,7 @@ public class EntryActivity extends Activity {
             boolean weightNull = false;
             boolean setRepNull = false;
             if (editing) {
-                EditText customName = (EditText) findViewById(R.id.custom_type);
+                EditText customName = (EditText) findViewById(R.id.custom_name);
                 customName.setText(toEdit.getName());
                 //deactivate fields if they are null in the saved log
                 if (toEdit.getWeight() == null) {
