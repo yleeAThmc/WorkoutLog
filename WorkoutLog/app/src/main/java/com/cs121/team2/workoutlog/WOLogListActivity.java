@@ -129,7 +129,17 @@ public class WOLogListActivity extends Activity implements OnItemSelectedListene
         statsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
+
+                System.out.println(mWOLogListAdapter.getData().isEmpty());
+                System.out.println(DataHandler.getDataHandler(v.getContext()).getStats(mWOLogListAdapter.getData()));
+
+
+                String stats =
+                        //try to get stats
+                        DataHandler.getDataHandler(v.getContext()).getStats(mWOLogListAdapter.getData());
+
                 Intent statsIntent = new Intent(v.getContext(),StatsActivity.class);
+                statsIntent.putExtra("stats", stats);
                 startActivity(statsIntent);
             }
         });

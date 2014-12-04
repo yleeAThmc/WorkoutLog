@@ -31,7 +31,7 @@ public class StatsActivity extends Activity {
         DataHandler dh = DataHandler.getDataHandler(this);
 
         //source string with HTML formatting tags for setText()
-        String sourceString = dh.getStats();
+        String sourceString = i.getExtras().getString("stats");
         //set the text for the TextView
         textView.setText(Html.fromHtml(sourceString));
     }

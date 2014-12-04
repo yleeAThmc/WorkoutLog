@@ -83,6 +83,11 @@ public class WOLogListAdapter extends ArrayAdapter<WOLog> {
         return i;
     }
 
+    //gets the data currently in the list
+    public ArrayList<WOLog> getData(){
+        return data;
+    }
+
     //for filtering purposes
     public Filter getFilter() {
         if (mactivityFilter == null) {
