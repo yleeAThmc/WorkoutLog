@@ -130,6 +130,11 @@ public class EntryActivity extends Activity {
         startActivity(newEntryIntent);
     }
 
+    // Also called when "back" buttons are called from entry_second_xxx or entry_common (for custom)
+    public void getInitialChoiceView(View view) {
+        setContentView(R.layout.entry_initial_choice);
+    }
+
     // Selecting exercise type (these functions are called directly from each layout)
     public void getCardioView(View view) {
         _type = WOLog.TYPE_CARDIO;
@@ -219,10 +224,7 @@ public class EntryActivity extends Activity {
         _memo = (EditText) findViewById(R.id.memo);
     }
 
-    public void getInitialChoiceView(View view) {
-        setContentView(R.layout.entry_initial_choice);
-    }
-
+    // Continue to an appropriate workout type layout
     public void continueFromCommon(View view) {
         _wl = new WOLog();
         setMood();
@@ -277,7 +279,6 @@ public class EntryActivity extends Activity {
             }
 
         } else if (_type == WOLog.TYPE_CUSTOM) {
-            //TODO: need to have getCustomWorkoutView's chain of calls and initialization to skip to here, insert into this function
             setContentView(R.layout.entry_custom_workout);
 
             // default unit for cardio is mi, strength is lb
@@ -414,6 +415,7 @@ public class EntryActivity extends Activity {
         _strengthUnit = WOLog.UNIT_M_KG;
     }
 
+    // Set units
     private void setCardioUnit() {
         if (_cardioUnit != -1) {
             _wl.setCardioUnit(WOLog.CARDIO_UNIT_ARRAY[_cardioUnit]);
@@ -577,6 +579,8 @@ public class EntryActivity extends Activity {
         setContentView(R.layout.entry_initial_choice);
         startWOLogListAct();
     }
+
+    // Custom Layout Field Options
     public void onCSTDistBtnClicked(View view) {
         FrameLayout distBg = (FrameLayout) findViewById(R.id.custom_dist_bg);
         EditText dist = (EditText) findViewById(R.id.custom_dist);
@@ -677,6 +681,7 @@ public class EntryActivity extends Activity {
         }
     }
 
+    // setting an appropriate AutoCompleteTextView according to the given parameter
     private void setActvArray(int arrayId) {
         String[] exercises = getResources().getStringArray(arrayId);
         ArrayAdapter adapter = new ArrayAdapter

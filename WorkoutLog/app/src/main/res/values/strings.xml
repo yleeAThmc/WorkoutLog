@@ -12,6 +12,22 @@
     <string name="add_WOlog">Add New Workout</string>
     <string name="name_prompt">Enter exercise name</string>
     <string name="filter_workout_loglist">Filter by Workout Type</string>
+    <string name="add_memo">Additional memo</string>
+    <string name="back">Back</string>
+    <string name="save">Save</string>
+    <string name="cont">Continue</string>
+    <string name="edit">Edit Log</string>
+    <string name="delete">Delete Log</string>
+    <string name="hh">hh</string>
+    <string name="mm">mm</string>
+    <string name="ss">ss</string>
+    <string name="no_log_prompt">There Are No Logs Yet</string>
+    <string name="stat">Statistics</string>
+    <string name="set">Sets</string>
+    <string name="rep">Reps</string>
+    <string name="cardio">Cardio</string>
+    <string name="str">Strength</string>
+    <string name="cust">Custom Exercise</string>
 
     <string-array name="length_array">
         <item>ft</item>

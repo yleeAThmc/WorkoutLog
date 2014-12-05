@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/btn_green_bg"
             android:layout_margin="@dimen/btn_margin"
-            android:text="Edit Log"
+            android:text="@string/edit"
             android:id="@+id/editButton"
             android:onClick="onEditClick"/>
         <Button
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/btn_cream_bg"
             android:layout_margin="@dimen/btn_margin"
-            android:text="Delete Log"
+            android:text="@string/delete"
             android:id="@+id/deleteButton"
             android:onClick="onDeleteClick"/>
     </LinearLayout>

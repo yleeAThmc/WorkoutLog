@@ -85,7 +85,7 @@ tools:context=".EntryActivity">
                     android:background="#00000000"
                     android:layout_gravity="center_vertical|start"
                     android:inputType="number"
-                    android:hint="hh"/>
+                    android:hint="@string/hh"/>
                 <EditText
                     android:id="@+id/cardio_minute"
                     android:layout_width="wrap_content"
@@ -93,7 +93,7 @@ tools:context=".EntryActivity">
                     android:background="#00000000"
                     android:layout_gravity="center"
                     android:inputType="number"
-                    android:hint="mm"/>
+                    android:hint="@string/mm"/>
                 <EditText
                     android:id="@+id/cardio_second"
                     android:layout_width="wrap_content"
@@ -101,7 +101,7 @@ tools:context=".EntryActivity">
                     android:background="#00000000"
                     android:layout_gravity="center_vertical|end"
                     android:inputType="number"
-                    android:hint="ss"/>
+                    android:hint="@string/ss"/>
         </FrameLayout>
     </LinearLayout>
 
@@ -115,7 +115,7 @@ tools:context=".EntryActivity">
             android:layout_height="wrap_content"
             android:background="@drawable/btn_cream_bg"
             android:layout_margin="@dimen/btn_margin"
-            android:text="Back"
+            android:text="@string/back"
             android:onClick="getCommonDataView"/>
         <Button
             android:layout_width="0dp"
@@ -123,7 +123,7 @@ tools:context=".EntryActivity">
             android:layout_height="wrap_content"
             android:background="@drawable/btn_green_bg"
             android:layout_margin="@dimen/btn_margin"
-            android:text="Save"
+            android:text="@string/save"
             android:onClick="onCardioSubmit"/>
     </LinearLayout>
 
