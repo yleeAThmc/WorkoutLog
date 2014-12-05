@@ -1,9 +1,11 @@
 package com.cs121.team2.workoutlog;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.ActivityUnitTestCase;
 import android.text.Html;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
@@ -12,22 +14,14 @@ import android.widget.TextView;
 
 /**
  * Created by Sam on 12/4/2014.
+ * Tests for the DetailActivity basic functions.
  */
 
-//TODO: Sam J is responsible for this class;
-    //DO REALLLLLY MINOR TESTING HERE. Honestly, just make sure things aren't show blank/
-    //has same info as the log getting passed in, that sort of stuff.
-    //ALSO: in setup there is a brand new wolog with random stuff I initialized; feel free to
-    //change this if you need to
-
-
 public class DetailActivityTest extends
-        ActivityInstrumentationTestCase2 {
+        ActivityUnitTestCase<DetailActivity> {
 
     //private data members
-    private WOLog myLog;
-    private TextView myText;
-    private Button deleteButton;
+    private WOLog log1;
     private Button editButton;
     DetailActivity mActivity;
 
@@ -41,18 +35,35 @@ public class DetailActivityTest extends
     @Override
     public void setUp() throws Exception {
         super.setUp();
+        Intent intent = new Intent(
+                getInstrumentation().getTargetContext(), WOLogListActivity.class
+        );
+        log1 = new WOLog();
+        log1.setDate(11, 1, 2014, 20, 15);
+        log1.setName("cardio 1");
+        log1.setDistance("12");
+        log1.setMood("k");
+        log1.setTime("12", "2", "2");
+        log1.setType("Cardio");
+        log1.setCardioUnit("mi");
+        log1.setSubtype("1");
+        intent.putExtra("log", (android.os.Parcelable) (log1));
+        startActivity(intent, null, null);
         mActivity = (DetailActivity) getActivity();
-        myLog = new WOLog();
-        myLog.setDate(11, 12, 04, 12, 12);
-        myLog.setType("Cardio");
-        myLog.setMood("k");
-        myText = (TextView) mActivity.findViewById(R.id.detail_page);
-        String sourceString = myLog.toStringDetail();
-        //set the text for the TextView
-        myText.setText(Html.fromHtml(sourceString));
-        deleteButton = (Button) mActivity.findViewById(R.id.deleteButton);
-        editButton = (Button) mActivity.findViewById(R.id.editButton);
+
+
     }
 
+    public void testInputLog() throws Exception {
+        //perform a click on the edit button
+        editButton = (Button) mActivity.findViewById(R.id.editButton);
+        editButton.performClick();
+
+        //check if the extra in the launch intent is the same as inputLog
+        Intent intent = getStartedActivityIntent();
+        assertNotNull(intent);
+        assertTrue(log1.equals(intent.getParcelableExtra("toEdit")));
+
+    }
 
 }
