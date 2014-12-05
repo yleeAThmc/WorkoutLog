@@ -159,9 +159,6 @@ public class WOLogListActivity extends Activity implements OnItemSelectedListene
         // as you specify a parent activity in AndroidManifest.xml.
 
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
         if (id == R.id.add_WOlog) {
 
             Intent newEntryIntent = new Intent(this, EntryActivity.class);
