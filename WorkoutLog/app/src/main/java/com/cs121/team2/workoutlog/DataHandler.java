@@ -9,25 +9,19 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
 /**
- * Created by Sam J on 10/4/14.
+ * Class created by Sam J on 10/4/14.
  */
-
 public class DataHandler extends Activity {
     private final String TAG = "Data Handler";
     public static DataHandler _dh; //the DataHandler instance that will be constructed and kept
@@ -39,7 +33,8 @@ public class DataHandler extends Activity {
         gson = new Gson();
         listType = new TypeToken<ArrayList<WOLog>>(){}.getType();
         File file = new File(mContext.getFilesDir(), "jsonLogs.json");
-        file.createNewFile();
+        boolean created = file.createNewFile();
+        assert created = true;
     }
     public synchronized static DataHandler getDataHandler(Context context) { //used to make/get the DH
         mContext = context;
@@ -76,26 +71,14 @@ public class DataHandler extends Activity {
 
     //appends a new log to the Log AList
     public synchronized void addLog(WOLog toAdd) throws IOException {
-//        //retrive data from file
-//        FileInputStream fis = mContext.openFileInput("jsonLogs.json");
-//        int c;
-//        String temp="";
-//        while( (c = fis.read()) != -1){
-//            temp = temp + Character.toString((char)c);
-//        }
-//        fis.close();
-//        //convert to non-JSON
-//        ArrayList<WOLog> logList = (ArrayList<WOLog>) gson.fromJson(temp, listType);
-        //TODO use getLogs here
 
-
+        //use getlogs to get the list of logs stored on device
         ArrayList<WOLog> logList = getLogs();
+
         if (logList == null) {
             logList = new ArrayList<WOLog>();
         }
         logList.add(toAdd);
-
-
 
         // Sorts the list of logs from oldest to newest
         Collections.sort(logList, new Comparator<WOLog>() {
@@ -118,8 +101,6 @@ public class DataHandler extends Activity {
 
     //edits or removes an existing log
     public synchronized void editLog(WOLog newLog, WOLog oldLog, boolean delete) throws IOException {
-        //save a dummy copy of oldLog
-        WOLog dummy = oldLog;
         //retrieve data from file
         FileInputStream fis = mContext.openFileInput("jsonLogs.json");
         int c;
@@ -130,7 +111,7 @@ public class DataHandler extends Activity {
         fis.close();
 
         //convert to non-JSON
-        ArrayList<WOLog> logList = (ArrayList<WOLog>) gson.fromJson(temp, listType);
+        ArrayList<WOLog> logList = gson.fromJson(temp, listType);
 
         if(delete) { //are we deleting the log?
             Log.d("Hello","Here: " + logList.contains(oldLog));
@@ -167,8 +148,7 @@ public class DataHandler extends Activity {
     }
 
     public String getStats(ArrayList<WOLog> inputList) {
-        ArrayList<WOLog> data = inputList;
-        if (data.isEmpty()) {
+        if (inputList.isEmpty()) {
             return "<center> No Logs With Present Filters </center>";
         }
 
@@ -189,8 +169,7 @@ public class DataHandler extends Activity {
         int customCount = 0;
         Map customNameCount = new TreeMap<String, Integer>();
 
-        for (int i = 0; i < data.size(); i++) {
-            WOLog log = data.get(i);
+        for (WOLog log : inputList) {
             String type = log.getType();
 
             if (type != null) {
@@ -213,7 +192,6 @@ public class DataHandler extends Activity {
                         }
                     }
                     if (log.getTime() != null && !log.getTime().equals("")) {
-                        //TODO: test this
                         String time = log.getTime();
                         String delims = "[:]";
                         String[] tokens = time.split(delims);

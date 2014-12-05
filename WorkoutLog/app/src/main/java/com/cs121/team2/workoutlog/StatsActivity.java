@@ -1,7 +1,6 @@
 package com.cs121.team2.workoutlog;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
@@ -28,7 +27,6 @@ public class StatsActivity extends Activity {
 
         //access the intent from WOLogListActivity
         Intent i = getIntent();
-        DataHandler dh = DataHandler.getDataHandler(this);
 
         //source string with HTML formatting tags for setText()
         String sourceString = i.getExtras().getString("stats");
