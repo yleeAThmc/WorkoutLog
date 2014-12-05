@@ -6,12 +6,6 @@ package com.cs121.team2.workoutlog;
  */
 
 
-//Kelly is responsible for this class;
-// don't worry about spending too much time on this--maybe an hour, at most 2--to get basic picking and
-//choosing set/checking values selected and stored. Using the android activity tutorial
-//I have linked in basecamp is the best bet. I expect because this is our most complex class that it'll
-//be hardest to write tests for, so just do what you can it'll work :)
-
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.ActivityUnitTestCase;

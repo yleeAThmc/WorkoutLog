@@ -35,14 +35,11 @@ public class CustomOnItemSelectedListener implements OnItemSelectedListener {
             Log.e(TAG, "hk selected");
             //fields = inflater.inflate(R.layout.entry_hardcore_karaoke, parent, false);
         }
-        // TODO: refactor following line
-        //((ViewGroup) insertPoint).addView(fields, 3); // 3 here is the position of the last element
         return;
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> arg0) {
-        // TODO Auto-generated method stub
         Log.e(TAG, "nothing selected");
     }
 

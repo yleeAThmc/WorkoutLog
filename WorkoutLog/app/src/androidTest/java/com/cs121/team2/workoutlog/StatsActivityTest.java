@@ -13,14 +13,6 @@ import java.util.ArrayList;
  * Created by Sam on 12/4/2014.
  */
 
-//TODO: Claire is responsible for this class
-    //do what you can/gotta do. Maybe just check that the data being displayed is correct/
-    //the mathing is correct?
-
-    //Also: I'm not totally sure I set up the logs to get the stats correctly, so check that. Also, if
-    //actually want there to be math, you might want to set values for the logs.
-
-
 public class StatsActivityTest extends ActivityInstrumentationTestCase2 {
 
     //private data members

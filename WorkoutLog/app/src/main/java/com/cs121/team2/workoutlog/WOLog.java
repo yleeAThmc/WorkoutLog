@@ -82,7 +82,6 @@ public class WOLog implements Parcelable {
 
 
     // Getter Methods
-    // TODO: Remove these if we don't wind up using them for stats
     public int getDateCompare(){ return dateCompare; }
 
     public String getDate(){ return date; }
@@ -176,9 +175,6 @@ public class WOLog implements Parcelable {
 
         return s;
     }
-
-    // TODO: Write comparable function in WOLog instead of overriding in DataHandler?
-
 
     @Override
     public boolean equals(Object o) {
