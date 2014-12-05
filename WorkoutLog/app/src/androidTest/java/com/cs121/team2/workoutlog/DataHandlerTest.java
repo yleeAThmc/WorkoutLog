@@ -111,6 +111,6 @@ public class DataHandlerTest extends InstrumentationTestCase {
         }
     }
 
-    //TESTING OF GetStats FUNCTION IS IN STATSACTIVITYTEST
+    //TESTING OF GetStats(ArrayList<WOLog> param) FUNCTION IS IN STATSACTIVITYTEST
 
 }
