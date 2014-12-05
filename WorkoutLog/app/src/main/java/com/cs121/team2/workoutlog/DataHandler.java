@@ -116,6 +116,56 @@ public class DataHandler extends Activity {
         fos.close();
     }
 
+    //edits or removes an existing log
+    public synchronized void editLog(WOLog newLog, WOLog oldLog, boolean delete) throws IOException {
+        //save a dummy copy of oldLog
+        WOLog dummy = oldLog;
+        //retrieve data from file
+        FileInputStream fis = mContext.openFileInput("jsonLogs.json");
+        int c;
+        String temp="";
+        while( (c = fis.read()) != -1){
+            temp = temp + Character.toString((char)c);
+        }
+        fis.close();
+
+        //convert to non-JSON
+        ArrayList<WOLog> logList = (ArrayList<WOLog>) gson.fromJson(temp, listType);
+
+        if(delete) { //are we deleting the log?
+            Log.d("Hello","Here: " + logList.contains(oldLog));
+            Log.d("fields","Here: name: " + oldLog.getName() + ". DateCompare: " + logList.get(0).getDateCompare() +  ". Type: " + oldLog.getType() + ". Date: " + oldLog.getDate() + ". Time: " + oldLog.getDistance() + ". Mood: " + oldLog.getMood() + ". Weight: " + oldLog.getWeight() + ". Sets: " + oldLog.getSets() + ". Reps: " + oldLog.getReps() + ". Memo: " + oldLog.getMemo() + ". Type: " + oldLog.getType() + ". Subtype: " + oldLog.getSubtype() + oldLog.getCardioUnit() + "<cardiounit. " + oldLog.getStrengthUnit());
+            Log.d("fields","Here: name: " + logList.get(0).getName() + ". DateCompare: " + logList.get(0).getDateCompare() + ". Type: " + logList.get(0).getType() + ". Date: " + logList.get(0).getDate() + ". Time: " + logList.get(0).getDistance() + ". Mood: " + logList.get(0).getMood() + ". Weight: " + logList.get(0).getWeight() + ". Sets: " + logList.get(0).getSets() + ". Reps: " + logList.get(0).getReps() + ". Memo: " + logList.get(0).getMemo() + ". Type: " + logList.get(0).getType() + ". Subtype: " + logList.get(0).getSubtype() + logList.get(0).getCardioUnit() + "<cardiounit. " + logList.get(0).getStrengthUnit());
+            Log.d("fields logList(0)","Here: " + logList.get(0).getCardioUnit() + "< cardio unit. " + logList.get(0).getStrengthUnit() + "< strength unit");
+
+            logList.remove(oldLog); //...if so, delete the log
+        }
+        else { //...if not, we're editing the log
+            int myIndex = logList.indexOf(oldLog); //find the index of the oldLog
+            logList.set(myIndex,newLog); //set the old log to the new log
+        }
+
+        // For clearing the file while testing: logList = new ArrayList<WOLog>();
+
+        //sort loglist
+        if(!logList.isEmpty()) {
+            Collections.sort(logList, new Comparator<WOLog>() {
+                @Override
+                public int compare(WOLog woLog, WOLog woLog2) {
+                    return woLog2.getDateCompare() - woLog.getDateCompare();
+                }
+            });
+        }
+
+        //convert to JSON
+        String jsonLog = gson.toJson(logList);
+        //save to a .txt file
+        FileOutputStream fos = mContext.openFileOutput("jsonLogs.json", Context.MODE_PRIVATE);
+        //write to internal storage
+        fos.write(jsonLog.getBytes());
+        fos.close();
+    }
+
     public String getStats(ArrayList<WOLog> inputList) {
         ArrayList<WOLog> data = inputList;
         if (data.isEmpty()) {
@@ -271,53 +321,4 @@ public class DataHandler extends Activity {
         return s;
     }
 
-    //edits or removes an existing log
-    public synchronized void editLog(WOLog newLog, WOLog oldLog, boolean delete) throws IOException {
-        //save a dummy copy of oldLog
-        WOLog dummy = oldLog;
-        //retrieve data from file
-        FileInputStream fis = mContext.openFileInput("jsonLogs.json");
-        int c;
-        String temp="";
-        while( (c = fis.read()) != -1){
-            temp = temp + Character.toString((char)c);
-        }
-        fis.close();
-
-        //convert to non-JSON
-        ArrayList<WOLog> logList = (ArrayList<WOLog>) gson.fromJson(temp, listType);
-
-        if(delete) { //are we deleting the log?
-            Log.d("Hello","Here: " + logList.contains(oldLog));
-            Log.d("fields","Here: name: " + oldLog.getName() + ". DateCompare: " + logList.get(0).getDateCompare() +  ". Type: " + oldLog.getType() + ". Date: " + oldLog.getDate() + ". Time: " + oldLog.getDistance() + ". Mood: " + oldLog.getMood() + ". Weight: " + oldLog.getWeight() + ". Sets: " + oldLog.getSets() + ". Reps: " + oldLog.getReps() + ". Memo: " + oldLog.getMemo() + ". Type: " + oldLog.getType() + ". Subtype: " + oldLog.getSubtype() + oldLog.getCardioUnit() + "<cardiounit. " + oldLog.getStrengthUnit());
-            Log.d("fields","Here: name: " + logList.get(0).getName() + ". DateCompare: " + logList.get(0).getDateCompare() + ". Type: " + logList.get(0).getType() + ". Date: " + logList.get(0).getDate() + ". Time: " + logList.get(0).getDistance() + ". Mood: " + logList.get(0).getMood() + ". Weight: " + logList.get(0).getWeight() + ". Sets: " + logList.get(0).getSets() + ". Reps: " + logList.get(0).getReps() + ". Memo: " + logList.get(0).getMemo() + ". Type: " + logList.get(0).getType() + ". Subtype: " + logList.get(0).getSubtype() + logList.get(0).getCardioUnit() + "<cardiounit. " + logList.get(0).getStrengthUnit());
-            Log.d("fields logList(0)","Here: " + logList.get(0).getCardioUnit() + "< cardio unit. " + logList.get(0).getStrengthUnit() + "< strength unit");
-
-            logList.remove(oldLog); //...if so, delete the log
-        }
-        else { //...if not, we're editing the log
-            int myIndex = logList.indexOf(oldLog); //find the index of the oldLog
-            logList.set(myIndex,newLog); //set the old log to the new log
-        }
-
-        // For clearing the file while testing: logList = new ArrayList<WOLog>();
-
-        //sort loglist
-        if(!logList.isEmpty()) {
-            Collections.sort(logList, new Comparator<WOLog>() {
-                @Override
-                public int compare(WOLog woLog, WOLog woLog2) {
-                    return woLog2.getDateCompare() - woLog.getDateCompare();
-                }
-            });
-        }
-
-        //convert to JSON
-        String jsonLog = gson.toJson(logList);
-        //save to a .txt file
-        FileOutputStream fos = mContext.openFileOutput("jsonLogs.json", Context.MODE_PRIVATE);
-        //write to internal storage
-        fos.write(jsonLog.getBytes());
-        fos.close();
-    }
 }
