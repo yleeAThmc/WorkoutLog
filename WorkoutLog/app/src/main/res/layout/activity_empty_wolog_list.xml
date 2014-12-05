@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textSize="@dimen/category_btn_font_size"
-        android:text="There Are No Logs Yet"
+        android:text="@string/no_log_prompt"
         android:id="@+id/textView"
         android:layout_gravity="center_horizontal"
         android:gravity="fill_vertical" />
@@ -21,7 +21,7 @@
         android:layout_margin="@dimen/category_btn_margin_size"
         android:background="@drawable/btn_green_border"
         android:textSize="@dimen/category_btn_font_size"
-        android:text="Add A Log"
+        android:text="@string/add_WOlog"
         android:id="@+id/button"
         android:layout_gravity="center_horizontal" />
 </LinearLayout>

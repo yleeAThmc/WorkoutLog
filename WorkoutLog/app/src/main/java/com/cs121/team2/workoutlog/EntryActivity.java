@@ -30,8 +30,8 @@ public class EntryActivity extends Activity {
     private final String TAG = "ENTRY ACTIVITY";
     DataHandler _dhInstance;
     WOLog _wl;
-    private int _type;
-    private int _subType;
+    public int _type;
+    public int _subType;
 
     // common data
     private DatePicker _date;
@@ -39,8 +39,8 @@ public class EntryActivity extends Activity {
     private SeekBar _mood;
     private EditText _memo;
 
-    private int _cardioUnit = -1;
-    private int _strengthUnit = -1;
+    public int _cardioUnit = -1;
+    public int _strengthUnit = -1;
 
     private AutoCompleteTextView _actv;
 
@@ -117,9 +117,6 @@ public class EntryActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
         if (id == R.id.view_list_button) {
             Intent newEntryIntent = new Intent(this, WOLogListActivity.class);
             startActivity(newEntryIntent);
@@ -131,6 +128,11 @@ public class EntryActivity extends Activity {
     private void startWOLogListAct() {
         Intent newEntryIntent = new Intent(this, WOLogListActivity.class);
         startActivity(newEntryIntent);
+    }
+
+    // Also called when "back" buttons are called from entry_second_xxx or entry_common (for custom)
+    public void getInitialChoiceView(View view) {
+        setContentView(R.layout.entry_initial_choice);
     }
 
     // Selecting exercise type (these functions are called directly from each layout)
@@ -222,10 +224,7 @@ public class EntryActivity extends Activity {
         _memo = (EditText) findViewById(R.id.memo);
     }
 
-    public void getInitialChoiceView(View view) {
-        setContentView(R.layout.entry_initial_choice);
-    }
-
+    // Continue to an appropriate workout type layout
     public void continueFromCommon(View view) {
         _wl = new WOLog();
         setMood();
@@ -234,6 +233,11 @@ public class EntryActivity extends Activity {
 
         if (_type == WOLog.TYPE_CARDIO) {
             setContentView(R.layout.entry_cardio);
+
+            // default unit for cardio is mi
+            ImageButton miBtn = (ImageButton) findViewById(R.id.miBtn);
+            miBtn.performClick();
+
             _actv = (AutoCompleteTextView) findViewById(R.id.cardio_actv);
             EditText dist = (EditText) findViewById(R.id.cardio_dist);
             EditText hour = (EditText) findViewById(R.id.cardio_hour);
@@ -253,6 +257,11 @@ public class EntryActivity extends Activity {
             }
         } else if (_type == WOLog.TYPE_STRENGTH) {
             setContentView(R.layout.entry_strength);
+
+            // default unit for strength is lb
+            ImageButton lbBtn = (ImageButton) findViewById(R.id.lbBtn);
+            lbBtn.performClick();
+
             _actv = (AutoCompleteTextView) findViewById(R.id.strength_actv);
             EditText weight = (EditText) findViewById(R.id.strength_weight);
             EditText sets = (EditText) findViewById(R.id.strength_sets);
@@ -268,9 +277,16 @@ public class EntryActivity extends Activity {
                 sets.setText(toEdit.getSets());
                 reps.setText(toEdit.getReps());
             }
+
         } else if (_type == WOLog.TYPE_CUSTOM) {
-            //TODO: need to have getCustomWorkoutView's chain of calls and initialization to skip to here, insert into this function
             setContentView(R.layout.entry_custom_workout);
+
+            // default unit for cardio is mi, strength is lb
+            ImageButton miBtn = (ImageButton) findViewById(R.id.miBtn);
+            miBtn.performClick();
+            ImageButton lbBtn = (ImageButton) findViewById(R.id.lbBtn);
+            lbBtn.performClick();
+
             //get buttons for the deactivation stuff
             ImageButton distButton = (ImageButton) findViewById(R.id.custom_dist_btn);
             ImageButton timeButton = (ImageButton) findViewById(R.id.custom_dur_btn);
@@ -399,6 +415,7 @@ public class EntryActivity extends Activity {
         _strengthUnit = WOLog.UNIT_M_KG;
     }
 
+    // Set units
     private void setCardioUnit() {
         if (_cardioUnit != -1) {
             _wl.setCardioUnit(WOLog.CARDIO_UNIT_ARRAY[_cardioUnit]);
@@ -562,6 +579,8 @@ public class EntryActivity extends Activity {
         setContentView(R.layout.entry_initial_choice);
         startWOLogListAct();
     }
+
+    // Custom Layout Field Options
     public void onCSTDistBtnClicked(View view) {
         FrameLayout distBg = (FrameLayout) findViewById(R.id.custom_dist_bg);
         EditText dist = (EditText) findViewById(R.id.custom_dist);
@@ -662,6 +681,7 @@ public class EntryActivity extends Activity {
         }
     }
 
+    // setting an appropriate AutoCompleteTextView according to the given parameter
     private void setActvArray(int arrayId) {
         String[] exercises = getResources().getStringArray(arrayId);
         ArrayAdapter adapter = new ArrayAdapter

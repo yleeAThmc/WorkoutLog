@@ -18,7 +18,7 @@
             android:layout_margin="@dimen/category_btn_margin_size"
             android:textSize="@dimen/category_btn_font_size"
             android:background="@drawable/btn_green_border"
-            android:text="Cardio"
+            android:text="@string/cardio"
             android:onClick="getCardioView"/>
         <Button
             android:id="@+id/entry_strength"
@@ -28,7 +28,7 @@
             android:layout_margin="@dimen/category_btn_margin_size"
             android:textSize="@dimen/category_btn_font_size"
             android:background="@drawable/btn_green_border"
-            android:text="Strength"
+            android:text="@string/str"
             android:onClick="getStrengthView"/>
         <Button
             android:id="@+id/entry_custom"
@@ -38,7 +38,7 @@
             android:layout_margin="@dimen/category_btn_margin_size"
             android:textSize="@dimen/category_btn_font_size"
             android:background="@drawable/btn_green_border"
-            android:text="Custom Workout"
+            android:text="@string/cust"
             android:onClick="getCustomWorkoutView"/>
     </LinearLayout>
 </FrameLayout>

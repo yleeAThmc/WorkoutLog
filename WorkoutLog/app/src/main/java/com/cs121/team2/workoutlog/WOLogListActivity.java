@@ -159,9 +159,6 @@ public class WOLogListActivity extends Activity implements OnItemSelectedListene
         // as you specify a parent activity in AndroidManifest.xml.
 
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
         if (id == R.id.add_WOlog) {
 
             Intent newEntryIntent = new Intent(this, EntryActivity.class);
@@ -188,10 +185,8 @@ public class WOLogListActivity extends Activity implements OnItemSelectedListene
         if (typeText != null){
             typePick = typeText;
         }
-//        Log.d("FILTER", "going to filter time and type");
-//        Log.d("FILTER", "Type: " + typePick + " Time: " + timePick);
+
         String concatTimeAndType = timePick + ":" + typePick;
-//        Log.d("FILTER", "the damn cat is: " + concatTimeAndType);
         mWOLogListAdapter.getFilter().filter(concatTimeAndType.toLowerCase());
         mWOLogListAdapter.notifyDataSetChanged();
 

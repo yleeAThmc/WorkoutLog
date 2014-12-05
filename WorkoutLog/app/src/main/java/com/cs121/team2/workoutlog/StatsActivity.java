@@ -1,7 +1,6 @@
 package com.cs121.team2.workoutlog;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
@@ -28,7 +27,6 @@ public class StatsActivity extends Activity {
 
         //access the intent from WOLogListActivity
         Intent i = getIntent();
-        DataHandler dh = DataHandler.getDataHandler(this);
 
         //source string with HTML formatting tags for setText()
         String sourceString = i.getExtras().getString("stats");
@@ -50,9 +48,6 @@ public class StatsActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
         if (id == R.id.add_WOlog) {
 
             Intent newEntryIntent = new Intent(this, EntryActivity.class);

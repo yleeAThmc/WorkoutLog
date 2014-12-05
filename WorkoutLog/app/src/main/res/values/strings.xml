@@ -12,6 +12,22 @@
     <string name="add_WOlog">Add New Workout</string>
     <string name="name_prompt">Enter exercise name</string>
     <string name="filter_workout_loglist">Filter by Workout Type</string>
+    <string name="add_memo">Additional memo</string>
+    <string name="back">Back</string>
+    <string name="save">Save</string>
+    <string name="cont">Continue</string>
+    <string name="edit">Edit Log</string>
+    <string name="delete">Delete Log</string>
+    <string name="hh">hh</string>
+    <string name="mm">mm</string>
+    <string name="ss">ss</string>
+    <string name="no_log_prompt">There Are No Logs Yet</string>
+    <string name="stat">Statistics</string>
+    <string name="set">Sets</string>
+    <string name="rep">Reps</string>
+    <string name="cardio">Cardio</string>
+    <string name="str">Strength</string>
+    <string name="cust">Custom Exercise</string>
 
     <string-array name="length_array">
         <item>ft</item>
@@ -30,34 +46,51 @@
         <item>kg</item>
     </string-array>
     <string-array name="time_cardio_array">
-        <item>Filler1</item>
-        <item>Filler2</item>
-        <item>Filler3</item>
+        <item>Cycling</item>
+        <item>Elliptical</item>
+        <item>Jogging</item>
+        <item>Stationary Bike</item>
+        <item>Swimming</item>
+        <item>Rowing Machine</item>
+        <item>Running</item>
+        <item>Walking</item>
     </string-array>
     <string-array name="dist_cardio_array">
-        <item>Filler11</item>
-        <item>Filler22</item>
-        <item>Filler33</item>
+        <item>Cross Country</item>
+        <item>Cross Country Skiing</item>
+        <item>Cycling</item>
+        <item>Kayaking</item>
+        <item>Marathon</item>
+        <item>Swimming</item>
+        <item>Rowing</item>
+        <item>Running</item>
     </string-array>
     <string-array name="weights_strength_array">
+        <item>Bench Press</item>
+        <item>Barbell Row</item>
+        <item>Barbell Squat</item>
         <item>Cable Crossover</item>
-        <item>Flat Dumbbell Fly</item>
-        <item>Incline Dumbbell Fly</item>
-        <item>Seated Machine Fly</item>
-        <item>filler1</item>
-        <item>filler2</item>
-        <item>filler3</item>
+        <item>Cable Face Pull</item>
+        <item>Deadlift</item>
+        <item>Fly</item>
+        <item>Kettle Bell</item>
+        <item>Overhead Press</item>
+        <item>Skullcrusher</item>
     </string-array>
     <string-array name="body_strength_array">
         <item>Chin Up</item>
         <item>Crunch</item>
-        <item>Squats</item>
+        <item>Dip</item>
+        <item>Lunge</item>
         <item>Plank</item>
+        <item>Pull Up</item>
+        <item>Push Up</item>
+        <item>Squat</item>
+        <item>Wall Sit</item>
     </string-array>
 
     <string name="activity_details">Log Details</string>
     <string name="title_activity_stats">StatsActivity</string>
-    <string name="hello_world">Hello world!</string>
     <string name="title_activity_empty_wolog_list">EmptyWOLogList</string>
 
 </resources>

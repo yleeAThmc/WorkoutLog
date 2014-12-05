@@ -17,7 +17,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="30pt"
-        android:text="Statistics"
+        android:text="@string/stat"
         android:background="@drawable/btn_green_border"
         android:id="@+id/stats_button"
         android:layout_gravity="center_horizontal" />

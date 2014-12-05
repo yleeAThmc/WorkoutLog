@@ -47,7 +47,7 @@ public class WOLog implements Parcelable {
         month = m;
         day = dy;
         year = yr;
-        dateCompare += min;
+        dateCompare = min;
         dateCompare += hr * 100;
         dateCompare += dy * 10000;
         dateCompare += m * 1000000;

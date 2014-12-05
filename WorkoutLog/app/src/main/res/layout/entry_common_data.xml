@@ -55,7 +55,7 @@
         android:layout_weight="6"
         android:layout_margin="@dimen/layout_margin"
         android:background="@drawable/edittext_green_bg"
-        android:hint="Additional memo "
+        android:hint="@string/add_memo"
         android:lines="7"/>
 
     <LinearLayout
@@ -68,16 +68,17 @@
             android:layout_height="match_parent"
             android:background="@drawable/btn_cream_bg"
             android:layout_margin="@dimen/btn_margin"
-            android:text="Back"
+            android:text="@string/back"
             android:onClick="goBackFromCommon"/>
 
         <Button
+            android:id="@+id/common_next"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_green_bg"
             android:layout_margin="@dimen/btn_margin"
-            android:text="Continue"
+            android:text="@string/cont"
             android:onClick="continueFromCommon"/>
     </LinearLayout>
 </LinearLayout>
