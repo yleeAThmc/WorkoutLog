@@ -13,12 +13,13 @@ import java.util.ArrayList;
 
 //TODO: Sam E is responsible for this class
 
-public class WOLogListAdapterTest extends AndroidTestCase{
+public class WOLogListAdapterTest extends AndroidTestCase {
 
     private WOLogListAdapter mAdapter;
 
     private WOLog log1;
     private WOLog log2;
+    private WOLog log3;
 
     public WOLogListAdapterTest() {
         super();
@@ -29,46 +30,105 @@ public class WOLogListAdapterTest extends AndroidTestCase{
         ArrayList<WOLog> data = new ArrayList<WOLog>();
 
         log1 = new WOLog();
+        log1.setDate(11, 1, 2014, 20, 15);
+        log1.setName("cardio 1");
+        log1.setDistance("12");
+        log1.setMood("k");
+        log1.setTime("12", "2", "2");
+        log1.setType("Cardio");
+        log1.setCardioUnit("mi");
+        log1.setSubtype("1");
         log2 = new WOLog();
+        log2.setDate(12, 2, 2014, 22, 11);
+        log2.setName("cardio 2");
+        log2.setDistance("111");
+        log2.setMood("awful");
+        log2.setTime("3", "1", "28");
+        log2.setType("Cardio");
+        log2.setCardioUnit("m");
+        log2.setSubtype("1");
+        log3 = new WOLog();
+        log3.setDate(11, 19, 2014, 10, 20);
+        log3.setName("strength 2");
+        log3.setReps("23");
+        log3.setSets("122");
+        log3.setWeight("1000");
+        log3.setMood("k");
+        log3.setTime("8", "1", "12");
+        log3.setType("Strength");
         data.add(log1);
         data.add(log2);
+        data.add(log3);
+
         mAdapter = new WOLogListAdapter(getContext(), data);
     }
 
-//Sample adapter tests below from stackoverflow
+//Sample adapter tests adopted from StackOverflow post,
+//http://stackoverflow.com/questions/11541114/unittesting-of-arrayadapter
 
-//    public void testGetItem() {
-//        assertEquals("John was expected.", mJohn.getName(),
-//                ((Contact) mAdapter.getItem(0)).getName());
-//    }
-//
-//    public void testGetItemId() {
-//        assertEquals("Wrong ID.", 0, mAdapter.getItemId(0));
-//    }
-//
-//    public void testGetCount() {
-//        assertEquals("Contacts amount incorrect.", 2, mAdapter.getCount());
-//    }
-//
-//    // I have 3 views on my adapter, name, number and photo
-//    public void testGetView() {
-//        View view = mAdapter.getView(0, null, null);
-//
-//        TextView name = (TextView) view
-//                .findViewById(R.id.text_contact_name);
-//
-//        TextView number = (TextView) view
-//                .findViewById(R.id.text_contact_number);
-//
-//
-//        //On this part you will have to test it with your own views/data
-//        assertNotNull("View is null. ", view);
-//        assertNotNull("Name TextView is null. ", name);
-//        assertNotNull("Number TextView is null. ", number);
-//        assertNotNull("Photo ImageView is null. ", photo);
-//
-//        assertEquals("Names doesn't match.", mJohn.getName(), name.getText());
-//        assertEquals("Numbers doesn't match.", mJohn.getNumber(),
-//                number.getText());
-//    }
+    //check that we're accessing the correct logs based on position
+    public void testGetItemLog1() {
+        assertEquals("cardio 1 was expected", log1.getName(),
+                ((WOLog) mAdapter.getItem(0)).getName());
+    }
+
+    public void testGetItemLog2() {
+        assertEquals("cardio 2 was expected", log2.getName(),
+                ((WOLog) mAdapter.getItem(1)).getName());
+    }
+
+    public void testGetItemLog3() {
+        assertEquals("strength 1 was expected", log3.getName(),
+                ((WOLog) mAdapter.getItem(2)).getName());
+    }
+
+    //test the IDs from the adapter
+    public void testGetItemId1() {
+        assertEquals("Wrong ID.", 0, mAdapter.getItemId(0));
+    }
+
+    public void testGetItemId2() {
+        assertEquals("Wrong ID.", 1, mAdapter.getItemId(1));
+    }
+
+    public void testGetItemId3() {
+        assertEquals("Wrong ID.", 1, mAdapter.getItemId(1));
+    }
+
+       //test that we can get the correct number of logs held by the adapter
+    public void testGetCount() {
+        assertEquals("Contacts amount incorrect.", 3, mAdapter.getCount());
+    }
+
+    //test for not-null view and textview
+    public void testGetViewLog1() {
+        View view = mAdapter.getView(0, null, null);
+
+        TextView workoutInfo = (TextView) view
+                .findViewById(R.id.log_date);
+
+        assertNotNull("View is null. ", view);
+        assertNotNull("TextView is null. ", workoutInfo);
+    }
+
+    public void testGetViewLog2() {
+        View view = mAdapter.getView(1, null, null);
+
+        TextView workoutInfo = (TextView) view
+                .findViewById(R.id.log_date);
+
+        assertNotNull("View is null. ", view);
+        assertNotNull("TextView is null. ", workoutInfo);
+    }
+
+    public void testGetViewLog3() {
+        View view = mAdapter.getView(2, null, null);
+
+        TextView workoutInfo = (TextView) view
+                .findViewById(R.id.log_date);
+
+        assertNotNull("View is null. ", view);
+        assertNotNull("TextView is null. ", workoutInfo);
+    }
+
 }
