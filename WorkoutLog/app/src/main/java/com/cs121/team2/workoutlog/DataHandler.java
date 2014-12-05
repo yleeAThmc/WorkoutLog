@@ -143,71 +143,73 @@ public class DataHandler extends Activity {
             WOLog log = data.get(i);
             String type = log.getType();
 
-            if (type.equals(WOLog.TYPE_ARRAY[0])) { //cardio case
-                cardioCount++;
-                //calculate distance and generalize measurements to miles
-                if (log.getDistance() != null && !log.getDistance().equals("")) {
-                    if (log.getCardioUnit().equals(WOLog.CARDIO_UNIT_ARRAY[0])) { //miles
-                        cardioTotalDistanceMi += Double.parseDouble(log.getDistance());
+            if (type != null) {
+                if (type.equals(WOLog.TYPE_ARRAY[0])) { //cardio case
+                    cardioCount++;
+                    //calculate distance and generalize measurements to miles
+                    if (log.getDistance() != null && !log.getDistance().equals("") && log.getCardioUnit() != null) {
+                        if (log.getCardioUnit().equals(WOLog.CARDIO_UNIT_ARRAY[0])) { //miles
+                            cardioTotalDistanceMi += Double.parseDouble(log.getDistance());
+                        }
+                        if (log.getCardioUnit().equals(WOLog.CARDIO_UNIT_ARRAY[1])) { //meters
+                            cardioTotalDistanceMi +=
+                                    //conversion m to mi from google
+                                    Double.parseDouble(log.getDistance()) * 0.000621371;
+                        }
+                        if (log.getCardioUnit().equals(WOLog.CARDIO_UNIT_ARRAY[2])) { //kilometers
+                            cardioTotalDistanceMi +=
+                                    //conversion km to mi from google
+                                    Double.parseDouble(log.getDistance()) * 0.621371;
+                        }
                     }
-                    if (log.getCardioUnit().equals(WOLog.CARDIO_UNIT_ARRAY[1])) { //meters
-                        cardioTotalDistanceMi +=
-                                //conversion m to mi from google
-                                Double.parseDouble(log.getDistance()) * 0.000621371;
-                    }
-                    if (log.getCardioUnit().equals(WOLog.CARDIO_UNIT_ARRAY[2])) { //kilometers
-                        cardioTotalDistanceMi +=
-                                //conversion km to mi from google
-                                Double.parseDouble(log.getDistance()) * 0.621371;
-                    }
-                }
-                if (log.getTime() != null && !log.getTime().equals("")) {
-                    //TODO: test this
-                    String time = log.getTime();
-                    String delims = "[:]";
-                    String[] tokens = time.split(delims);
+                    if (log.getTime() != null && !log.getTime().equals("")) {
+                        //TODO: test this
+                        String time = log.getTime();
+                        String delims = "[:]";
+                        String[] tokens = time.split(delims);
 
-                    double hr = Double.parseDouble(tokens[0]);
-                    double min = Double.parseDouble(tokens[1]);
-                    double sec = Double.parseDouble(tokens[2]);
+                        double hr = Double.parseDouble(tokens[0]);
+                        double min = Double.parseDouble(tokens[1]);
+                        double sec = Double.parseDouble(tokens[2]);
 
-                    //generalize time to hr, conversion s and m to hr from
-                    cardioTotalTimeHr += hr;
-                    cardioTotalTimeHr += min * 0.0166667;
-                    cardioTotalTimeHr += sec * 0.000277778;
-                }
-            } else if (type.equals(WOLog.TYPE_ARRAY[1])) { //strength case
-                strengthCount++;
-                if (log.getSets() != null && !log.getSets().equals("")) {
-                    strengthTotalSets += Integer.parseInt(log.getSets());
-                }
-                if (log.getReps() != null && !log.getReps().equals("")) {
-                    strengthTotalReps += Integer.parseInt(log.getReps());
-                }
-                //Weight is generalized to pounds
-                if (log.getWeight() != null && !log.getWeight().equals("")) {
-                    if (log.getStrengthUnit().equals(WOLog.STRENGTH_UNIT_ARRAY[0])) { //Case lb
-                        strengthTotalWeightLb += Double.parseDouble(log.getWeight());
-                        strengthMaxWeightLb = Math.max(
-                                Double.parseDouble(log.getWeight()),
-                                strengthMaxWeightLb);
+                        //generalize time to hr, conversion s and m to hr from
+                        cardioTotalTimeHr += hr;
+                        cardioTotalTimeHr += min * 0.0166667;
+                        cardioTotalTimeHr += sec * 0.000277778;
                     }
-                    if (log.getStrengthUnit().equals(WOLog.STRENGTH_UNIT_ARRAY[1])) { //Case kg
-                        //conversion kg to lb from google
-                        strengthTotalWeightLb += Double.parseDouble(log.getWeight()) * 2.20462;
-                        strengthMaxWeightLb = Math.max(
-                                Double.parseDouble(log.getWeight()) * 2.20462,
-                                strengthMaxWeightLb);
+                } else if (type.equals(WOLog.TYPE_ARRAY[1])) { //strength case
+                    strengthCount++;
+                    if (log.getSets() != null && !log.getSets().equals("")) {
+                        strengthTotalSets += Integer.parseInt(log.getSets());
                     }
-                }
-            } else if (type.equals(WOLog.TYPE_ARRAY[2])) { //custom case
-                customCount++;
-                if (log.getName() != null && !log.getName().equals("")) {
-                    Integer integer = (Integer) customNameCount.get(log.getName());
-                    if (integer == null) {
-                        customNameCount.put(log.getName(), 1);
-                    } else {
-                        customNameCount.put(log.getName(), integer++);
+                    if (log.getReps() != null && !log.getReps().equals("")) {
+                        strengthTotalReps += Integer.parseInt(log.getReps());
+                    }
+                    //Weight is generalized to pounds
+                    if (log.getWeight() != null && !log.getWeight().equals("") && log.getStrengthUnit() != null) {
+                        if (log.getStrengthUnit().equals(WOLog.STRENGTH_UNIT_ARRAY[0])) { //Case lb
+                            strengthTotalWeightLb += Double.parseDouble(log.getWeight());
+                            strengthMaxWeightLb = Math.max(
+                                    Double.parseDouble(log.getWeight()),
+                                    strengthMaxWeightLb);
+                        }
+                        if (log.getStrengthUnit().equals(WOLog.STRENGTH_UNIT_ARRAY[1])) { //Case kg
+                            //conversion kg to lb from google
+                            strengthTotalWeightLb += Double.parseDouble(log.getWeight()) * 2.20462;
+                            strengthMaxWeightLb = Math.max(
+                                    Double.parseDouble(log.getWeight()) * 2.20462,
+                                    strengthMaxWeightLb);
+                        }
+                    }
+                } else if (type.equals(WOLog.TYPE_ARRAY[2])) { //custom case
+                    customCount++;
+                    if (log.getName() != null && !log.getName().equals("")) {
+                        Integer integer = (Integer) customNameCount.get(log.getName());
+                        if (integer == null) {
+                            customNameCount.put(log.getName(), 1);
+                        } else {
+                            customNameCount.put(log.getName(), integer++);
+                        }
                     }
                 }
             }
@@ -240,31 +242,31 @@ public class DataHandler extends Activity {
         }
 
         if (strengthCount != 0) {
-            s += "<br> <b> Strength </b> (" + strengthCount + ")<br>";
+            s += "<br> <b> Strength </b> (" + strengthCount + ") <br>";
             s += "Average Sets: ";
-            s += (double) Math.round(strengthAverageSets * 10000) / 10000 + "<br>";
+            s += (double) Math.round(strengthAverageSets * 10000) / 10000 + " <br>";
 
             s += "Average Reps: ";
-            s += (double) Math.round(strengthAverageReps * 10000) / 10000 + "<br>";
+            s += (double) Math.round(strengthAverageReps * 10000) / 10000 + " <br>";
 
 
             s += "Average Weight: ";
             s += (double) Math.round(strengthAverageWeightLb * 10000) / 10000 + " lbs <br>";
 
             s += "Heaviest Weight: ";
-            s += (double) Math.round(strengthAverageWeightLb * 10000) / 10000 + " lbs <br>";
+            s += (double) Math.round(strengthMaxWeightLb * 10000) / 10000 + " lbs <br>";
         }
 
         if (customCount != 0) {
-            s += "<br> <b> Custom </b> (" + customCount + ")<br>";
+            s += "<br> <b> Custom </b> (" + customCount + ") <br>";
             Set<Map.Entry<String, Integer>> entrySet = customNameCount.entrySet();
             for (Map.Entry entry : entrySet) {
-                s += entry.getKey() + ": " + entry.getValue() + "<br>";
+                s += entry.getKey() + ": " + entry.getValue() + " <br>";
 
             }
         }
 
-        s += "</center>";
+        s += " </center>";
 
         return s;
     }
