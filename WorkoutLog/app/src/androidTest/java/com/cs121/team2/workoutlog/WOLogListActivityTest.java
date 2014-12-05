@@ -1,66 +1,105 @@
 package com.cs121.team2.workoutlog;
 
 import android.content.Intent;
-import android.test.ActivityInstrumentationTestCase2;
 import android.test.ActivityUnitTestCase;
-import android.test.RenamingDelegatingContext;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.SeekBar;
-import android.widget.Spinner;
 
 import java.util.ArrayList;
 
 /**
  * Created by Sam on 12/4/2014.
+ *
+ * Tests the major actions of the WOLogListActivity.
  */
 
 
-//TODO: Sam E is responsible for this class
+public class WOLogListActivityTest extends  ActivityUnitTestCase<WOLogListActivity> {
 
-public class WOLogListActivityTest extends ActivityInstrumentationTestCase2 {
-
-    //private data members
-    private WOLogListActivity mActivity;
-    private WOLogListAdapter mAdapter;
-    private ListView listView;
-    private ArrayList<WOLog> logs;
-    private Spinner timePicker;
-    private Spinner typePicker;
-    String[] keywordsTimePicker = {"All Time", "Today", "Last Week", "Last 2 Weeks",
-            "Last Month", "Last 6 Months", };
-    String[] keywordsTypePicker = {"All Workouts", "Cardio", "Strength", "Custom" };
+    private WOLogListActivity activity;
 
     public WOLogListActivityTest() {
         super(WOLogListActivity.class);
     }
 
-
-    @Override
-    public void setUp() throws Exception {
+    protected void setUp() throws Exception {
         super.setUp();
+        Intent intent = new Intent(
+                getInstrumentation().getTargetContext(), WOLogListActivity.class
+        );
+        startActivity(intent, null, null);
+        activity = getActivity();
+    }
 
-        mActivity = (WOLogListActivity) getActivity();
-        listView = (ListView) mActivity.findViewById(R.id.wologlist_listview);
+    protected void tearDown() throws Exception {
+        super.tearDown();
+    }
+
+    public final void testMajorItems() {
+        getInstrumentation().callActivityOnStart(activity);
+        getInstrumentation().callActivityOnResume(activity);
+
+        // Check if list exists
+        ListView list = (ListView) activity.findViewById(R.id.wologlist_listview);
+        assertNotNull("list was null", list);
+
+        // Load test data
+        ArrayList<WOLog> data = createData();
+        WOLogListAdapter adapter = new WOLogListAdapter(
+                getInstrumentation().getContext(), data);
+        list.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+
+        assertEquals(3, adapter.getCount());
+
+        Button statsButton = (Button) activity.findViewById(R.id.stats_button);
+        // Perform a click on the stats button
+        statsButton.performClick();
+
+        // Check if the contact details activity got started
+        Intent intent = getStartedActivityIntent();
+        assertNotNull(intent);
+        assertEquals(
+                StatsActivity.class.getName(),
+                intent.getComponent().getClassName()
+        );
+    }
+
+    private ArrayList<WOLog> createData() {
+        ArrayList<WOLog> logs = new ArrayList<WOLog>();
+
         WOLog log1 = new WOLog();
+        log1.setDate(11, 1, 2014, 20, 15);
+        log1.setName("cardio 1");
+        log1.setDistance("12");
+        log1.setMood("k");
+        log1.setTime("12", "2", "2");
+        log1.setType("Cardio");
+        log1.setCardioUnit("mi");
+        log1.setSubtype("1");
         WOLog log2 = new WOLog();
+        log2.setDate(12, 2, 2014, 22, 11);
+        log2.setName("cardio 2");
+        log2.setDistance("111");
+        log2.setMood("awful");
+        log2.setTime("3", "1", "28");
+        log2.setType("Cardio");
+        log2.setCardioUnit("m");
+        log2.setSubtype("1");
         WOLog log3 = new WOLog();
+        log3.setDate(11, 19, 2014, 10, 20);
+        log3.setName("strength 2");
+        log3.setReps("23");
+        log3.setSets("122");
+        log3.setWeight("1000");
+        log3.setMood("k");
+        log3.setTime("8", "1", "12");
+        log3.setType("Strength");
         logs.add(log1);
         logs.add(log2);
         logs.add(log3);
-        RenamingDelegatingContext ContextToUse = new RenamingDelegatingContext(getInstrumentation().getTargetContext(), "test");
-        mAdapter = new WOLogListAdapter(new RenamingDelegatingContext(getInstrumentation().getTargetContext(), "test"), logs);
-        listView.setAdapter(mAdapter);
-        ArrayAdapter<String> tpValues =
-                new ArrayAdapter<String>(getInstrumentation().getTargetContext(), android.R.layout.simple_spinner_item, keywordsTimePicker);
-        tpValues.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        timePicker.setAdapter(tpValues);
-        ArrayAdapter<String> tyValues =
-                new ArrayAdapter<String>(getInstrumentation().getTargetContext(), android.R.layout.simple_spinner_item, keywordsTypePicker);
-        tyValues.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        typePicker.setAdapter(tyValues);
+
+       return logs;
     }
 
 }

@@ -74,12 +74,12 @@ public class EntryActivityTest extends
 
 
     //
-    public void testFirstJokeExample() {
-        String blah = "ssss";
-        assertNotNull(blah);
-
-//        buttonId = getActivity().R.id.view_list_button;
-         assertNotNull(btn1);
-    }
+//    public void testFirstJokeExample() {
+//        String blah = "ssss";
+//        assertNotNull(blah);
+//
+////        buttonId = getActivity().R.id.view_list_button;
+//         assertNotNull(btn1);
+//    }
 
 }

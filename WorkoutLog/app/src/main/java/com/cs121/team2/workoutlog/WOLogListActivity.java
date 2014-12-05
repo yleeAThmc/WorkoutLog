@@ -188,10 +188,8 @@ public class WOLogListActivity extends Activity implements OnItemSelectedListene
         if (typeText != null){
             typePick = typeText;
         }
-//        Log.d("FILTER", "going to filter time and type");
-//        Log.d("FILTER", "Type: " + typePick + " Time: " + timePick);
+
         String concatTimeAndType = timePick + ":" + typePick;
-//        Log.d("FILTER", "the damn cat is: " + concatTimeAndType);
         mWOLogListAdapter.getFilter().filter(concatTimeAndType.toLowerCase());
         mWOLogListAdapter.notifyDataSetChanged();
 

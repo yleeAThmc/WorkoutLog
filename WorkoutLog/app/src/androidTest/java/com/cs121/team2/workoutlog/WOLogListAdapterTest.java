@@ -3,15 +3,14 @@ package com.cs121.team2.workoutlog;
 import android.test.AndroidTestCase;
 import android.view.View;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 
 /**
- * Created by Sam on 12/4/2014.
+ * Created by Sam E on 12/4/2014.
+ * This is used for basic unit testing of the WOLogListAdapter class, which deals
+ * with the data shown in the WOLogListActivity.
  */
 
-
-//TODO: Sam E is responsible for this class
 
 public class WOLogListAdapterTest extends AndroidTestCase {
 
@@ -21,10 +20,12 @@ public class WOLogListAdapterTest extends AndroidTestCase {
     private WOLog log2;
     private WOLog log3;
 
+    //constructor for testing class
     public WOLogListAdapterTest() {
         super();
     }
 
+    //setup runs before every test, and sets initial values that are used in said testing
     protected void setUp() throws Exception {
         super.setUp();
         ArrayList<WOLog> data = new ArrayList<WOLog>();
@@ -69,17 +70,17 @@ public class WOLogListAdapterTest extends AndroidTestCase {
     //check that we're accessing the correct logs based on position
     public void testGetItemLog1() {
         assertEquals("cardio 1 was expected", log1.getName(),
-                ((WOLog) mAdapter.getItem(0)).getName());
+                (mAdapter.getItem(0)).getName());
     }
 
     public void testGetItemLog2() {
         assertEquals("cardio 2 was expected", log2.getName(),
-                ((WOLog) mAdapter.getItem(1)).getName());
+                (mAdapter.getItem(1)).getName());
     }
 
     public void testGetItemLog3() {
         assertEquals("strength 1 was expected", log3.getName(),
-                ((WOLog) mAdapter.getItem(2)).getName());
+                ( mAdapter.getItem(2)).getName());
     }
 
     //test the IDs from the adapter
@@ -109,6 +110,7 @@ public class WOLogListAdapterTest extends AndroidTestCase {
 
         assertNotNull("View is null. ", view);
         assertNotNull("TextView is null. ", workoutInfo);
+
     }
 
     public void testGetViewLog2() {
