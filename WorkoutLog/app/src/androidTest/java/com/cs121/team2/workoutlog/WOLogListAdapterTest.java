@@ -19,6 +19,8 @@ public class WOLogListAdapterTest extends AndroidTestCase {
     private WOLog log1;
     private WOLog log2;
     private WOLog log3;
+    private WOLog log4;
+    private WOLog log5;
 
     //constructor for testing class
     public WOLogListAdapterTest() {
@@ -57,10 +59,27 @@ public class WOLogListAdapterTest extends AndroidTestCase {
         log3.setMood("k");
         log3.setTime("8", "1", "12");
         log3.setType("Strength");
+        log4 = new WOLog();
+        log4.setDate(10, 9, 2013, 20, 20);
+        log4.setName("custom 1");
+        log4.setReps("2");
+        log4.setSets("22");
+        log4.setWeight("1000");
+        log4.setMood("awful");
+        log4.setTime("12", "2", "42");
+        log4.setType("Custom");
+        log5 = new WOLog();
+        log5.setDate(5, 29, 2014, 11, 23);
+        log5.setName("custom 2");
+        log5.setDistance("123");
+        log5.setMood("perfect");
+        log5.setTime("5", "2", "32");
+        log5.setType("Custom");
         data.add(log1);
         data.add(log2);
         data.add(log3);
-
+        data.add(log4);
+        data.add(log5);
         mAdapter = new WOLogListAdapter(getContext(), data);
     }
 
@@ -83,6 +102,16 @@ public class WOLogListAdapterTest extends AndroidTestCase {
                 ( mAdapter.getItem(2)).getName());
     }
 
+    public void testGetItemLog4() {
+        assertEquals("custom 1 was expected", log4.getName(),
+                ( mAdapter.getItem(3)).getName());
+    }
+
+    public void testGetItemLog5() {
+        assertEquals("custom2 was expected", log5.getName(),
+                ( mAdapter.getItem(4)).getName());
+    }
+
     //test the IDs from the adapter
     public void testGetItemId1() {
         assertEquals("Wrong ID.", 0, mAdapter.getItemId(0));
@@ -93,12 +122,19 @@ public class WOLogListAdapterTest extends AndroidTestCase {
     }
 
     public void testGetItemId3() {
-        assertEquals("Wrong ID.", 1, mAdapter.getItemId(1));
+        assertEquals("Wrong ID.", 2, mAdapter.getItemId(2));
     }
 
+    public void testGetItemId4() {
+        assertEquals("Wrong ID.", 3, mAdapter.getItemId(3));
+    }
+
+    public void testGetItemId5() {
+        assertEquals("Wrong ID.", 4, mAdapter.getItemId(4));
+    }
        //test that we can get the correct number of logs held by the adapter
     public void testGetCount() {
-        assertEquals("Contacts amount incorrect.", 3, mAdapter.getCount());
+        assertEquals("Contacts amount incorrect.", 5, mAdapter.getCount());
     }
 
     //test for not-null view and textview
@@ -125,6 +161,26 @@ public class WOLogListAdapterTest extends AndroidTestCase {
 
     public void testGetViewLog3() {
         View view = mAdapter.getView(2, null, null);
+
+        TextView workoutInfo = (TextView) view
+                .findViewById(R.id.log_date);
+
+        assertNotNull("View is null. ", view);
+        assertNotNull("TextView is null. ", workoutInfo);
+    }
+
+    public void testGetViewLog4() {
+        View view = mAdapter.getView(3, null, null);
+
+        TextView workoutInfo = (TextView) view
+                .findViewById(R.id.log_date);
+
+        assertNotNull("View is null. ", view);
+        assertNotNull("TextView is null. ", workoutInfo);
+    }
+
+    public void testGetViewLog5() {
+        View view = mAdapter.getView(4, null, null);
 
         TextView workoutInfo = (TextView) view
                 .findViewById(R.id.log_date);
